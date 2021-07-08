@@ -1,0 +1,95 @@
+<!--mudar aqui-->
+<div class='container mt-4'>
+
+	<header>
+		<h2>Cadastrar Serviço</h2>
+		<nav style="--bs-breadcrumb-divider: '>';" aria-label='breadcrumb'>
+			<ol class='breadcrumb'>
+				<li class='breadcrumb-item'><a href='/'>Home</a></li>
+				<li class='breadcrumb-item'>
+					<a href='/admin'>
+						Painel administrativo
+					</a>
+				</li>
+				<li class='breadcrumb-item' aria-current='page'>
+					<a href='/admin/prodServ'>
+						Produtos e serviços
+					</a>
+				</li>
+				<li class='breadcrumb-item active' aria-current='page'>
+					Cadastrar serviço
+				</li>
+			</ol>
+		</nav>
+	</header>
+
+	<form
+		action='/admin/prodServ/novoServico'
+		method='post'
+		class='form-card Wrem-30'
+	>
+		
+		<input type="radio" name="tipo" id="ct1" value="categNormal" checked> Utilizar categoria existente<br>
+    	<input type="radio" name="tipo" id="ct2" value="categNova"> Criar nova categoria <br>
+
+    	<input type="text" name="novaCategoria" id="novaCategoria" placeholder="Nova Categoria" oninput='this.value = this.value.toUpperCase()' style="display: none;"><br>
+		
+		<div class='input-group'>
+			<label for='categoria' class='input-group-text'>Categoria: </label>
+			<select name='categoria' class='form-select' required>
+				{{#each categorias}}
+					<option value='{{_id}}'>{{nome}}</option>
+				{{/each}}
+			</select>
+		</div>
+		<div class='form-floating'>
+			<input
+				type='text'
+				name='descricao'
+				id='descricao'
+				class='form-control'
+				placeholder='Descrição'
+				required
+			/>
+			<label for='descricao'>Descrição</label>
+		</div>
+
+		<div class='form-floating'>
+			<input
+				type='number'
+				name='valor'
+				id='valor'
+				class='form-control'
+				placeholder='Valor do serviço'
+				min='0'
+				required
+			/>
+			<label for='valor'>Valor</label>
+		</div>
+
+		<button type='submit' class='btn btn-success'>Cadastrar</button>
+	</form>
+
+	<script>
+		var catb = document.querySelector('input#ct1')
+		var ncatb = document.querySelector('input#ct2')
+
+		var cat = document.querySelector('div.input-group')
+		var ncat = document.querySelector('input#novaCategoria')
+
+		catb.addEventListener('click', () => {selecCategoria()})
+		ncatb.addEventListener('click', () => {novaCategoria()})
+    
+	function selecCategoria(){
+		cat.style.display = 'flex'
+		ncat.removeAttribute('style')
+		ncat.style.display = 'none'
+	}
+	function novaCategoria(){
+		ncat.style.display = 'block'
+		cat.removeAttribute('style')
+		cat.style.display = 'none'
+	}
+
+	</script>
+</div>

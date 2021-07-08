@@ -1,0 +1,37 @@
+<form action='/usuario/registro' method='post' class='container mt-4'>
+	<div class='card center Wrem-30' id='formRegistro'>
+		<div class='card-body'>
+			<h1>Criar usuário</h1>
+
+			<input
+				class='form-control mt-2'
+				type='text'
+				name='nome'
+				placeholder='Nome Completo'
+				required
+			/>
+			<input
+				class='form-control mt-2'
+				type='email'
+				name='email'
+				placeholder='E-mail'
+				required
+			/>
+			<input
+				class='form-control mt-2'
+				type='password'
+				name='senha'
+				placeholder='Senha (minímo de 4 caracteres)'
+				required
+			/>
+			<input
+				class='form-control mt-2'
+				type='password'
+				name='senha2'
+				placeholder='Repita sua senha'
+				required
+			/>
+			<button class='btn btn-success mt-2' type='submit'>Criar conta</button>
+		</div>
+	</div>
+</form>

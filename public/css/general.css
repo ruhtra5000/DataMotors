@@ -1,0 +1,78 @@
+.card-link {
+	display: inline-block;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+	transition: 0.2s;
+	width: 12rem;
+	text-align: center;
+	margin-top: 15px;
+	padding: 10px;
+	margin-right: 15px;
+	background-color: white;
+	border-radius: 7px;
+}
+
+.card-link > img {
+	justify-self: center;
+	width: 100%;
+	height: 150px;
+	padding: 10px;
+	border-bottom: 5px solid rgba(0, 0, 0, 0.1);
+}
+
+.card-link:hover {
+	box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.2);
+	cursor: pointer;
+}
+
+.card-link > span {
+	/* color: rgb(9, 129, 59); */
+	color: rgb(37, 165, 54);
+	font-weight: bold;
+}
+
+.center {
+	margin: 0 auto;
+}
+
+.employee-card {
+	display: inline-block;
+	width: 15rem;
+	height: auto;
+	margin: 10px 15px 20px 0;
+	padding: 15px;
+	text-align: center;
+	border-radius: 7px;
+	background-color: white;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+	transition: 0.5s;
+}
+
+.employee-card:hover {
+	box-shadow: 0 4px 8px 0 rgba(34, 34, 34, 0.61);
+}
+
+.employee-card > img {
+	width: 100%;
+	border-bottom: 3px solid rgba(0, 0, 0, 0.1);
+}
+
+.employee-card > span {
+	display: block;
+}
+
+.employeeName {
+	font-weight: bold;
+	color: rgba(21, 83, 155, 0.808);
+}
+
+.Wrem-30 {
+	width: 30rem;
+}
+
+.Wrem-20 {
+	width: 20rem;
+}
+
+.Wrem-15 {
+	width: 15rem;
+}

@@ -1,0 +1,62 @@
+<!--mudar aqui-->
+<h2>Estoque maluco</h2>
+
+<a href="/admin/prodServ/estoque/produtos"><button>Produtos</button></a><br>
+<a href="/admin/prodServ/estoque/servicos"><button>Serviços</button></a>
+
+{{#if produtos}}
+    {{#each produtos}}
+        <h3>{{categoria.nome}}</h3>
+        <p>Descrição: {{descricao}}</p>
+        <p>Quantidade: {{quantidade}}</p>
+        <button onclick="copiar('{{_id}}')">Copiar ID</button>
+
+        <form action="/admin/prodServ/estoque/editarProduto" method="post">
+            <input type="hidden" name="id" value="{{_id}}">
+            <button type="submit">Editar</button>
+        </form>
+
+        <form action="/admin/prodServ/estoque/deletarProduto" method="post">
+            <input type="hidden" name="id" value="{{_id}}">
+            <button type="submit">Deletar</button>
+        </form>
+        <hr>
+    {{/each}}
+{{/if}}
+
+{{#if servicos}}
+    {{#each servicos}}
+        <h3>{{categoria.nome}}</h3>
+        <p>Descrição: {{descricao}}</p>
+        <p>Valor: R${{valor}}</p>
+        
+        <form action="/admin/prodServ/estoque/editarServico" method="post">
+            <input type="hidden" name="id" value="{{_id}}">
+            <button type="submit">Editar</button>
+        </form>
+
+        <form action="/admin/prodServ/estoque/deletarSevico" method="post">
+            <input type="hidden" name="id" value="{{_id}}">
+            <button type="submit">Deletar</button>
+        </form>
+        <hr>
+    {{/each}}
+{{/if}}
+
+<script>
+    function copiar(texto){
+        var textArea = document.createElement("textarea");
+        textArea.value = texto;
+        
+        //Evitar de rolar a página
+        textArea.style.top = "0"
+        textArea.style.left = "0"
+        textArea.style.position = "fixed"
+
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        document.execCommand('copy')
+        document.body.removeChild(textArea);
+    }
+</script>

@@ -1,0 +1,107 @@
+<div class='container mt-4'>
+
+	<header>
+		<h3>Editar funcionário</h3>
+		<a href='/admin/funcionarios'>
+			← Voltar
+		</a>
+	</header>
+
+	<form
+		action='/admin/funcionarios/editarP'
+		method='post'
+		class='form-card Wrem-30'
+	>
+		<input type='hidden' name='id' value='{{funcionario._id}}' />
+
+		<div class='form-floating'>
+			<input
+				type='text'
+				name='nome'
+				id='nome'
+				class='form-control'
+				placeholder='Nome completo'
+				required
+				value='{{funcionario.nome}}'
+			/>
+			<label for='nome'>Nome completo</label>
+		</div>
+
+		<div class='form-floating'>
+			<input
+				type='text'
+				name='cpf'
+				class='form-control'
+				id='cpf'
+				placeholder='CPF'
+				required
+				value='{{funcionario.cpf}}'
+			/>
+			<label for='cpf'>CPF</label>
+		</div>
+
+		<div class='input-group'>
+			<span class='input-group-text'>Data de nascimento</span>
+			<input
+				type='number'
+				name='dia'
+				class='form-control'
+				placeholder='dd'
+				min='1'
+				max='31'
+				required
+				value='{{getDia funcionario.dataNasc}}'
+			/>
+			<input
+				type='number'
+				name='mes'
+				class='form-control'
+				placeholder='mm'
+				min='1'
+				max='12'
+				required
+				value='{{getMes funcionario.dataNasc}}'
+			/>
+			<input
+				type='number'
+				name='ano'
+				class='form-control'
+				placeholder='yyyy'
+				min='1930'
+				max='2021'
+				required
+				value='{{getAno funcionario.dataNasc}}'
+			/>
+		</div>
+
+		<div class='form-floating'>
+			<input
+				type='email'
+				name='email'
+				id='email'
+				class='form-control'
+				placeholder='E-mail'
+				value='{{funcionario.contato.email}}'
+			/>
+			<label for='email'>E-mail</label>
+		</div>
+
+		<div class='form-floating'>
+			<input
+				type='tel'
+				name='telefone'
+				id='telefone'
+				class='form-control'
+				placeholder='Telefone'
+				value='{{funcionario.contato.telefone}}'
+			/>
+			<label for='telefone'>Telefone</label>
+		</div>
+
+		<button type='submit' class='btn btn-success col-12'>Editar</button>
+	</form>
+</div>
+
+<script>
+	$(document).ready(() => { $('#cpf').mask('000.000.000-00') })
+</script>

@@ -1,0 +1,115 @@
+<div class='container mt-4'>
+
+	<header>
+		<h2>Registrar aquisição</h2>
+		<nav style="--bs-breadcrumb-divider: '>';" aria-label='breadcrumb'>
+			<ol class='breadcrumb'>
+				<li class='breadcrumb-item'><a href='#'>Home</a></li>
+				<li class='breadcrumb-item'>
+					<a href='/admin'>
+						Painel administrativo
+					</a>
+				</li>
+				<li class='breadcrumb-item' aria-current='page'>
+					<a href='/admin/prodServ'>
+						Produtos e serviços
+					</a>
+				</li>
+				<li class='breadcrumb-item active' aria-current='page'>
+					Registrar aquisição
+				</li>
+			</ol>
+		</nav>
+	</header>
+
+	<form
+		action='/admin/prodServ/aquisicao'
+		method='post'
+		class='form-card Wrem-30'
+	>
+		<div class='form-floating'>
+			<input
+				type='text'
+				name='id'
+				id='id'
+				placeholder='Id do produto'
+				class='form-control'
+				required
+			/>
+			<label for='id' class='floatingInput'>Id do produto</label>
+		</div>
+
+		<div class='form-floating'>
+			<input
+				type='number'
+				name='quantidade'
+				placeholder='Quantidade comprada'
+				min='1'
+				id='quantidade'
+				class='form-control'
+				required
+			/>
+			<label for='quantidade' class='floatingInput'>Quantidade comprada</label>
+		</div>
+
+		<div class='form-floating'>
+			<input
+				type='number'
+				name='valor'
+				placeholder='Valor total'
+				min='1'
+				id='valor'
+				class='form-control'
+				required
+			/>
+			<label for='valor' class='floatingInput'>Valor total</label>
+		</div>
+
+		<div class='form-floating'>
+			<input
+				type='number'
+				name='margemLucro'
+				placeholder='Margem de lucro'
+				min='1'
+				id='margemLucro'
+				class='form-control'
+				required
+			/>
+			<label for='margemLucro' class='floatingInput'>Margem de lucro</label>
+		</div>
+
+		<div class='input-group'>
+			<span class='input-group-text'>
+				Data de aquisição
+			</span>
+			<input
+				type='number'
+				name='dia'
+				placeholder='dd'
+				min='1'
+				max='31'
+				class='form-control'
+				required
+			/>
+			<input
+				type='number'
+				name='mes'
+				placeholder='mm'
+				min='1'
+				max='12'
+				class='form-control'
+				required
+			/>
+			<input
+				type='number'
+				name='ano'
+				placeholder='yyyy'
+				min='2010'
+				max='2021'
+				class='form-control'
+				required
+			/>
+		</div>
+		<button type='submit' class='btn btn-success'>Registrar</button>
+	</form>
+</div>

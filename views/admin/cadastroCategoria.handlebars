@@ -1,0 +1,46 @@
+<div class='container mt-4'>
+
+	<header>
+		<h2>Cadastrar nova categoria</h2>
+		<nav style="--bs-breadcrumb-divider: '>';" aria-label='breadcrumb'>
+			<ol class='breadcrumb'>
+				<li class='breadcrumb-item'><a href='/'>Home</a></li>
+				<li class='breadcrumb-item'>
+					<a href='/admin'>
+						Painel administrativo
+					</a>
+				</li>
+				<li class='breadcrumb-item' aria-current='page'>
+					<a href='/admin/prodServ'>
+						Produtos e serviços
+					</a>
+				</li>
+				<li class='breadcrumb-item active' aria-current='page'>
+					Cadastrar categoria
+				</li>
+			</ol>
+		</nav>
+	</header>
+
+	<form
+		action='/admin/prodServ/novaCategoria'
+		method='post'
+		class='form-card Wrem-30'
+	>
+		<div class='form-floating inline'>
+			<input
+				type='text'
+				name='nome'
+				placeholder='Nome da categoria'
+				id='categoria'
+				class='form-control'
+				oninput='this.value = this.value.toUpperCase()'
+				autocomplete='off'
+				required
+			/>
+			<label for='categoria' class='floatingInput'>Nome da categoria</label>
+		</div>
+
+		<button type='submit' class='btn btn-success'>Criar</button>
+	</form>
+</div>

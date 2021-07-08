@@ -1,0 +1,48 @@
+<div class='container mt-4'>
+	<header>
+		<h2>Funcionários</h2>
+		<nav style="--bs-breadcrumb-divider: '>';" aria-label='breadcrumb'>
+			<ol class='breadcrumb'>
+				<li class='breadcrumb-item'><a href='/'>Home</a></li>
+				<li class='breadcrumb-item'>
+					<a href='/admin'>
+						Painel administrativo
+					</a>
+				</li>
+				<li class='breadcrumb-item active' aria-current='page'>
+					Funcionários
+				</li>
+			</ol>
+		</nav>
+
+	</header>
+
+	{{#each funcionarios}}
+		<div class='employee-card'>
+			<img src='https://robohash.org/{{cpf}}' alt='' />
+			<span class='employeeName'>{{nome}}</span>
+			<span>{{cpf}}</span>
+			<!--Adicionar outros campos aqui depois-->
+
+			<div class='btn-group'>
+				<form action='/admin/funcionarios/editar' method='post'>
+					<input type='hidden' name='id' value='{{_id}}' />
+					<button type='submit' class='btn btn-secondary mt-2'>
+						<img src='/img/edit.svg' alt='edit' title='Editar' />
+					</button>
+				</form>
+
+				<form action='/admin/funcionarios/deletar' method='post'>
+					<input type='hidden' name='id' value='{{_id}}' />
+					<button type='submit' class='btn btn-danger mt-2 ms-2'>
+						<img
+							src='/img/delete.svg'
+							alt='delete'
+							title='Deletar'
+						/>
+					</button>
+				</form>
+			</div>
+		</div>
+	{{/each}}
+</div>

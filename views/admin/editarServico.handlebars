@@ -1,0 +1,71 @@
+<!--mudar aqui (bread crumbs, principalmente)-->
+<div class='container mt-4'>
+
+	<header>
+		<h2>Editar Serviço</h2>
+		<nav style="--bs-breadcrumb-divider: '>';" aria-label='breadcrumb'>
+			<ol class='breadcrumb'>
+				<li class='breadcrumb-item'><a href='/'>Home</a></li>
+				<li class='breadcrumb-item'>
+					<a href='/admin'>
+						Painel administrativo
+					</a>
+				</li>
+				<li class='breadcrumb-item' aria-current='page'>
+					<a href='/admin/prodServ'>
+						Produtos e serviços
+					</a>
+				</li>
+				<li class='breadcrumb-item active' aria-current='page'>
+					Cadastrar serviço
+				</li>
+			</ol>
+		</nav>
+	</header>
+
+	<form
+		action='/admin/prodServ/estoque/editarServicoP'
+		method='post'
+		class='form-card Wrem-30'
+	>
+		<div class='input-group'>
+			<label for='categoria' class='input-group-text'>Categoria: </label>
+			<select name='categoria' class='form-select' required>
+				{{#each categorias}}
+					<option value='{{_id}}'>{{nome}}</option>
+				{{/each}}
+			</select>
+		</div>
+        <!--ID-->
+        <input type="hidden" name="id" value="{{servico._id}}">
+        <!--Descrição-->
+		<div class='form-floating'>
+			<input
+				type='text'
+				name='descricao'
+				id='descricao'
+				class='form-control'
+				placeholder='Descrição'
+                value="{{servico.descricao}}"
+				required
+			/>
+			<label for='descricao'>Descrição</label>
+		</div>
+        <!--Valor-->
+		<div class='form-floating'>
+			<input
+				type='number'
+				name='valor'
+				id='valor'
+				class='form-control'
+				placeholder='Valor do serviço'
+				min='0'
+                value="{{servico.valor}}"
+				required
+			/>
+			<label for='valor'>Valor</label>
+		</div>
+
+		<button type='submit' class='btn btn-success'>Confirmar edição</button>
+	</form>
+</div>
