@@ -258,41 +258,9 @@ router.post('/prodServ/novoServico', adminCheck, (req, res) => {
 	}
 });
 
-//Registro de aquisição
-router.get('/prodServ/aquisicao', adminCheck, (req, res) => {
-	res.render('admin/cadastroAquisicao');
-});	
-
-router.post('/prodServ/aquisicao', adminCheck, (req, res) => {
-	const novaAquisicao = {
-		valorCompra: req.body.valor,
-		quantidadeCompra: req.body.quantidade,
-		margemLucro: req.body.margemLucro,
-		dataCompra: converterData(req.body.dia, req.body.mes, req.body.ano),
-		produto: req.body.id,
-	};
-
-	new Aquisicao(novaAquisicao)
-		.save()
-		.then(() => {
-			Produto.updateOne({_id: novaAquisicao.produto}, 
-				{ $inc: {quantidade: novaAquisicao.quantidadeCompra} }
-			).then(() => {
-				req.flash('suc', 'Aquisição registrada!');
-				res.redirect('/admin/prodServ');
-			})
-		})
-		.catch((err) => {
-			console.log(err);
-			req.flash('err', 'Houve um erro interno. Tente novamente.');
-			res.redirect('/admin/prodServ/aquisicao');
-		});
-});
-
 //Gerenciamento de estoque
 router.get('/prodServ/estoque', adminCheck, (req, res) => {
 	res.render('admin/estoque')
-	
 })
 
 router.get('/prodServ/estoque/:tipo', adminCheck, (req, res) => {
@@ -313,6 +281,37 @@ router.get('/prodServ/estoque/:tipo', adminCheck, (req, res) => {
 		})
 	}
 })
+
+//Registro de aquisição
+router.post('/prodServ/aquisicao', adminCheck, (req, res) => {
+	res.render('admin/cadastroAquisicao', {id: req.body.id});
+});	
+
+router.post('/prodServ/aquisicaoP', adminCheck, (req, res) => {
+	const novaAquisicao = {
+		valorCompra: req.body.valor,
+		quantidadeCompra: req.body.quantidade,
+		margemLucro: req.body.margemLucro,
+		dataCompra: converterData(req.body.dia, req.body.mes, req.body.ano),
+		produto: req.body.id,
+	};
+
+	new Aquisicao(novaAquisicao)
+		.save()
+		.then(() => {
+			Produto.updateOne({_id: novaAquisicao.produto}, 
+				{ $inc: {quantidade: novaAquisicao.quantidadeCompra} }
+			).then(() => {
+				req.flash('suc', 'Aquisição registrada!');
+				res.redirect('/admin/prodServ/estoque/produtos');
+			})
+		})
+		.catch((err) => {
+			console.log(err);
+			req.flash('err', 'Houve um erro interno. Tente novamente.');
+			res.redirect('/admin/prodServ/estoque/produtos');
+		});
+});
 
 //Editar e deletar produtos
 router.post('/prodServ/estoque/editarProduto', adminCheck, (req, res) => {

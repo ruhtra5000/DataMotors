@@ -5,14 +5,13 @@
 	width: 12rem;
 	text-align: center;
 	margin-top: 15px;
-	padding: 10px;
 	margin-right: 15px;
+	padding: 10px;
 	background-color: white;
 	border-radius: 7px;
 }
 
 .card-link > img {
-	justify-self: center;
 	width: 100%;
 	height: 150px;
 	padding: 10px;

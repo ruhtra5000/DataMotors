@@ -17,32 +17,72 @@
 
 	</header>
 
-	{{#each funcionarios}}
-		<div class='employee-card'>
-			<img src='https://robohash.org/{{cpf}}' alt='' />
-			<span class='employeeName'>{{nome}}</span>
-			<span>{{cpf}}</span>
-			<!--Adicionar outros campos aqui depois-->
+	<main>
+		{{#each funcionarios}}
+			<div class='employee-card'>
+				<img
+					src='https://robohash.org/{{cpf}}'
+					alt='imagem de exemplo'
+				/>
+				<span class='employeeName'>{{nome}}</span>
+				<span>{{cpf}}</span>
+				<!--Adicionar outros campos aqui depois-->
 
-			<div class='btn-group'>
-				<form action='/admin/funcionarios/editar' method='post'>
-					<input type='hidden' name='id' value='{{_id}}' />
-					<button type='submit' class='btn btn-secondary mt-2'>
-						<img src='/img/edit.svg' alt='edit' title='Editar' />
-					</button>
-				</form>
+				<aside class='d-flex justify-content-center'>
 
-				<form action='/admin/funcionarios/deletar' method='post'>
-					<input type='hidden' name='id' value='{{_id}}' />
-					<button type='submit' class='btn btn-danger mt-2 ms-2'>
+					<button
+						type='button'
+						class='btn btn-primary mt-2 me-2 example-popover'
+						data-bs-toggle='popover'
+						title='Contato'
+						data-bs-content='E-mail: {{contato.email}} Telefone: {{contato.telefone}}'
+					>
 						<img
-							src='/img/delete.svg'
-							alt='delete'
-							title='Deletar'
+							src='/img/info.svg'
+							alt='info'
+							title='Mais informações'
+							onclick="bunda()"
 						/>
 					</button>
-				</form>
+
+					<form action='/admin/funcionarios/editar' method='post'>
+						<input type='hidden' name='id' value='{{_id}}' />
+						<button
+							type='submit'
+							class='btn btn-secondary mt-2 me-2'
+						>
+							<img
+								src='/img/edit.svg'
+								alt='edit'
+								title='Editar'
+							/>
+						</button>
+					</form>
+
+					<form action='/admin/funcionarios/deletar' method='post'
+					onSubmit="return confirm('Deseja deletar?');">
+						<input type='hidden' name='id' value='{{_id}}' />
+						<button type='submit' class='btn btn-danger mt-2'>
+							<img
+								src='/img/delete.svg'
+								alt='delete'
+								title='Deletar'
+							/>
+						</button>
+					</form>
+				</aside>
 			</div>
-		</div>
-	{{/each}}
+		{{/each}}
+	</main>
+
 </div>
+
+{{! prettier-ignore }}
+<script>
+    //Popover
+    for(i=0;i<document.querySelectorAll('.example-popover').length;i++){
+        var popover = new bootstrap.Popover(document.querySelectorAll('.example-popover')[i], {
+          container: 'body'
+		})
+    }
+</script>

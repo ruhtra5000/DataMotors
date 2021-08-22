@@ -87,19 +87,19 @@ app.use('/usuario', usuario);
 app.use('/cadastroGeral', cadastroGeral);
 
 app.get('/', (req, res) => {
-	if(req.user == null){
-		res.redirect('/usuario/login')
-	} else { 
+	if (req.user == null) {
+		res.redirect('/usuario/login');
+	} else {
 		res.render('index');
 	}
 });
 
 // Outros
 const porta = 1881;
-if (require.main === module){
+if (require.main === module) {
 	app.listen(porta, () => {
 		console.log('Servidor rodando na URL http://localhost:1881');
 	});
 }
 
-module.exports = app
+module.exports = app;

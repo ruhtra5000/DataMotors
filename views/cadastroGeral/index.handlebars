@@ -1,20 +1,23 @@
 <div class='container mt-4'>
-	<h1>Página de cadastros</h1>
-	<nav style="--bs-breadcrumb-divider: '>';" aria-label='breadcrumb'>
-		<ol class='breadcrumb'>
-			<li class='breadcrumb-item'><a href='/'>Home</a></li>
-			<li class='breadcrumb-item active' aria-current='page'>
-				Cadastros
-			</li>
-		</ol>
-	</nav>
 
-	<div class='d-flex'>
+	<header>
+		<h1>Página de cadastros</h1>
+		<nav style="--bs-breadcrumb-divider: '>';" aria-label='breadcrumb'>
+			<ol class='breadcrumb'>
+				<li class='breadcrumb-item'><a href='/'>Home</a></li>
+				<li class='breadcrumb-item active' aria-current='page'>
+					Cadastros
+				</li>
+			</ol>
+		</nav>
+	</header>
+
+	<main class='d-flex'>
 		<!--Cliente-->
 		<form
 			action='/cadastroGeral/cliente'
 			method='post'
-			class='form-card center Wrem-30'
+			class='form-card center Wrem-30 me-4'
 		>
 
 			<h3>Cliente</h3>
@@ -121,6 +124,7 @@
 			action='/cadastroGeral/funcionario'
 			method='post'
 			class='form-card center Wrem-30'
+			style='height: 27rem;'
 		>
 			<h3 clas='form-title'>
 				Funcionário
@@ -210,7 +214,7 @@
 				type='submit '
 			>Cadastrar</button>
 		</form>
-	</div>
+	</main>
 
 </div>
 

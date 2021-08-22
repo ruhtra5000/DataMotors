@@ -27,15 +27,58 @@
 		method='post'
 		class='form-card Wrem-20'
 	>
-		<input type="radio" name="tipo" id="ct1" value="categNormal" checked> Utilizar categoria existente <br>
-    	<input type="radio" name="tipo" id="ct2" value="categNova"> Criar nova categoria <br>
 
-    	<input type="text" name="novaCategoria" id="novaCategoria" placeholder="Nova Categoria" oninput='this.value = this.value.toUpperCase()' style="display: none;"><br>
-		
+		<div class='form-check'>
+			<input
+				class='form-check-input'
+				type='radio'
+				name='tipo'
+				id='ct1'
+				value='categNormal'
+				checked
+			/>
+			<label for='ct1'>
+				Utilizar categoria existente
+			</label>
+		</div>
+
+		<div class='form-check'>
+			<input
+				class='form-check-input'
+				type='radio'
+				name='tipo'
+				id='ct2'
+				value='categNova'
+			/>
+			<label for='ct2'>
+				Criar nova categoria
+			</label>
+		</div>
+
+		<div class='form-floating' style='display: none;' id='divNcat'>
+			<input
+				class='form-control'
+				type='text'
+				name='novaCategoria'
+				id='novaCategoria'
+				placeholder='Nova Categoria'
+				oninput='this.value = this.value.toUpperCase()'
+				style='display: none;'
+			/>
+			<label for='novaCategoria' id='labelNcat' style='display: none;'>
+				Nova categoria
+			</label>
+		</div>
+
 		<!--Categoria-->
-		<div class='input-group'>
+		<div class='input-group' id='selectCategoria'>
 			<label for='categoria' class='input-group-text'>Categoria</label>
-			<select id='categoria' name='categoria' class='form-select' aria-readonly="true">
+			<select
+				id='categoria'
+				name='categoria'
+				class='form-select'
+				aria-readonly='true'
+			>
 				{{#each categorias}}
 					<option value='{{_id}}'>{{nome}}</option>
 				{{/each}}
@@ -95,25 +138,39 @@
 		<button type='submit' class='btn btn-success'>Cadastrar</button>
 	</form>
 
+	{{! prettier-ignore }}
 	<script>
-		var catb = document.querySelector('input#ct1')
-		var ncatb = document.querySelector('input#ct2')
+		var catb = document.querySelector('input#ct1');
+		var ncatb = document.querySelector('input#ct2');
 
-		var cat = document.querySelector('div.input-group')
-		var ncat = document.querySelector('input#novaCategoria')
+		var cat = document.querySelector('div#selectCategoria');
+		var ncat = document.querySelector('input#novaCategoria');
 
-		catb.addEventListener('click', () => {selecCategoria()})
-		ncatb.addEventListener('click', () => {novaCategoria()})
+		var labelncat = document.querySelector('label#labelNcat')
+		var divncat = document.querySelector('div#divNcat')
+
+		catb.addEventListener('click', () => {selecCategoria()});
+		ncatb.addEventListener('click', () => {novaCategoria()});
     
 	function selecCategoria(){
-		cat.style.display = 'flex'
-		ncat.removeAttribute('style')
-		ncat.style.display = 'none'
+		cat.style.display = 'flex';
+		ncat.removeAttribute('style');
+
+		ncat.style.display = 'none';
+		divncat.style.display = 'none';
+		labelncat.style.display = 'none';
+
+		ncat.removeAttribute('required')
 	}
 	function novaCategoria(){
-		ncat.style.display = 'block'
-		cat.removeAttribute('style')
-		cat.style.display = 'none'
+		ncat.style.display = 'block';
+		labelncat.style.display = 'block';
+		divncat.style.display = 'block';
+
+		cat.removeAttribute('style');
+		cat.style.display = 'none';
+
+		ncat.setAttribute('required', true)
 	}
 
 	</script>

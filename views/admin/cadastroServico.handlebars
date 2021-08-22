@@ -28,13 +28,102 @@
 		method='post'
 		class='form-card Wrem-30'
 	>
-		
-		<input type="radio" name="tipo" id="ct1" value="categNormal" checked> Utilizar categoria existente<br>
-    	<input type="radio" name="tipo" id="ct2" value="categNova"> Criar nova categoria <br>
 
-    	<input type="text" name="novaCategoria" id="novaCategoria" placeholder="Nova Categoria" oninput='this.value = this.value.toUpperCase()' style="display: none;"><br>
-		
-		<div class='input-group'>
+		<!--
+
+		<div class='form-check'>
+			<input
+				class='form-check-input'
+				type='radio'
+				name='tipo'
+				id='ct1'
+				value='categNormal'
+				checked
+			/>
+			<label for='ct1'>
+				Utilizar categoria existente
+			</label>
+		</div>
+
+		<div class='form-check'>
+			<input
+				class='form-check-input'
+				type='radio'
+				name='tipo'
+				id='ct2'
+				value='categNova'
+			/>
+			<label for='ct2'>
+				Criar nova categoria
+			</label>
+		</div>
+
+		<div class='form-floating' style='display: none;' id='divNcat'>
+			<input
+				class='form-control'
+				type='text'
+				name='novaCategoria'
+				id='novaCategoria'
+				placeholder='Nova Categoria'
+				oninput='this.value = this.value.toUpperCase()'
+				style='display: none;'
+			/>
+			<label for='novaCategoria' id='labelNcat' style='display: none;'>
+				Nova categoria
+			</label>
+		</div>
+
+		-->
+
+		<!--Checkbox 1-->
+		<div class='form-check'>
+			<input
+				class='form-check-input'
+				type='radio'
+				name='tipo'
+				id='ct1'
+				value='categNormal'
+				checked
+			/>
+			<label for='ct1'>
+				Utilizar categoria existente
+			</label>
+		</div>
+
+		<!--Checkbox 2-->
+		<div class='form-check'>
+			<input
+				class='form-check-input'
+				type='radio'
+				name='tipo'
+				id='ct2'
+				value='categNova'
+			/>
+			<label for='ct2'>
+				Criar nova categoria
+			</label>
+		</div>
+
+		<!--Nova Categoria-->
+		<div class='form-floating' id='divncat' style='display: none;'>
+			<input
+				class='form-control'
+				type='text'
+				name='novaCategoria'
+				id='novaCategoria'
+				placeholder='Nova Categoria'
+				oninput='this.value = this.value.toUpperCase()'
+				style='display: none;'
+			/>
+			<label
+				for='novaCategoria'
+				id='labelncat'
+				style='display: none;'
+			>Nova categoria</label>
+		</div>
+
+		<!--Categoria-->
+		<div class='input-group' id='selectCategoria'>
 			<label for='categoria' class='input-group-text'>Categoria: </label>
 			<select name='categoria' class='form-select' required>
 				{{#each categorias}}
@@ -42,6 +131,8 @@
 				{{/each}}
 			</select>
 		</div>
+
+		<!--Descrição-->
 		<div class='form-floating'>
 			<input
 				type='text'
@@ -54,6 +145,7 @@
 			<label for='descricao'>Descrição</label>
 		</div>
 
+		<!--Valor-->
 		<div class='form-floating'>
 			<input
 				type='number'
@@ -70,26 +162,41 @@
 		<button type='submit' class='btn btn-success'>Cadastrar</button>
 	</form>
 
+	{{! prettier-ignore }}
 	<script>
 		var catb = document.querySelector('input#ct1')
 		var ncatb = document.querySelector('input#ct2')
 
-		var cat = document.querySelector('div.input-group')
+		var cat = document.querySelector('div#selectCategoria')
 		var ncat = document.querySelector('input#novaCategoria')
+
+		var divncat = document.querySelector('div#divncat')
+		var labelncat = document.querySelector('label#labelncat')
 
 		catb.addEventListener('click', () => {selecCategoria()})
 		ncatb.addEventListener('click', () => {novaCategoria()})
     
-	function selecCategoria(){
-		cat.style.display = 'flex'
-		ncat.removeAttribute('style')
-		ncat.style.display = 'none'
-	}
-	function novaCategoria(){
-		ncat.style.display = 'block'
-		cat.removeAttribute('style')
-		cat.style.display = 'none'
-	}
+		function selecCategoria(){
+			cat.style.display = 'flex'
 
+			ncat.removeAttribute('style')
+			
+			ncat.style.display = 'none'
+			divncat.style.display = 'none';
+			labelncat.style.display = 'none';
+
+			ncat.removeAttribute('required')
+		}
+
+		function novaCategoria(){
+			divncat.style.display = 'flex';
+			ncat.style.display = 'flex'
+			labelncat.style.display = 'flex';
+
+			cat.removeAttribute('style')
+			cat.style.display = 'none'
+
+			ncat.setAttribute('required', true)
+		}
 	</script>
 </div>

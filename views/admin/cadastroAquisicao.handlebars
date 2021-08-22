@@ -23,21 +23,16 @@
 	</header>
 
 	<form
-		action='/admin/prodServ/aquisicao'
+		action='/admin/prodServ/aquisicaoP'
 		method='post'
 		class='form-card Wrem-30'
 	>
-		<div class='form-floating'>
-			<input
-				type='text'
-				name='id'
-				id='id'
-				placeholder='Id do produto'
-				class='form-control'
-				required
-			/>
-			<label for='id' class='floatingInput'>Id do produto</label>
-		</div>
+		<input
+			type='hidden'
+			name='id'
+			id='id'
+			value="{{id}}"
+		/>
 
 		<div class='form-floating'>
 			<input
