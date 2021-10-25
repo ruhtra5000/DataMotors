@@ -20,7 +20,7 @@ router.post('/cliente', (req, res) => {
 			req.flash('err', 'Este cliente já foi cadastrado.');
 			res.redirect('/cadastroGeral');
 		}
-		if (TestaCPF(req.body.cpf) == false) {
+		else if (TestaCPF(req.body.cpf) == false) {
 			req.flash('err', 'CPF inválido.');
 			res.redirect('/cadastroGeral');
 		} else {
@@ -54,6 +54,9 @@ router.post('/cliente', (req, res) => {
 					res.redirect('/cadastroGeral');
 				});
 		}
+	}).catch((err) => {
+		req.flash('err', 'Houve um erro interno. Tente novamente.')
+		res.redirect('/cadastroGeral')
 	});
 });
 

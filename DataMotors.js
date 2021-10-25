@@ -13,6 +13,7 @@ require('./config/autenticacao')(passport);
 const admin = require('./routes/admin');
 const usuario = require('./routes/usuario');
 const cadastroGeral = require('./routes/cadastroGeral');
+const orcamento = require('./routes/orcamento');
 
 // Configurações
 // Sessão
@@ -56,6 +57,9 @@ app.engine(
 				data = data.split('-'); // 0- ano, 1- mes, 2- resto
 				return data[0];
 			},
+			calculoVT: (v, q) => {
+				return (Number(v) * Number(q))
+			}
 		},
 	})
 );
@@ -85,6 +89,7 @@ app.use(express.static(path.join(__dirname + '/public')));
 app.use('/admin', admin);
 app.use('/usuario', usuario);
 app.use('/cadastroGeral', cadastroGeral);
+app.use('/orcamento', orcamento);
 
 app.get('/', (req, res) => {
 	if (req.user == null) {

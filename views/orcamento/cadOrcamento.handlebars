@@ -1,0 +1,359 @@
+<div class='container mt-4'>
+
+	<header>
+		<h1>Gerar orçamento</h1>
+
+		<nav style="--bs-breadcrumb-divider: '>';" aria-label='breadcrumb'>
+			<ol class='breadcrumb'>
+				<li class='breadcrumb-item'><a href='/'>Home</a></li>
+				<li class='breadcrumb-item'><a href='/orcamento'>Orçamento</a></li>
+				<li class='breadcrumb-item' aria-current='page'>Novo</li>
+			</ol>
+		</nav>
+	</header>
+
+	<form
+		action='/orcamento/novo'
+		autocomplete='off'
+		method='post'
+		class='form-card Wrem-40'
+	>
+
+		<!--Responsável-->
+		<div class='form-floating'>
+			<input
+				class='form-control'
+				type='text'
+				name='responsavelAuxiliar'
+				value='{{userNome}}'
+				class='form-control'
+				disabled
+			/>
+			<label for='responsavelAuxiliar'>Responsável:</label>
+		</div>
+
+		<!--Nome Cliente-->
+		<div class='autocomplete form-floating'>
+			<input
+				type='text'
+				name='cliente'
+				id='cliente'
+				class='form-control'
+			/>
+			<label for='cliente'>Nome do Cliente:</label>
+		</div>
+
+		<!--Datas-->
+		<div class='input-group'>
+			<span class='input-group-text'>
+				Data de entrada
+			</span>
+			<input
+				type='number'
+				name='diaEntrada'
+				placeholder='dd'
+				min='1'
+				max='31'
+				class='form-control'
+				required
+			/>
+			<input
+				type='number'
+				name='mesEntrada'
+				placeholder='mm'
+				min='1'
+				max='12'
+				class='form-control'
+				required
+			/>
+			<input
+				type='number'
+				name='anoEntrada'
+				placeholder='yyyy'
+				min='2010'
+				max='2021'
+				class='form-control'
+				required
+			/>
+		</div>
+
+		<div class='input-group'>
+			<span class='input-group-text'>
+				Data de saída
+			</span>
+			<input
+				type='number'
+				name='diaSaida'
+				placeholder='dd'
+				min='1'
+				max='31'
+				class='form-control'
+				required
+			/>
+			<input
+				type='number'
+				name='mesSaida'
+				placeholder='mm'
+				min='1'
+				max='12'
+				class='form-control'
+				required
+			/>
+			<input
+				type='number'
+				name='anoSaida'
+				placeholder='yyyy'
+				min='2010'
+				max='2021'
+				class='form-control'
+				required
+			/>
+		</div>
+
+		<!--Descrição do orçamento-->
+		<div class='form-floating'>
+			<textarea
+				name='descricao'
+				cols='70'
+				rows='8'
+				class='form-control'
+			></textarea>
+			<label for='descricao'>Descrição do problema/serviço realizado:</label>
+		</div>
+
+		<!--Peças-->
+		<h4>Adicionar peça</h4>
+
+		<div id='pecas' class='input-group'>
+			<label for='produtos' class='input-group-text'>Código</label>
+			<input type="number" name="produtos" id="produtos" placeholder="Código da peça" min="1" class='form-control' />
+
+			<label for='quant' class='input-group-text'>Quantidade</label>
+			<input type="number" name="quant" id="quant" placeholder="Quantidade" min="1" class='form-control' />
+			
+			<!--Array de produtos-->
+			<input type="hidden" name="arrayProdutos" id="arrayProdutos">
+
+			<button type="button" id="addProduto" onclick="adicionarProduto()" class='btn btn-secondary'>Adicionar peça</button>
+		</div>
+		<!--Tabela-->
+		<table id="produtosTabela"></table>
+
+		<!--Serviços-->
+		<h4>Adicionar serviço</h4>
+
+		<div id='servicos' class='input-group'>
+			<!--Funcionário-->
+			<div class='input-group'>
+				<label for='funcionario' class='input-group-text'>Funcionário
+					Responsável</label>
+				<input
+					type='text'
+					name='funcionario'
+					id="funcionario"
+					placeholder='Nome do funcionário'
+					class='form-control'
+				/>
+			</div>
+
+			<!--Serviço realizado-->
+			<div class='input-group'>
+				<label
+					for='servico'
+					class='input-group-text mt-2'
+				>Serviço</label>
+				<input
+					type='text'
+					name='servico'
+					id="servico"
+					placeholder='Descrição'
+					class='form-control mt-2'
+				/>
+
+				<!--Preço-->
+				<label for='preco' class='input-group-text mt-2'>Preço</label>
+				<input
+					type='number'
+					name='preco'
+					id="preco"
+					placeholder='Preço do serviço'
+					class='form-control mt-2'
+				/>
+				
+				<!--Array de serviços-->
+				<input type="hidden" name="arrayServicos" id="arrayServicos">
+
+				<button type="button" id="addServico" onclick="adicionarServico()" class='btn btn-secondary mt-2'>Adicionar serviço</button>
+			</div>
+
+		</div>
+
+		<table id="servicosTabela"></table>
+
+		<input type="checkbox" name="status" id="status" value="false">
+		<label for="status">Fechar orçamento ao finalizar</label><br>
+
+		<button type='submit' class='btn btn-success'>Finalizar orçamento</button>
+	</form>
+
+	<div id="estoque" style="width: 400px; border: 1px black solid;">
+		{{#each produtos}}
+			<p>Código: {{codigo}} | Quantidade: {{quantidade}}</p>
+			<p>Valor Unitário: {{valorUnit}}</p>
+			<p>Descrição: {{descricao}}</p>
+			<hr>
+		{{/each}}
+	</div>
+
+	{{! prettier-ignore }}
+	<script>
+		//Produtos 
+		var Produtos = []
+		var produtos2 = {{{produtos2}}}
+
+		function adicionarProduto(){
+			var codigo = document.getElementById('produtos')
+			var quant = document.getElementById('quant')
+			var valorUnit
+			if(codigo.value != "" && quant.value != ""){
+				for(prod of produtos2){
+					if(prod.codigo == codigo.value){
+						valorUnit = prod.valorUnit
+					}
+				}
+				
+				let obj = {
+					codigo: Number(codigo.value), 
+					quantidade: Number(quant.value), 
+					valorUnit: Number(valorUnit)
+				}
+
+				Produtos.push(obj)
+				document.getElementById('arrayProdutos').value = JSON.stringify(Produtos)
+
+				let tabela = document.getElementById('produtosTabela')
+				let linha = tabela.insertRow()
+				let c1 = linha.insertCell(0)
+				let c2 = linha.insertCell(1)
+				let c3 = linha.insertCell(2)
+				let c4 = linha.insertCell(3)
+
+				c1.innerHTML = 'Código: ' + codigo.value
+				c2.innerHTML = 'Valor unitário: ' + valorUnit
+				c3.innerHTML = 'Quantidade: ' + quant.value
+				c4.innerHTML = 'Total: R$' + (Number(valorUnit) * Number(quant.value))
+
+				codigo.value = ''
+				quant.value = ''
+			}
+		}
+
+		//Serviços
+		var servicos = []
+		
+		function adicionarServico(){
+			var nomeFunc = document.getElementById('funcionario')
+			var descricao = document.getElementById('servico')
+			var preco = document.getElementById('preco')
+			if(nomeFunc.value != "" && descricao.value != "" && preco.value != ""){
+				let obj = {nomeFunc: nomeFunc.value, descricao: descricao.value, preco: preco.value}
+				servicos.push(obj)
+				document.getElementById('arrayServicos').value = JSON.stringify(servicos)
+
+				let tabela = document.getElementById('servicosTabela')
+				let linha = tabela.insertRow()
+				let c1 = linha.insertCell(0)
+				let c2 = linha.insertCell(1)
+				let c3 = linha.insertCell(2)
+
+				c1.innerHTML = 'Funcionário: ' + nomeFunc.value
+				c2.innerHTML = 'Descrição: ' + descricao.value
+				c3.innerHTML = 'Valor: R$' + preco.value
+				
+				nomeFunc.value = ''
+				descricao.value = ''
+				preco.value = ''
+			}
+		}
+		
+		//Autocomplete
+		function autocomplete(inp, arr) {
+			var currentFocus;
+			inp.addEventListener("input", function(e) {
+				var a, b, i, val = this.value;
+				closeAllLists();
+				if (!val) { return false;}
+				currentFocus = -1;
+				a = document.createElement("DIV");
+				a.setAttribute("id", this.id + "autocomplete-list");
+				a.setAttribute("class", "autocomplete-items");
+				this.parentNode.appendChild(a);
+				for (i = 0; i < arr.length; i++) {
+				if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+					b = document.createElement("DIV");
+					b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+					b.innerHTML += arr[i].substr(val.length);
+					b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+						b.addEventListener("click", function(e) {
+						inp.value = this.getElementsByTagName("input")[0].value;
+						closeAllLists();
+					});
+					a.appendChild(b);
+				}
+				}
+			});
+			inp.addEventListener("keydown", function(e) {
+				var x = document.getElementById(this.id + "autocomplete-list");
+				if (x) x = x.getElementsByTagName("div");
+				if (e.keyCode == 40) {
+				currentFocus++;
+				addActive(x);
+				} else if (e.keyCode == 38) { 
+				currentFocus--;
+
+				addActive(x);
+				} else if (e.keyCode == 13) {
+				e.preventDefault();
+				if (currentFocus > -1) {
+					if (x) x[currentFocus].click();
+				}
+				}
+			});
+			function addActive(x) {
+			if (!x) return false;
+			removeActive(x);
+			if (currentFocus >= x.length) currentFocus = 0;
+			if (currentFocus < 0) currentFocus = (x.length - 1);
+			x[currentFocus].classList.add("autocomplete-active");
+			}
+			function removeActive(x) {
+			for (var i = 0; i < x.length; i++) {
+				x[i].classList.remove("autocomplete-active");
+			}
+			}
+			function closeAllLists(elmnt) {
+			var x = document.getElementsByClassName("autocomplete-items");
+				for (var i = 0; i < x.length; i++) {
+					if (elmnt != x[i] && elmnt != inp) {
+						x[i].parentNode.removeChild(x[i]);
+					}
+				}
+			}
+			document.addEventListener("click", function (e) {
+				closeAllLists(e.target);
+			});
+		} 
+
+		//Autocomplete de clientes
+		var cl = {{{clientes}}}
+    	Cl = Array(cl)
+    	var Clientes = cl.map(({nome}) => nome)
+    	autocomplete(document.getElementById('cliente'), Clientes)
+
+		//Autocomplete de funcionários
+		var func = {{{funcionarios}}}
+		Func = Array(func)
+		var Funcionarios = func.map(({nome}) => nome)
+		autocomplete(document.getElementById('funcionario'), Funcionarios)
+	</script>
+</div>

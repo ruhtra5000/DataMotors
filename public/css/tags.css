@@ -1,5 +1,12 @@
+html {
+	height: 100%;
+}
+
 body {
-	background: #f8f8f8;
+	width: 100%;
+	min-width: auto;
+	min-height: 100%;
+	height: auto;
 }
 
 a,

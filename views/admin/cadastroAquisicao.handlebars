@@ -4,7 +4,7 @@
 		<h2>Registrar aquisição</h2>
 		<nav style="--bs-breadcrumb-divider: '>';" aria-label='breadcrumb'>
 			<ol class='breadcrumb'>
-				<li class='breadcrumb-item'><a href='#'>Home</a></li>
+				<li class='breadcrumb-item'><a href='/'>Home</a></li>
 				<li class='breadcrumb-item'>
 					<a href='/admin'>
 						Painel administrativo
@@ -27,12 +27,7 @@
 		method='post'
 		class='form-card Wrem-30'
 	>
-		<input
-			type='hidden'
-			name='id'
-			id='id'
-			value="{{id}}"
-		/>
+		<input type='hidden' name='id' id='id' value='{{id}}' />
 
 		<div class='form-floating'>
 			<input
@@ -64,13 +59,14 @@
 			<input
 				type='number'
 				name='margemLucro'
-				placeholder='Margem de lucro'
+				placeholder='Margem de lucro (Porcentagem)'
 				min='1'
 				id='margemLucro'
 				class='form-control'
 				required
 			/>
-			<label for='margemLucro' class='floatingInput'>Margem de lucro</label>
+			<label for='margemLucro' class='floatingInput'>Margem de lucro
+				(Porcentagem)</label>
 		</div>
 
 		<div class='input-group'>

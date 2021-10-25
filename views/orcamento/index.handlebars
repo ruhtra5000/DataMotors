@@ -1,0 +1,25 @@
+<div class='container mt-4'>
+    <header>
+		<h1>Orçamentos</h1>
+
+		<nav style="--bs-breadcrumb-divider: '>';" aria-label='breadcrumb'>
+			<ol class='breadcrumb'>
+				<li class='breadcrumb-item'><a href='/'>Home</a></li>
+				<li class='breadcrumb-item' aria-current='page'>Orçamentos</li>
+			</ol>
+		</nav>
+	</header>
+
+    <a href="/orcamento/novo"><button>Criar novo orçamento</button></a>
+    {{#each orcamentos}}
+    <div>
+        <p>Orçamento número {{numero}}</p>
+        <p>Descrição: {{descricao}}</p>
+        <form action="/orcamento/editar" method="post">
+            <input type="hidden" name="id" value="{{_id}}">
+            <button type="submit">Editar</button>
+        </form>
+    </div>
+    <hr>
+    {{/each}}
+</div>

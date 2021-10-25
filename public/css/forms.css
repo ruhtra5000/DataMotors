@@ -1,11 +1,11 @@
-.form-card > * {
-	margin-top: 10px;
-}
-
 .form-card {
 	padding: 0 10px 10px 10px;
-	border: 2px solid rgba(168, 168, 168, 0.4);
+	border: 1px solid rgba(168, 168, 168, 0.4);
 	border-radius: 10px;
 	background-color: white;
 	margin-top: 20px;
+}
+
+.form-card > * {
+	margin-top: 10px;
 }

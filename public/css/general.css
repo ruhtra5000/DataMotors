@@ -64,6 +64,10 @@
 	color: rgba(21, 83, 155, 0.808);
 }
 
+.Wrem-40 {
+	width: 40rem;
+}
+
 .Wrem-30 {
 	width: 30rem;
 }
@@ -74,4 +78,14 @@
 
 .Wrem-15 {
 	width: 15rem;
+}
+
+.autocomplete-items > div {
+	cursor: pointer;
+	margin-top: 5px;
+	padding: 2px 5px 2px 5px;
+	border-radius: 20px;
+}
+.autocomplete-items > div:hover {
+	background-color: rgba(173, 243, 255, 0.5);
 }

@@ -15,6 +15,7 @@ const Aquisicao = mongoose.model('aquisicoes');
 
 const { converterData } = require('../helpers/converterData');
 const { adminCheck } = require('../helpers/adminCheck');
+const { calculoValorUnitario } = require('../helpers/calculoValorUnitario')
 
 router.get('/', adminCheck, (req, res) => {
 	res.render('admin/index');
@@ -141,6 +142,7 @@ router.post('/prodServ/novoProduto', adminCheck, (req, res) => {
 							marca: req.body.marca,
 							modelo: req.body.modelo,
 							quantidade: req.body.quantidade,
+							valorUnit: req.body.valor
 						}
 						new Produto(novoProduto).save().then(() => {
 							req.flash('suc', 'Produto cadastrado!');
@@ -172,7 +174,8 @@ router.post('/prodServ/novoProduto', adminCheck, (req, res) => {
 			descricao: req.body.descricao,
 			marca: req.body.marca,
 			modelo: req.body.modelo,
-			quantidade: req.body.quantidade
+			quantidade: req.body.quantidade,
+			valorUnit: req.body.valor
 		}
 		new Produto(novoProduto).save().then(() => {
 			req.flash('suc', 'Produto cadastrado!');
@@ -299,9 +302,10 @@ router.post('/prodServ/aquisicaoP', adminCheck, (req, res) => {
 	new Aquisicao(novaAquisicao)
 		.save()
 		.then(() => {
-			Produto.updateOne({_id: novaAquisicao.produto}, 
-				{ $inc: {quantidade: novaAquisicao.quantidadeCompra} }
-			).then(() => {
+			Produto.updateOne({_id: novaAquisicao.produto}, { 
+				$inc: {quantidade: novaAquisicao.quantidadeCompra},
+				$set: {valorUnit: calculoValorUnitario(novaAquisicao.quantidadeCompra, novaAquisicao.valorCompra, novaAquisicao.margemLucro)}
+			}).then(() => {
 				req.flash('suc', 'Aquisição registrada!');
 				res.redirect('/admin/prodServ/estoque/produtos');
 			})
