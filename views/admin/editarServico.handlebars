@@ -1,27 +1,7 @@
 <!--mudar aqui (bread crumbs, principalmente)-->
 <div class='container mt-4'>
 
-	<header>
-		<h2>Editar Serviço</h2>
-		<nav style="--bs-breadcrumb-divider: '>';" aria-label='breadcrumb'>
-			<ol class='breadcrumb'>
-				<li class='breadcrumb-item'><a href='/'>Home</a></li>
-				<li class='breadcrumb-item'>
-					<a href='/admin'>
-						Painel administrativo
-					</a>
-				</li>
-				<li class='breadcrumb-item' aria-current='page'>
-					<a href='/admin/prodServ'>
-						Produtos e serviços
-					</a>
-				</li>
-				<li class='breadcrumb-item active' aria-current='page'>
-					Cadastrar serviço
-				</li>
-			</ol>
-		</nav>
-	</header>
+	<h2>Editar Serviço</h2>
 
 	<form
 		action='/admin/prodServ/estoque/editarServicoP'
@@ -36,9 +16,9 @@
 				{{/each}}
 			</select>
 		</div>
-        <!--ID-->
-        <input type="hidden" name="id" value="{{servico._id}}">
-        <!--Descrição-->
+		<!--ID-->
+		<input type='hidden' name='id' value='{{servico._id}}' />
+		<!--Descrição-->
 		<div class='form-floating'>
 			<input
 				type='text'
@@ -46,12 +26,12 @@
 				id='descricao'
 				class='form-control'
 				placeholder='Descrição'
-                value="{{servico.descricao}}"
+				value='{{servico.descricao}}'
 				required
 			/>
 			<label for='descricao'>Descrição</label>
 		</div>
-        <!--Valor-->
+		<!--Valor-->
 		<div class='form-floating'>
 			<input
 				type='number'
@@ -60,7 +40,7 @@
 				class='form-control'
 				placeholder='Valor do serviço'
 				min='0'
-                value="{{servico.valor}}"
+				value='{{servico.valor}}'
 				required
 			/>
 			<label for='valor'>Valor</label>

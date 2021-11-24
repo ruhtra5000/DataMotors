@@ -1,36 +1,155 @@
 <nav
 	class='navbar navbar-expand-lg navbar-dark bg-dark sticky-top'
-	style='width: 100%;'
+	style='display: {{navbar}};'
 >
-	<div class='container-fluid'>
-		<!--Brand-->
-		<a href='/' class='navbar-brand'>
-			<img
-				src='/img/datamotors-icon.png'
-				width='75px'
-				height='75px'
-				alt='DataMotors icon'
-				title='Data Motors'
-			/>
-			<span style='font-size: 25px;'>Data Motors</span>
-		</a>
+	<button
+		class='navbar-toggler'
+		type='button'
+		data-bs-toggle='collapse'
+		data-bs-target='#navbarSupportedContent'
+		aria-controls='navbarSupportedContent'
+		aria-expanded='false'
+		aria-label='Toggle navigation'
+	>
+		<span class='navbar-toggler-icon'></span>
+	</button>
 
-		<!--Login & Logout-->
-		<div>
-			<a href='/usuario/login' class='navbar-brand'><img
-					src='/img/login-icon.png'
-					alt='login'
-					width='40px'
-					height='40px'
-					title='Login'
-				/>Login</a>
-			<a href='/usuario/logout' class='navbar-brand'><img
-					src='/img/logout-icon.png'
-					alt='logout'
-					width='40px'
-					height='40px'
-					title='Logout'
-				/>Sair</a>
-		</div>
+	<img src='/img/datamotors-logo-red.svg' alt='logo' class='nav-brand' />
+
+	<div
+		class='collapse navbar-collapse justify-content-center'
+		id='navbarSupportedContent'
+	>
+		<ul class='navbar-nav'>
+			<li class='nav-item'>
+				<a class='nav-link' aria-current='page' href='/'>
+					<i class='nav-icon fas fa-home'></i>
+					Home
+				</a>
+
+				<li class='nav-item dropdown'>
+					<a
+						class='nav-link dropdown-toggle'
+						href='#'
+						id='navbarDropdown'
+						role='button'
+						data-bs-toggle='dropdown'
+						aria-expanded='false'
+					>
+						<i class='nav-icon fas fa-toolbox'></i>
+						Produtos e Serviços
+					</a>
+
+					<ul class='dropdown-menu' aria-labelledby='navbarDropdown'>
+						<li>
+							<a
+								class='dropdown-item'
+								href='/admin/prodServ/estoque'
+							>
+								<i class='nav-icon fas fa-archive nav-icon'></i>
+								Estoque
+							</a>
+						</li>
+
+						<li>
+							<a class='dropdown-item' href='/orcamento'>
+								<i
+									class='nav-icon fas fa-file-invoice-dollar'
+								></i>
+								Orçamentos
+							</a>
+						</li>
+
+						<li><hr class='dropdown-divider' /></li>
+
+						<li>
+							<a
+								class='dropdown-item'
+								href='/admin/prodServ/novoProduto'
+							>
+								<i class='nav-icon fas fa-dolly-flatbed'></i>
+								Novo produto
+							</a>
+						</li>
+						<li>
+							<a
+								class='dropdown-item'
+								href='/admin/prodServ/novoServico'
+							>
+								<i class='nav-icon fas fa-wrench'></i>
+								Novo serviço
+							</a>
+						</li>
+						<li>
+							<a
+								class='dropdown-item'
+								href='/admin/prodServ/novaCategoria'
+							>
+								<i class='nav-icon fas fa-tag'></i>
+								Nova categoria
+							</a>
+						</li>
+					</ul>
+				</li>
+
+				<li class='nav-item dropdown'>
+					<a
+						class='nav-link dropdown-toggle'
+						href='#'
+						id='navbarDropdown2'
+						role='button'
+						data-bs-toggle='dropdown'
+						aria-expanded='false'
+					>
+						<i class='nav-icon fas fa-users'></i>
+						Pessoas
+					</a>
+
+					<ul class='dropdown-menu' aria-labelledby='navbarDropdown2'>
+						<li>
+							<a
+								class='dropdown-item disabled'
+								href='/admin/prodServ/estoque'
+							>
+								<i class='nav-icon fas fa-user'></i>
+								Listar clientes
+							</a>
+						</li>
+
+						<li>
+							<a class='dropdown-item' href='/admin/funcionarios'>
+								<i class='nav-icon fas fa-user-tie'></i>
+								Listar funcionários
+							</a>
+						</li>
+
+						<li><hr class='dropdown-divider' /></li>
+
+						<li>
+							<a class='dropdown-item' href='/cadastroGeral/'>
+								<i class='nav-icon fas fa-user-plus'></i>
+								Novo cliente
+							</a>
+						</li>
+						<li>
+							<a class='dropdown-item' href='/cadastroGeral/'>
+								<i class='nav-icon fas fa-user-plus'></i>
+								Novo funcionário
+							</a>
+						</li>
+					</ul>
+				</li>
+			</li>
+		</ul>
 	</div>
+
+	<ul class='navbar-nav'>
+		<li>
+			<a class='nav-link justify-content-end' href='/usuario/logout'>
+				<i class='nav-icon fas fa-sign-out-alt'></i>
+				Sair
+			</a>
+		</li>
+	</ul>
+
 </nav>

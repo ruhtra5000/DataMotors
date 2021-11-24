@@ -1,12 +1,10 @@
+body,
 html {
 	height: 100%;
 }
 
 body {
-	width: 100%;
-	min-width: auto;
-	min-height: 100%;
-	height: auto;
+	background-color: whitesmoke;
 }
 
 a,
@@ -14,13 +12,9 @@ u {
 	text-decoration: none !important;
 }
 
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-	-webkit-appearance: none;
-	margin: 0;
-}
-
-/* Firefox */
-input[type='number'] {
-	-moz-appearance: textfield;
+img {
+	-webkit-user-drag: none;
+	-khtml-user-drag: none;
+	-moz-user-drag: none;
+	-o-user-drag: none;
 }

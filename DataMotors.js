@@ -27,6 +27,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
+
 // Middleware
 app.use((req, res, next) => {
 	res.locals.err = req.flash('err');
@@ -35,6 +36,7 @@ app.use((req, res, next) => {
 	res.locals.user = req.user || null;
 	next();
 });
+
 // Handlebars (Template Engine)
 app.engine(
 	'handlebars',
@@ -58,15 +60,17 @@ app.engine(
 				return data[0];
 			},
 			calculoVT: (v, q) => {
-				return (Number(v) * Number(q))
-			}
+				return Number(v) * Number(q);
+			},
 		},
 	})
 );
 app.set('view engine', 'handlebars');
+
 // Express (onde se encontrava o BodyParser)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 // Mongoose
 mongoose.Promise = global.Promise;
 mongoose

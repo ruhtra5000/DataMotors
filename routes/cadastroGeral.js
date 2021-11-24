@@ -8,56 +8,57 @@ require('../models/Funcionario');
 const Funcionario = mongoose.model('funcionarios');
 
 const { converterData } = require('../helpers/converterData');
-const { TestaCPF } = require('../helpers/testarCPF')
+const { TestaCPF } = require('../helpers/testarCPF');
 
 router.get('/', (req, res) => {
 	res.render('cadastroGeral/index');
 });
 
 router.post('/cliente', (req, res) => {
-	Cliente.findOne({ cpf: req.body.cpf }).then((cliente) => {
-		if (cliente) {
-			req.flash('err', 'Este cliente já foi cadastrado.');
-			res.redirect('/cadastroGeral');
-		}
-		else if (TestaCPF(req.body.cpf) == false) {
-			req.flash('err', 'CPF inválido.');
-			res.redirect('/cadastroGeral');
-		} else {
-			const newCliente = {
-				nome: req.body.nome,
-				cpf: req.body.cpf,
-				endereco: req.body.endereco,
-				dataNasc: converterData(
-					req.body.dia,
-					req.body.mes,
-					req.body.ano
-				),
-				contato: {
-					email: req.body.email,
-					telefone: req.body.telefone,
-				},
-			};
+	Cliente.findOne({ cpf: req.body.cpf })
+		.then((cliente) => {
+			if (cliente) {
+				req.flash('err', 'Este cliente já foi cadastrado.');
+				res.redirect('/cadastroGeral');
+			} else if (TestaCPF(req.body.cpf) == false) {
+				req.flash('err', 'CPF inválido.');
+				res.redirect('/cadastroGeral');
+			} else {
+				const newCliente = {
+					nome: req.body.nome,
+					cpf: req.body.cpf,
+					endereco: req.body.endereco,
+					dataNasc: converterData(
+						req.body.dia,
+						req.body.mes,
+						req.body.ano
+					),
+					contato: {
+						email: req.body.email,
+						telefone: req.body.telefone,
+					},
+				};
 
-			new Cliente(newCliente)
-				.save()
-				.then(() => {
-					req.flash('suc', 'Cliente cadastrado!');
-					res.redirect('/');
-				})
-				.catch((err) => {
-					req.flash(
-						'err',
-						'Houve um erro ao finalizar o cadastro. Tente novamente.'
-					);
-					console.log(err);
-					res.redirect('/cadastroGeral');
-				});
-		}
-	}).catch((err) => {
-		req.flash('err', 'Houve um erro interno. Tente novamente.')
-		res.redirect('/cadastroGeral')
-	});
+				new Cliente(newCliente)
+					.save()
+					.then(() => {
+						req.flash('suc', 'Cliente cadastrado!');
+						res.redirect('/cadastroGeral');
+					})
+					.catch((err) => {
+						req.flash(
+							'err',
+							'Houve um erro ao finalizar o cadastro. Tente novamente.'
+						);
+						console.log(err);
+						res.redirect('/cadastroGeral');
+					});
+			}
+		})
+		.catch((err) => {
+			req.flash('err', 'Houve um erro interno. Tente novamente.');
+			res.redirect('/cadastroGeral');
+		});
 });
 
 router.post('/funcionario', (req, res) => {
@@ -90,7 +91,7 @@ router.post('/funcionario', (req, res) => {
 				.save()
 				.then(() => {
 					req.flash('suc', 'Funcionário cadastrado!');
-					res.redirect('/');
+					res.redirect('/cadastroGeral');
 				})
 				.catch((err) => {
 					console.log(err);
@@ -103,7 +104,5 @@ router.post('/funcionario', (req, res) => {
 		}
 	});
 });
-
-
 
 module.exports = router;

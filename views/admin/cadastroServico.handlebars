@@ -1,79 +1,12 @@
-<!--mudar aqui-->
 <div class='container mt-4'>
 
-	<header>
-		<h2>Cadastrar Serviço</h2>
-		<nav style="--bs-breadcrumb-divider: '>';" aria-label='breadcrumb'>
-			<ol class='breadcrumb'>
-				<li class='breadcrumb-item'><a href='/'>Home</a></li>
-				<li class='breadcrumb-item'>
-					<a href='/admin'>
-						Painel administrativo
-					</a>
-				</li>
-				<li class='breadcrumb-item' aria-current='page'>
-					<a href='/admin/prodServ'>
-						Produtos e serviços
-					</a>
-				</li>
-				<li class='breadcrumb-item active' aria-current='page'>
-					Cadastrar serviço
-				</li>
-			</ol>
-		</nav>
-	</header>
+	<h2>Cadastrar Serviço</h2>
 
 	<form
 		action='/admin/prodServ/novoServico'
 		method='post'
 		class='form-card Wrem-30'
 	>
-
-		<!--
-
-		<div class='form-check'>
-			<input
-				class='form-check-input'
-				type='radio'
-				name='tipo'
-				id='ct1'
-				value='categNormal'
-				checked
-			/>
-			<label for='ct1'>
-				Utilizar categoria existente
-			</label>
-		</div>
-
-		<div class='form-check'>
-			<input
-				class='form-check-input'
-				type='radio'
-				name='tipo'
-				id='ct2'
-				value='categNova'
-			/>
-			<label for='ct2'>
-				Criar nova categoria
-			</label>
-		</div>
-
-		<div class='form-floating' style='display: none;' id='divNcat'>
-			<input
-				class='form-control'
-				type='text'
-				name='novaCategoria'
-				id='novaCategoria'
-				placeholder='Nova Categoria'
-				oninput='this.value = this.value.toUpperCase()'
-				style='display: none;'
-			/>
-			<label for='novaCategoria' id='labelNcat' style='display: none;'>
-				Nova categoria
-			</label>
-		</div>
-
-		-->
 
 		<!--Checkbox 1-->
 		<div class='form-check'>

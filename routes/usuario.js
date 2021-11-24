@@ -12,7 +12,9 @@ const { checarEmail } = require('../helpers/checarEmail');
 
 //Rotas
 router.get('/login', (req, res) => {
-	res.render('login/login');
+	res.render('login/login', {
+		navbar: 'none',
+	});
 });
 
 router.post(
@@ -22,11 +24,14 @@ router.post(
 		failureRedirect: '/usuario/login',
 		failureFlash: true,
 		failureMessage: 'Erro de autenticação. Cheque os campos.',
+		homeActive: 'active',
 	})
 );
 
 router.get('/registro', (req, res) => {
-	res.render('login/registro');
+	res.render('login/registro', {
+		navbar: 'none',
+	});
 });
 
 router.post('/registro', (req, res) => {
