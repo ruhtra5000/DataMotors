@@ -1,25 +1,48 @@
 <div class='container mt-4'>
-    <header>
-		<h1>Orçamentos</h1>
+	<h1>Orçamentos</h1>
 
-		<nav style="--bs-breadcrumb-divider: '>';" aria-label='breadcrumb'>
-			<ol class='breadcrumb'>
-				<li class='breadcrumb-item'><a href='/'>Home</a></li>
-				<li class='breadcrumb-item' aria-current='page'>Orçamentos</li>
-			</ol>
-		</nav>
-	</header>
+	<a href='/orcamento/novo'>
+		<button class='btn btn-success mb-3'>Novo orçamento</button>
+	</a>
 
-    <a href="/orcamento/novo"><button>Criar novo orçamento</button></a>
-    {{#each orcamentos}}
-    <div>
-        <p>Orçamento número {{numero}}</p>
-        <p>Descrição: {{descricao}}</p>
-        <form action="/orcamento/editar" method="post">
-            <input type="hidden" name="id" value="{{_id}}">
-            <button type="submit">Editar</button>
-        </form>
-    </div>
-    <hr>
-    {{/each}}
+	<div class='card'>
+		<div class='card-body'>
+			<!--Listagem de orçamentos-->
+			<table class='table table-hover' style='vertical-align: middle;'>
+				<thead>
+					<tr>
+						<th scope='col'>Nº</th>
+						<th scope='col'>Descrição</th>
+						<th scope='col'>Valor Total</th>
+						<th></th>
+					</tr>
+				</thead>
+				{{#each orcamentos}}
+					<tbody>
+						<tr>
+							<td>{{numero}}</td>
+							<td style='width: 900px;'>{{descricao}}</td>
+							<td>R$ {{valorTotal}}</td>
+							<td style='width: 20px;'>
+								<form action='/orcamento/editar' method='post'>
+									<input
+										type='hidden'
+										name='id'
+										value='{{_id}}'
+									/>
+									<button
+										type='submit'
+										class='btn btn-primary'
+										title='Editar produto'
+									>
+										<img src='/img/edit.svg' alt='editar' />
+									</button>
+								</form>
+							</td>
+						</tr>
+					</tbody>
+				{{/each}}
+			</table>
+		</div>
+	</div>
 </div>

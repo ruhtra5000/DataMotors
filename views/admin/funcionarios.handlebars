@@ -1,88 +1,101 @@
 <div class='container mt-4'>
-	<header>
-		<h2>Funcionários</h2>
-		<nav style="--bs-breadcrumb-divider: '>';" aria-label='breadcrumb'>
-			<ol class='breadcrumb'>
-				<li class='breadcrumb-item'><a href='/'>Home</a></li>
-				<li class='breadcrumb-item'>
-					<a href='/admin'>
-						Painel administrativo
-					</a>
-				</li>
-				<li class='breadcrumb-item active' aria-current='page'>
-					Funcionários
-				</li>
-			</ol>
-		</nav>
+	<h2>Funcionários</h2>
 
-	</header>
-
-	<main>
+	<main class='mt-3 row row-cols-3 justify-content-start'>
 		{{#each funcionarios}}
-			<div class='employee-card'>
-				<img
-					src='https://robohash.org/{{cpf}}'
-					alt='imagem de exemplo'
-				/>
-				<span class='employeeName'>{{nome}}</span>
-				<span>{{cpf}}</span>
-				<!--Adicionar outros campos aqui depois-->
+			<div class='card empl-card me-5 mb-3'>
+				<div class='card-body text-center'>
+					<img
+						class='empl-profile-image'
+						src='https://robohash.org/{{cpf}}'
+						alt='example_image'
+					/>
+					<div>
+						<h3 class='empl-name'>{{nome}}</h3>
+						<span>{{cpf}}</span>
 
-				<aside class='d-flex justify-content-center'>
+						<div class='modal' id='info{{_id}}' tabindex='-1'>
+							<div class='modal-dialog modal-dialog-centered'>
+								<div class='modal-content'>
+									<div class='modal-header'>
+										<h5 class='modal-title'>Mais informações</h5>
+										<button
+											type='button'
+											class='btn-close'
+											data-bs-dismiss='modal'
+											aria-label='Close'
+										></button>
+									</div>
+									<div class='modal-body text-start'>
+										<p>
+											<b>Email: </b>
+											{{#if contato.email}}
+												{{contato.email}}
+											{{else}}
+												Não informado
+											{{/if}}
+										</p>
+										<p>
+											<b>
+												Telefone:
+											</b>
+											{{#if contato.email}}
+												{{contato.telefone}}
+											{{else}}
+												Não informado
+											{{/if}}
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 
-					<button
-						type='button'
-						class='btn btn-primary mt-2 me-2 example-popover'
-						data-bs-toggle='popover'
-						title='Contato'
-						data-bs-content='E-mail: {{contato.email}} Telefone: {{contato.telefone}}'
-					>
-						<img
-							src='/img/info.svg'
-							alt='info'
-							title='Mais informações'
-							onclick="bunda()"
-						/>
-					</button>
+					<aside class='d-flex justify-content-center mt-3'>
 
-					<form action='/admin/funcionarios/editar' method='post'>
-						<input type='hidden' name='id' value='{{_id}}' />
 						<button
-							type='submit'
-							class='btn btn-secondary mt-2 me-2'
+							class='btn btn-primary empl-btn'
+							data-bs-toggle='modal'
+							data-bs-target='#info{{_id}}'
 						>
-							<img
-								src='/img/edit.svg'
-								alt='edit'
-								title='Editar'
-							/>
+							<img src='/img/info.svg' alt='info' />
 						</button>
-					</form>
 
-					<form action='/admin/funcionarios/deletar' method='post'
-					onSubmit="return confirm('Deseja deletar?');">
-						<input type='hidden' name='id' value='{{_id}}' />
-						<button type='submit' class='btn btn-danger mt-2'>
-							<img
-								src='/img/delete.svg'
-								alt='delete'
-								title='Deletar'
-							/>
-						</button>
-					</form>
-				</aside>
+						<form action='/admin/funcionarios/editar' method='post'>
+							<input type='hidden' name='id' value='{{_id}}' />
+							<button
+								type='submit'
+								class='btn btn-secondary empl-btn'
+							>
+								<img
+									src='/img/edit.svg'
+									alt='edit'
+									title='Editar'
+								/>
+							</button>
+						</form>
+
+						<form
+							action='/admin/funcionarios/deletar'
+							method='post'
+							onSubmit="return confirm('Deseja deletar?');"
+						>
+							<input type='hidden' name='id' value='{{_id}}' />
+							<button
+								type='submit'
+								class='btn btn-danger empl-btn'
+							>
+								<img
+									src='/img/delete.svg'
+									alt='delete'
+									title='Deletar'
+								/>
+							</button>
+						</form>
+					</aside>
+				</div>
 			</div>
 		{{/each}}
 	</main>
 
 </div>
-
-{{! prettier-ignore }}
-<script>
-    //Popover
-    for(i=0;i<document.querySelectorAll('.example-popover').length;i++){
-        var popover = new bootstrap.Popover(document.querySelectorAll('.example-popover')[i], {
-          container: 'body'
-		})
-    }
-</script>

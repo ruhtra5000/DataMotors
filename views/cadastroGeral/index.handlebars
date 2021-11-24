@@ -1,24 +1,10 @@
-<div class='container mt-4'>
+<div class='container mt-5'>
 
-	<header>
-		<h1>Página de cadastros</h1>
-		<nav style="--bs-breadcrumb-divider: '>';" aria-label='breadcrumb'>
-			<ol class='breadcrumb'>
-				<li class='breadcrumb-item'><a href='/'>Home</a></li>
-				<li class='breadcrumb-item active' aria-current='page'>
-					Cadastros
-				</li>
-			</ol>
-		</nav>
-	</header>
+	<h1>Página de cadastros</h1>
 
-	<main class='d-flex'>
+	<main class='d-flex justify-content-between flex-wrap'>
 		<!--Cliente-->
-		<form
-			action='/cadastroGeral/cliente'
-			method='post'
-			class='form-card center Wrem-30 me-4'
-		>
+		<form action='/cadastroGeral/cliente' method='post' class='form-card'>
 
 			<h3>Cliente</h3>
 
@@ -40,12 +26,12 @@
 					type='text'
 					name='cpf'
 					minlength='11'
-					max='14'
+					maxlength='14'
 					id='cpfCliente'
-					placeholder='CPF/CNPJ'
+					placeholder='CPF'
 					required
 				/>
-				<label for='cpfCliente'>CPF/CNPJ</label>
+				<label for='cpfCliente'>CPF</label>
 			</div>
 
 			<div class='input-group'>
@@ -98,9 +84,9 @@
 					type='email'
 					name='email'
 					id='email'
-					placeholder='E-mail'
+					placeholder='E-mail (opcional)'
 				/>
-				<label for='email'>E-mail</label>
+				<label for='email'>E-mail (opcional)</label>
 			</div>
 
 			<div class='form-floating'>
@@ -109,9 +95,9 @@
 					type='tel'
 					name='telefone'
 					id='telefone'
-					placeholder='Telefone'
+					placeholder='Telefone (opcional)'
 				/>
-				<label for='telefone'>Telefone</label>
+				<label for='telefone'>Telefone (opcional)</label>
 			</div>
 
 			<button class='btn btn-success col-12' type='submit'>
@@ -123,8 +109,7 @@
 		<form
 			action='/cadastroGeral/funcionario'
 			method='post'
-			class='form-card center Wrem-30'
-			style='height: 27rem;'
+			class='form-card'
 		>
 			<h3 clas='form-title'>
 				Funcionário
@@ -193,9 +178,9 @@
 					type='email'
 					name='email'
 					id='email'
-					placeholder='E-mail'
+					placeholder='E-mail (opcional)'
 				/>
-				<label for='email'>E-mail</label>
+				<label for='email'>E-mail (opcional)</label>
 			</div>
 
 			<div class='form-floating'>
@@ -203,10 +188,10 @@
 					class='form-control'
 					type='tel'
 					name='telefone'
-					id='telefone'
-					placeholder='Telefone'
+					id='telefoneFuncionario'
+					placeholder='Telefone (opcional)'
 				/>
-				<label for='telefone'>Telefone</label>
+				<label for='telefoneFuncionario'>Telefone (opcional)</label>
 			</div>
 
 			<button
@@ -218,8 +203,10 @@
 
 </div>
 
+{{!-- prettier-ignore --}}
 <script>
 	$(document).ready(() => { $('#cpfFuncionario').mask('000.000.000-00') })
-	$(document).ready(() => { $('#cpfCliente').mask('000.000.000-00') })
-	//$(document).ready(() => { $('#cpfCliente').mask('00.000.000.0000-00') })
+	$(document).ready(() => {$('#cpfCliente').mask('000.000.000-00')})
+	$(document).ready(() => {$('#telefone').mask('(00) 0000-0000')})
+	$(document).ready(() => {$('#telefoneFuncionario').mask('(00)0000-0000')})
 </script>

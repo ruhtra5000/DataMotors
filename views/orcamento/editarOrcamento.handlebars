@@ -1,238 +1,294 @@
 <div class='container mt-4'>
 
-	<header>
-		<h1>Editar orçamento</h1>
+	<h1>Editar orçamento</h1>
 
-		<nav style="--bs-breadcrumb-divider: '>';" aria-label='breadcrumb'>
-			<ol class='breadcrumb'>
-				<li class='breadcrumb-item'><a href='/'>Home</a></li>
-				<li class='breadcrumb-item'><a href='/orcamento'>Orçamento</a></li>
-				<li class='breadcrumb-item' aria-current='page'>Editar</li>
-			</ol>
-		</nav>
-	</header>
+	<div class='d-flex justify-content-between flex-wrap'>
+		<form
+			action='/orcamento/editarP'
+			autocomplete='off'
+			method='post'
+			class='form-card Wrem-40'
+		>
+			<!--ID-->
+			<input type='hidden' name='id' value='{{orcamento._id}}' />
 
-	<form
-		action='/orcamento/editarP'
-		autocomplete='off'
-		method='post'
-		class='form-card Wrem-40'
-	>   
-        <!--ID-->
-        <input type="hidden" name="id" value="{{orcamento._id}}">
-
-		<!--Responsável-->
-		<div class='form-floating'>
-			<input
-				class='form-control'
-				type='text'
-				name='responsavelAuxiliar'
-				value='{{usuario.nome}}'
-				class='form-control'
-				disabled
-			/>
-			<label for='responsavelAuxiliar'>Responsável:</label>
-		</div>
-
-		<!--Nome Cliente-->
-		<div class='autocomplete form-floating'>
-			<input
-				type='text'
-				name='cliente'
-				id='cliente'
-				class='form-control'
-                value="{{cliente.nome}}"
-			/>
-			<label for='cliente'>Nome do Cliente:</label>
-		</div>
-
-		<!--Datas-->
-		<div class='input-group'>
-			<span class='input-group-text'>
-				Data de entrada
-			</span>
-			<input
-				type='number'
-				name='diaEntrada'
-				placeholder='dd'
-				min='1'
-				max='31'
-				class='form-control'
-                value="{{getDia orcamento.data.dataEntrada}}"
-				required
-			/>
-			<input
-				type='number'
-				name='mesEntrada'
-				placeholder='mm'
-				min='1'
-				max='12'
-				class='form-control'
-                value="{{getMes orcamento.data.dataEntrada}}"
-				required
-			/>
-			<input
-				type='number'
-				name='anoEntrada'
-				placeholder='yyyy'
-				min='2010'
-				max='2021'
-				class='form-control'
-                value="{{getAno orcamento.data.dataEntrada}}"
-				required
-			/>
-		</div>
-
-		<div class='input-group'>
-			<span class='input-group-text'>
-				Data de saída
-			</span>
-			<input
-				type='number'
-				name='diaSaida'
-				placeholder='dd'
-				min='1'
-				max='31'
-				class='form-control'
-                value="{{getDia orcamento.data.dataSaida}}"
-				required
-			/>
-			<input
-				type='number'
-				name='mesSaida'
-				placeholder='mm'
-				min='1'
-				max='12'
-				class='form-control'
-                value="{{getMes orcamento.data.dataSaida}}"
-				required
-			/>
-			<input
-				type='number'
-				name='anoSaida'
-				placeholder='yyyy'
-				min='2010'
-				max='2021'
-				class='form-control'
-                value="{{getAno orcamento.data.dataSaida}}"
-				required
-			/>
-		</div>
-
-		<!--Descrição do orçamento-->
-		<div class='form-floating'>
-			<textarea
-				name='descricao'
-				cols='70'
-				rows='8'
-				class='form-control'
-			>{{orcamento.descricao}}</textarea>
-			<label for='descricao'>Descrição do problema/serviço realizado:</label>
-		</div>
-
-		<!--Peças-->
-		<h4>Adicionar peça</h4>
-
-		<div id='pecas' class='input-group'>
-			<label for='produtos' class='input-group-text'>Código</label>
-			<input type="number" name="produtos" id="produtos" placeholder="Código da peça" min="1" class='form-control' />
-
-			<label for='quant' class='input-group-text'>Quantidade</label>
-			<input type="number" name="quant" id="quant" placeholder="Quantidade" min="1" class='form-control' />
-			
-			<!--Array de produtos-->
-			<input type="hidden" name="arrayProdutos" id="arrayProdutos">
-
-			<button type="button" id="addProduto" onclick="adicionarProduto()" class='btn btn-secondary'>Adicionar peça</button>
-		</div>
-		<!--Tabela-->
-		<table id="produtosTabela">
-            <tbody>
-                {{#each orcamento.produtos}}
-                    <tr>
-                        <td>Código: {{this.codigo}}</td>
-                        <td>Valor unitário: {{this.valorUnit}}</td>
-                        <td>Quantidade: {{this.quantidade}}</td>
-                        <td>Total: R${{calculoVT this.valorUnit this.quantidade}}</td>
-                    </tr>
-                {{/each}}
-            </tbody>
-        </table>
-
-		<!--Serviços-->
-		<h4>Adicionar serviço</h4>
-
-		<div id='servicos' class='input-group'>
-			<!--Funcionário-->
-			<div class='input-group'>
-				<label for='funcionario' class='input-group-text'>Funcionário
-					Responsável</label>
+			<!--Responsável-->
+			<div class='form-floating'>
 				<input
-					type='text'
-					name='funcionario'
-					id="funcionario"
-					placeholder='Nome do funcionário'
 					class='form-control'
+					type='text'
+					name='responsavelAuxiliar'
+					value='{{usuario.nome}}'
+					class='form-control'
+					disabled
 				/>
+				<label for='responsavelAuxiliar'>Responsável:</label>
 			</div>
 
-			<!--Serviço realizado-->
-			<div class='input-group'>
-				<label
-					for='servico'
-					class='input-group-text mt-2'
-				>Serviço</label>
+			<!--Nome Cliente-->
+			<div class='autocomplete form-floating'>
 				<input
 					type='text'
-					name='servico'
-					id="servico"
-					placeholder='Descrição'
-					class='form-control mt-2'
+					name='cliente'
+					id='cliente'
+					class='form-control'
+					value='{{cliente.nome}}'
 				/>
+				<label for='cliente'>Nome do Cliente:</label>
+			</div>
 
-				<!--Preço-->
-				<label for='preco' class='input-group-text mt-2'>Preço</label>
+			<!--Datas-->
+			<div class='input-group'>
+				<span class='input-group-text'>
+					Data de entrada
+				</span>
 				<input
 					type='number'
-					name='preco'
-					id="preco"
-					placeholder='Preço do serviço'
-					class='form-control mt-2'
+					name='diaEntrada'
+					placeholder='dd'
+					min='1'
+					max='31'
+					class='form-control'
+					value='{{getDia orcamento.data.dataEntrada}}'
+					required
 				/>
-				
-				<!--Array de serviços-->
-				<input type="hidden" name="arrayServicos" id="arrayServicos">
-
-				<button type="button" id="addServico" onclick="adicionarServico()" class='btn btn-secondary mt-2'>Adicionar serviço</button>
+				<input
+					type='number'
+					name='mesEntrada'
+					placeholder='mm'
+					min='1'
+					max='12'
+					class='form-control'
+					value='{{getMes orcamento.data.dataEntrada}}'
+					required
+				/>
+				<input
+					type='number'
+					name='anoEntrada'
+					placeholder='yyyy'
+					min='2010'
+					max='2021'
+					class='form-control'
+					value='{{getAno orcamento.data.dataEntrada}}'
+					required
+				/>
 			</div>
 
+			<div class='input-group'>
+				<span class='input-group-text'>
+					Data de saída
+				</span>
+				<input
+					type='number'
+					name='diaSaida'
+					placeholder='dd'
+					min='1'
+					max='31'
+					class='form-control'
+					value='{{getDia orcamento.data.dataSaida}}'
+					required
+				/>
+				<input
+					type='number'
+					name='mesSaida'
+					placeholder='mm'
+					min='1'
+					max='12'
+					class='form-control'
+					value='{{getMes orcamento.data.dataSaida}}'
+					required
+				/>
+				<input
+					type='number'
+					name='anoSaida'
+					placeholder='yyyy'
+					min='2010'
+					max='2021'
+					class='form-control'
+					value='{{getAno orcamento.data.dataSaida}}'
+					required
+				/>
+			</div>
+
+			<!--Descrição do orçamento-->
+			<div class='form-floating'>
+				<textarea
+					name='descricao'
+					cols='70'
+					rows='8'
+					class='form-control'
+				>{{orcamento.descricao}}</textarea>
+				<label for='descricao'>Descrição do problema/serviço realizado:</label>
+			</div>
+
+			<!--Peças-->
+			<h4>Adicionar peça</h4>
+
+			<div id='pecas' class='input-group'>
+				<label for='produtos' class='input-group-text'>Código</label>
+				<input
+					type='number'
+					name='produtos'
+					id='produtos'
+					placeholder='Nº'
+					min='1'
+					class='form-control'
+				/>
+
+				<label for='quant' class='input-group-text'>Quantidade</label>
+				<input
+					type='number'
+					name='quant'
+					id='quant'
+					placeholder=''
+					min='1'
+					class='form-control'
+				/>
+
+				<!--Array de produtos-->
+				<input type='hidden' name='arrayProdutos' id='arrayProdutos' />
+
+				<button
+					type='button'
+					id='addProduto'
+					onclick='adicionarProduto()'
+					class='btn btn-secondary'
+				>Adicionar peça</button>
+
+			</div>
+			<!--Tabela-->
+			<table id='produtosTabela'>
+				<tbody>
+					{{#each orcamento.produtos}}
+						<tr>
+							<td>Código: {{this.codigo}}</td>
+							<td>Valor unitário: {{this.valorUnit}}</td>
+							<td>Quantidade: {{this.quantidade}}</td>
+							<td>Total: R${{calculoVT
+									this.valorUnit
+									this.quantidade
+								}}</td>
+						</tr>
+					{{/each}}
+				</tbody>
+			</table>
+
+			<!--Serviços-->
+			<h4>Adicionar serviço</h4>
+
+			<div id='servicos' class='input-group'>
+				<!--Funcionário-->
+				<div class='input-group'>
+					<label
+						for='funcionario'
+						class='input-group-text'
+					>Funcionário Responsável</label>
+					<input
+						type='text'
+						name='funcionario'
+						id='funcionario'
+						placeholder='Nome do funcionário'
+						class='form-control'
+					/>
+				</div>
+
+				<!--Serviço realizado-->
+				<div class='input-group'>
+					<label
+						for='servico'
+						class='input-group-text mt-2'
+					>Serviço</label>
+					<input
+						type='text'
+						name='servico'
+						id='servico'
+						placeholder='Descrição'
+						class='form-control mt-2'
+					/>
+
+					<!--Preço-->
+					<label
+						for='preco'
+						class='input-group-text mt-2'
+					>Preço</label>
+					<input
+						type='number'
+						name='preco'
+						id='preco'
+						class='form-control mt-2'
+					/>
+
+					<!--Array de serviços-->
+					<input
+						type='hidden'
+						name='arrayServicos'
+						id='arrayServicos'
+					/>
+
+					<button
+						type='button'
+						id='addServico'
+						onclick='adicionarServico()'
+						class='btn btn-secondary mt-2'
+					>Adicionar serviço</button>
+				</div>
+
+			</div>
+			<!--Tabela Serviços-->
+			<table id='servicosTabela'>
+				<tbody>
+					{{#each orcamento.servicos}}
+						<tr>
+							<td>Funcionário: {{this.nomeFunc}}</td>
+							<td>Descrição: {{this.descricao}}</td>
+							<td>Valor: R${{this.preco}}</td>
+						</tr>
+					{{/each}}
+				</tbody>
+			</table>
+
+			<div class='d-flex justify-content-around'>
+				<button type='submit' class='btn btn-success'>Finalizar
+					orçamento</button>
+
+				<div class='form-check d-flex align-items-center'>
+					<input
+						class='form-check-input'
+						type='checkbox'
+						name='status'
+						id='status'
+						value='false'
+					/>
+					<label class='form-check-label' for='status'>
+						Fechar orçamento ao finalizar
+					</label>
+				</div>
+			</div>
+		</form>
+
+		<div id='estoque' class='form-card'>
+			<h3>Tabela de produtos</h3>
+			<table class='table' id='tableStorage'>
+				<thead>
+					<th class='text-end'>Código</th>
+					<th>Descrição</th>
+					<th class='text-end'>Quantidade</th>
+					<th class='text-end'>Valor Unit.</th>
+				</thead>
+
+				<tbody>
+					{{#each produtos}}
+						<tr>
+							<td class='text-end'>{{codigo}}</td>
+							<td>{{descricao}}</td>
+							<td class='text-end'>{{quantidade}}</td>
+							<td class='text-end'>R$ {{valorUnit}}</td>
+							<td><input type='radio' name='a' /></td>
+						</tr>
+					{{/each}}
+				</tbody>
+			</table>
 		</div>
-
-		<table id="servicosTabela">
-            <tbody>
-                {{#each orcamento.servicos}}
-                    <tr>
-                        <td>Funcionário: {{this.nomeFunc}}</td>
-                        <td>Descrição: {{this.descricao}}</td>
-                        <td>Valor: R${{this.preco}}</td>
-                    </tr>
-                {{/each}}
-            </tbody>
-        </table>
-
-		<input type="checkbox" name="status" id="status" value="false">
-		<label for="status">Fechar orçamento ao finalizar</label><br>
-
-		<button type='submit' class='btn btn-success'>Finalizar orçamento</button>
-	</form>
-
-	<div id="estoque" style="width: 400px; border: 1px black solid;">
-		{{#each produtos}}
-			<p>Código: {{codigo}} | Quantidade: {{quantidade}}</p>
-			<p>Valor Unitário: {{valorUnit}}</p>
-			<p>Descrição: {{descricao}}</p>
-			<hr>
-		{{/each}}
 	</div>
 
 	{{! prettier-ignore }}
@@ -246,36 +302,38 @@
 			var quant = document.getElementById('quant')
 			var valorUnit
 			if(codigo.value != "" && quant.value != ""){
-				for(prod of produtos2){
-					if(prod.codigo == codigo.value){
-						valorUnit = prod.valorUnit
-					}
-				}
-				
-				let obj = {
-					codigo: Number(codigo.value), 
-					quantidade: Number(quant.value), 
-					valorUnit: Number(valorUnit)
-				}
+                for(prod of produtos2){
+                    if(prod.codigo == codigo.value){
+                        if((Number(prod.quantidade) - Number(quant.value)) >= 0) {
+                            valorUnit = prod.valorUnit
 
-				Produtos.push(obj)
-				document.getElementById('arrayProdutos').value = JSON.stringify(Produtos)
+                            let obj = {
+                                codigo: Number(codigo.value), 
+                                quantidade: Number(quant.value), 
+                                valorUnit: Number(valorUnit)
+                            }
 
-				let tabela = document.getElementById('produtosTabela')
-				let linha = tabela.insertRow()
-				let c1 = linha.insertCell(0)
-				let c2 = linha.insertCell(1)
-				let c3 = linha.insertCell(2)
-				let c4 = linha.insertCell(3)
+                            Produtos.push(obj)
+                            document.getElementById('arrayProdutos').value = JSON.stringify(Produtos)
 
-				c1.innerHTML = 'Código: ' + codigo.value
-				c2.innerHTML = 'Valor unitário: ' + valorUnit
-				c3.innerHTML = 'Quantidade: ' + quant.value
-				c4.innerHTML = 'Total: R$' + (Number(valorUnit) * Number(quant.value))
+                            let tabela = document.getElementById('produtosTabela')
+                            let linha = tabela.insertRow()
+                            let c1 = linha.insertCell(0)
+                            let c2 = linha.insertCell(1)
+                            let c3 = linha.insertCell(2)
+                            let c4 = linha.insertCell(3)
 
-				codigo.value = ''
-				quant.value = ''
-			}
+                            c1.innerHTML = 'Código: ' + codigo.value
+                            c2.innerHTML = 'Valor unitário: ' + valorUnit
+                            c3.innerHTML = 'Quantidade: ' + quant.value
+                            c4.innerHTML = 'Total: R$' + (Number(valorUnit) * Number(quant.value))
+
+                            codigo.value = ''
+                            quant.value = ''
+                        }
+                    }
+                }
+            }
 		}
 
 		//Serviços

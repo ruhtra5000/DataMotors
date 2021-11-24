@@ -1,24 +1,43 @@
-<form action='/usuario/login' method='post' class='container mt-4'>
-	<div class='card center Wrem-30' id='formLogin'>
-		<div class='card-body'>
-			<h1>Login</h1>
+<div class='login-register-form'>
+	<img
+		src='/img/Datamotors-logo-red-dark.svg'
+		alt='logo'
+		width='300px'
+		class='my-2 login-brand'
+	/>
+
+	<form action='/usuario/login' method='post'>
+
+		{{! Usuário }}
+		<div class='form-floating mb-3'>
 			<input
 				class='form-control mt-2'
 				type='text'
+				id='username'
 				name='username'
-				placeholder='E-mail'
+				placeholder='email'
 			/>
+			<label for='username'>E-mail</label>
+		</div>
+
+		{{! Senha }}
+		<div class='form-floating mb-3'>
 			<input
 				class='form-control mt-2'
 				type='password'
+				id='password'
 				name='password'
-				placeholder='Senha'
+				placeholder='password'
 			/>
-			<button class='btn btn-success mt-2' type='submit'>Fazer login</button>
-			<p class='form-text m-0 mt-2'>Ainda não é cadastrado? Cadastre-se
-				<a href='/usuario/registro'>aqui</a>.
-			</p>
+			<label for='username'>Senha</label>
 		</div>
-	</div>
 
-</form>
+		<button class='btn btn-primary' type='submit' style='width: 100%;'>
+			Entrar
+		</button>
+	</form>
+
+	<span class='form-text'>Ainda não é cadastrado? Cadastre-se
+		<a href='/usuario/registro'>aqui</a>.
+	</span>
+</div>

@@ -1,39 +1,16 @@
 <!--mudar aqui (bread crumbs, principalmente)-->
 <div class='container mt-4'>
 
-	<header>
-		<h2>Editar Produto</h2>
-		<nav style="--bs-breadcrumb-divider: '>';" aria-label='breadcrumb'>
-			<ol class='breadcrumb'>
-				<li class='breadcrumb-item'><a href='/'>Home</a></li>
-				<li class='breadcrumb-item'>
-					<a href='/admin'>
-						Painel administrativo
-					</a>
-				</li>
-				<li class='breadcrumb-item' aria-current='page'>
-					<a href='/admin/prodServ'>
-						Produtos e serviços
-					</a>
-				</li>
-				<li class='breadcrumb-item active' aria-current='page'>
-					Cadastrar produto
-				</li>
-			</ol>
-		</nav>
-	</header>
+	<h2>Editar Produto</h2>
 
 	<form
 		action='/admin/prodServ/estoque/editarProdutoP'
 		method='post'
 		class='form-card Wrem-20'
 	>
-		<!--<input type="radio" name="tipo" id="ct1" onchange="tipoCategoria()" value="categNormal" checked> Utilizar categoria existente <br>
-        <input type="radio" name="tipo" id="ct2" onchange="tipoCategoria()" value="categNova"> Criar nova categoria <br>
-        <input type="text" style="display: none;" name="novaCategoria" placeholder="Nova Categoria"><br>-->
 
-        <!--ID-->
-        <input type="hidden" name="id" value="{{produto._id}}">
+		<!--ID-->
+		<input type='hidden' name='id' value='{{produto._id}}' />
 		<!--Categoria-->
 		<div class='input-group'>
 			<label for='categoria' class='input-group-text'>Categoria</label>
@@ -51,7 +28,7 @@
 				id='descricao'
 				placeholder='Descrição'
 				class='form-control'
-                value="{{produto.descricao}}"
+				value='{{produto.descricao}}'
 				required
 			/>
 			<label for='descricao'>Descrição</label>
@@ -64,7 +41,7 @@
 				id='marca'
 				placeholder='Marca'
 				class='form-control'
-                value="{{produto.marca}}"
+				value='{{produto.marca}}'
 				required
 			/>
 			<label for='marca'>Marca</label>
@@ -77,7 +54,7 @@
 				id='modelo'
 				placeholder='Modelo'
 				class='form-control'
-                value="{{produto.modelo}}"
+				value='{{produto.modelo}}'
 				required
 			/>
 			<label for='modelo'>Modelo</label>
@@ -91,7 +68,7 @@
 				placeholder='Quantidade em estoque'
 				class='form-control'
 				min='0'
-                value="{{produto.quantidade}}"
+				value='{{produto.quantidade}}'
 				required
 			/>
 			<label for='quantidade'>Quantidade</label>
