@@ -12,7 +12,14 @@
 	width: 25px;
 	height: 25px;
 	text-align: center;
-	color: #fc5168;
+	color: #ffffff;
+}
+
+.nav-sub-icon {
+	width: 25px;
+	height: 25px;
+	text-align: center;
+	color: #ff1131;
 }
 
 .navbar-toggler {

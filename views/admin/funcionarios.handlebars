@@ -1,7 +1,17 @@
 <div class='container mt-4'>
-	<h2>Funcionários</h2>
+	<header class='row row-cols-1'>
+		<h2 class='d-flex justify-content-center'>Funcionários</h2>
+		<footer class='d-flex justify-content-center'>
+			<a href='/cadastroGeral/'>
+				<button class='btn btn-primary ms-3'>
+					<i class='fas fa-user-plus'></i>
+					Adicionar
+				</button>
+			</a>
+		</footer>
+	</header>
 
-	<main class='mt-3 row row-cols-3 justify-content-start'>
+	<main class='mt-3 row row-cols-4 justify-content-center'>
 		{{#each funcionarios}}
 			<div class='card empl-card me-5 mb-3'>
 				<div class='card-body text-center'>
@@ -10,8 +20,10 @@
 						src='https://robohash.org/{{cpf}}'
 						alt='example_image'
 					/>
-					<div>
-						<h3 class='empl-name'>{{nome}}</h3>
+					<section id='moreInfo'>
+						<div class='row'>
+							<h3 class='empl-name text-truncate'>{{nome}}</h3>
+						</div>
 						<span>{{cpf}}</span>
 
 						<div class='modal' id='info{{_id}}' tabindex='-1'>
@@ -49,7 +61,7 @@
 								</div>
 							</div>
 						</div>
-					</div>
+					</section>
 
 					<aside class='d-flex justify-content-center mt-3'>
 

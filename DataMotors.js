@@ -74,10 +74,13 @@ app.use(express.urlencoded({ extended: true }));
 // Mongoose
 mongoose.Promise = global.Promise;
 mongoose
-	.connect('mongodb://localhost/DMdb', {
-		useNewUrlParser: true,
-		useUnifiedTopology: true,
-	})
+	.connect(
+		'mongodb+srv://datamotorsadmin:4lDa4chvuktjZqGS@cluster0.2bh5n.mongodb.net/Datamotors?retryWrites=true&w=majority',
+		{
+			useNewUrlParser: true,
+			useUnifiedTopology: true,
+		}
+	)
 	.then(() => {
 		console.log('Banco de dados conectado!');
 	})

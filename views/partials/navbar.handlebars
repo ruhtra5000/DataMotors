@@ -1,6 +1,6 @@
 <nav
-	class='navbar navbar-expand-lg navbar-dark bg-dark sticky-top'
-	style='display: {{navbar}};'
+	class='navbar navbar-expand-lg navbar-dark bg-danger bg-gradient sticky-top'
+	style='display: {{navbar}}'
 >
 	<button
 		class='navbar-toggler'
@@ -14,7 +14,7 @@
 		<span class='navbar-toggler-icon'></span>
 	</button>
 
-	<img src='/img/datamotors-logo-red.svg' alt='logo' class='nav-brand' />
+	<img src='/img/datamotors-logo.png' alt='logo' class='nav-brand' />
 
 	<div
 		class='collapse navbar-collapse justify-content-center'
@@ -46,7 +46,9 @@
 								class='dropdown-item'
 								href='/admin/prodServ/estoque'
 							>
-								<i class='nav-icon fas fa-archive nav-icon'></i>
+								<i
+									class='nav-sub-icon fas fa-archive nav-icon'
+								></i>
 								Estoque
 							</a>
 						</li>
@@ -54,7 +56,7 @@
 						<li>
 							<a class='dropdown-item' href='/orcamento'>
 								<i
-									class='nav-icon fas fa-file-invoice-dollar'
+									class='nav-sub-icon fas fa-file-invoice-dollar'
 								></i>
 								Orçamentos
 							</a>
@@ -67,7 +69,9 @@
 								class='dropdown-item'
 								href='/admin/prodServ/novoProduto'
 							>
-								<i class='nav-icon fas fa-dolly-flatbed'></i>
+								<i
+									class='nav-sub-icon fas fa-dolly-flatbed'
+								></i>
 								Novo produto
 							</a>
 						</li>
@@ -76,7 +80,7 @@
 								class='dropdown-item'
 								href='/admin/prodServ/novoServico'
 							>
-								<i class='nav-icon fas fa-wrench'></i>
+								<i class='nav-sub-icon fas fa-wrench'></i>
 								Novo serviço
 							</a>
 						</li>
@@ -85,7 +89,7 @@
 								class='dropdown-item'
 								href='/admin/prodServ/novaCategoria'
 							>
-								<i class='nav-icon fas fa-tag'></i>
+								<i class='nav-sub-icon fas fa-tag'></i>
 								Nova categoria
 							</a>
 						</li>
@@ -111,14 +115,14 @@
 								class='dropdown-item disabled'
 								href='/admin/prodServ/estoque'
 							>
-								<i class='nav-icon fas fa-user'></i>
+								<i class='nav-sub-iconn fas fa-user'></i>
 								Listar clientes
 							</a>
 						</li>
 
 						<li>
 							<a class='dropdown-item' href='/admin/funcionarios'>
-								<i class='nav-icon fas fa-user-tie'></i>
+								<i class='nav-sub-icon fas fa-user-tie'></i>
 								Listar funcionários
 							</a>
 						</li>
@@ -127,13 +131,13 @@
 
 						<li>
 							<a class='dropdown-item' href='/cadastroGeral/'>
-								<i class='nav-icon fas fa-user-plus'></i>
+								<i class='nav-sub-icon fas fa-user-plus'></i>
 								Novo cliente
 							</a>
 						</li>
 						<li>
 							<a class='dropdown-item' href='/cadastroGeral/'>
-								<i class='nav-icon fas fa-user-plus'></i>
+								<i class='nav-sub-icon fas fa-user-plus'></i>
 								Novo funcionário
 							</a>
 						</li>

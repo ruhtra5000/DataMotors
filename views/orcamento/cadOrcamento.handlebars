@@ -1,12 +1,13 @@
 <div class='container mt-4'>
 
-	<h1>Gerar orçamento</h1>
-	<div class='d-flex justify-content-between flex-wrap'>
+	<h1 class='d-flex justify-content-center'>Gerar orçamento</h1>
+
+	<div class='d-flex justify-content-center flex-wrap'>
 		<form
 			action='/orcamento/novo'
 			autocomplete='off'
 			method='post'
-			class='form-card'
+			class='form-card rounded shadow'
 		>
 
 			<!--Responsável-->
@@ -115,10 +116,10 @@
 
 			<!--Peças-->
 			<header class='d-flex justify-content-between'>
-				<h4>Adicionar peça</h4>
+				<h4><i class='fas fa-dolly-flatbed'></i> Adicionar produto </h4>
 				<button
 					type='button'
-					class='btn btn-primary'
+					class='btn btn-warning'
 					style='width:30%'
 					data-bs-toggle='modal'
 					data-bs-target='#addPeca'
@@ -165,7 +166,7 @@
 			<table id='produtosTabela' class='table'></table>
 
 			<!--Serviços-->
-			<h4>Adicionar serviço</h4>
+			<h4><i class='fas fa-wrench'></i> Adicionar serviço</h4>
 
 			<!--Funcionário-->
 			<div id='funcionarioFoda' class='form-floating'>
@@ -218,25 +219,28 @@
 			<table id='servicosTabela' class='table'></table>
 
 			<!--Finalizar Orçamento-->
-			<div class='d-flex justify-content-around'>
-				<button type='submit' class='btn btn-success'>
-					Finalizar orçamento
-				</button>
-
-				<div class='form-check d-flex align-items-center'>
-					<input
-						class='form-check-input'
-						type='checkbox'
-						name='status'
-						id='status'
-						value='false'
-					/>
-					<label class='form-check-label' for='status'>
-						Fechar orçamento ao finalizar
-					</label>
-				</div>
-
+			<div
+				class='form-check form-switch d-flex align-items-center justify-content-end'
+			>
+				<input
+					class='form-check-input'
+					type='checkbox'
+					name='status'
+					id='status'
+					value='false'
+				/>
+				<label
+					class='form-check-label ms-2 user-select-none'
+					for='status'
+				>
+					Fechar orçamento ao finalizar
+				</label>
 			</div>
+
+			<button type='submit' class='btn btn-primary w-100'>
+				Finalizar orçamento
+			</button>
+
 		</form>
 
 		<div class='modal' id='addPeca' tabindex='-1'>

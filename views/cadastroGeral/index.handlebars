@@ -1,11 +1,14 @@
 <div class='container mt-5'>
 
-	<h1>Página de cadastros</h1>
+	<h1 class='d-flex justify-content-center'>Página de cadastros</h1>
 
-	<main class='d-flex justify-content-between flex-wrap'>
+	<main class='d-flex justify-content-evenly flex-wrap'>
 		<!--Cliente-->
-		<form action='/cadastroGeral/cliente' method='post' class='form-card'>
-
+		<form
+			action='/cadastroGeral/cliente'
+			method='post'
+			class='form-card rounded shadow'
+		>
 			<h3>Cliente</h3>
 
 			<div class='form-floating'>
@@ -100,7 +103,7 @@
 				<label for='telefone'>Telefone (opcional)</label>
 			</div>
 
-			<button class='btn btn-success col-12' type='submit'>
+			<button class='btn btn-primary col-12' type='submit'>
 				Cadastrar
 			</button>
 		</form>
@@ -109,7 +112,7 @@
 		<form
 			action='/cadastroGeral/funcionario'
 			method='post'
-			class='form-card'
+			class='form-card rounded shadow'
 		>
 			<h3 clas='form-title'>
 				Funcionário
@@ -195,7 +198,7 @@
 			</div>
 
 			<button
-				class='btn btn-success col-12'
+				class='btn btn-primary col-12'
 				type='submit '
 			>Cadastrar</button>
 		</form>

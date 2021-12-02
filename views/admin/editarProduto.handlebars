@@ -1,94 +1,84 @@
-<!--mudar aqui (bread crumbs, principalmente)-->
 <div class='container mt-4'>
 
-	<h2>Editar Produto</h2>
+	<h2 class='d-flex justify-content-center'>Editar Produto</h2>
 
-	<form
-		action='/admin/prodServ/estoque/editarProdutoP'
-		method='post'
-		class='form-card Wrem-20'
-	>
+	<main class='d-flex justify-content-center'>
+		<form
+			action='/admin/prodServ/estoque/editarProdutoP'
+			method='post'
+			class='form-card shadow rounded'
+		>
 
-		<!--ID-->
-		<input type='hidden' name='id' value='{{produto._id}}' />
-		<!--Categoria-->
-		<div class='input-group'>
-			<label for='categoria' class='input-group-text'>Categoria</label>
-			<select id='categoria' name='categoria' class='form-select'>
-				{{#each categorias}}
-					<option value='{{_id}}'>{{nome}}</option>
-				{{/each}}
-			</select>
-		</div>
-		<!--Descrição-->
-		<div class='form-floating'>
-			<input
-				type='text'
-				name='descricao'
-				id='descricao'
-				placeholder='Descrição'
-				class='form-control'
-				value='{{produto.descricao}}'
-				required
-			/>
-			<label for='descricao'>Descrição</label>
-		</div>
-		<!--Marca-->
-		<div class='form-floating'>
-			<input
-				type='text'
-				name='marca'
-				id='marca'
-				placeholder='Marca'
-				class='form-control'
-				value='{{produto.marca}}'
-				required
-			/>
-			<label for='marca'>Marca</label>
-		</div>
-		<!--Modelo-->
-		<div class='form-floating'>
-			<input
-				type='text'
-				name='modelo'
-				id='modelo'
-				placeholder='Modelo'
-				class='form-control'
-				value='{{produto.modelo}}'
-				required
-			/>
-			<label for='modelo'>Modelo</label>
-		</div>
-		<!--Quantidade-->
-		<div class='form-floating'>
-			<input
-				type='number'
-				name='quantidade'
-				id='quantidade'
-				placeholder='Quantidade em estoque'
-				class='form-control'
-				min='0'
-				value='{{produto.quantidade}}'
-				required
-			/>
-			<label for='quantidade'>Quantidade</label>
-		</div>
+			<!--ID-->
+			<input type='hidden' name='id' value='{{produto._id}}' />
+			<!--Categoria-->
+			<div class='input-group'>
+				<label
+					for='categoria'
+					class='input-group-text'
+				>Categoria</label>
+				<select id='categoria' name='categoria' class='form-select'>
+					{{#each categorias}}
+						<option value='{{_id}}'>{{nome}}</option>
+					{{/each}}
+				</select>
+			</div>
+			<!--Descrição-->
+			<div class='form-floating'>
+				<input
+					type='text'
+					name='descricao'
+					id='descricao'
+					placeholder='Descrição'
+					class='form-control'
+					value='{{produto.descricao}}'
+					required
+				/>
+				<label for='descricao'>Descrição</label>
+			</div>
+			<!--Marca-->
+			<div class='form-floating'>
+				<input
+					type='text'
+					name='marca'
+					id='marca'
+					placeholder='Marca'
+					class='form-control'
+					value='{{produto.marca}}'
+					required
+				/>
+				<label for='marca'>Marca</label>
+			</div>
+			<!--Modelo-->
+			<div class='form-floating'>
+				<input
+					type='text'
+					name='modelo'
+					id='modelo'
+					placeholder='Modelo'
+					class='form-control'
+					value='{{produto.modelo}}'
+					required
+				/>
+				<label for='modelo'>Modelo</label>
+			</div>
+			<!--Quantidade-->
+			<div class='form-floating'>
+				<input
+					type='number'
+					name='quantidade'
+					id='quantidade'
+					placeholder='Quantidade em estoque'
+					class='form-control'
+					min='0'
+					value='{{produto.quantidade}}'
+					required
+				/>
+				<label for='quantidade'>Quantidade</label>
+			</div>
 
-		<button type='submit' class='btn btn-success'>Confirmar edição</button>
-	</form>
+			<button type='submit' class='btn btn-primary w-100'>Editar</button>
+		</form>
+	</main>
 
-	<!--<script>
-    function tipoCategoria() {
-        var radio1 = document.getElementById('ct1')
-        var radio2 = document.getElementById('ct2')
-        if(radio1.checked == true){
-            document.getElementsByName('categoria').style.display = 'block'
-            document.getElementsByName('novaCategoria').style.display = 'none'
-        } 
-        else if(radio2.checked == true) {
-            document.getElementsByName('categoria').style.display = 'none'
-            document.getElementsByName('novaCategoria').style.display = 'block'
-        }
-    }
-</script>-->
 </div>

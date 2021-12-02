@@ -1,13 +1,13 @@
 <div class='container mt-4'>
 
-	<h1>Editar orçamento</h1>
+	<h1 class='d-flex justify-content-center'>Editar orçamento</h1>
 
-	<div class='d-flex justify-content-between flex-wrap'>
+	<div class='d-flex justify-content-center flex-wrap'>
 		<form
 			action='/orcamento/editarP'
 			autocomplete='off'
 			method='post'
-			class='form-card Wrem-40'
+			class='form-card rounded shadow'
 		>
 			<!--ID-->
 			<input type='hidden' name='id' value='{{orcamento._id}}' />
@@ -122,7 +122,19 @@
 			</div>
 
 			<!--Peças-->
-			<h4>Adicionar peça</h4>
+			<header class='d-flex justify-content-between'>
+				<h4><i class='fas fa-dolly-flatbed'></i> Adicionar peça</h4>
+				<button
+					type='button'
+					class='btn btn-warning'
+					style='width:30%'
+					data-bs-toggle='modal'
+					data-bs-target='#addPeca'
+				>
+					<i class='fas fa-box-open'></i>
+					Estoque
+				</button>
+			</header>
 
 			<div id='pecas' class='input-group'>
 				<label for='produtos' class='input-group-text'>Código</label>
@@ -153,7 +165,9 @@
 					id='addProduto'
 					onclick='adicionarProduto()'
 					class='btn btn-secondary'
-				>Adicionar peça</button>
+				>
+					<i class='fas fa-plus-circle'></i>
+				</button>
 
 			</div>
 			<!--Tabela-->
@@ -174,15 +188,12 @@
 			</table>
 
 			<!--Serviços-->
-			<h4>Adicionar serviço</h4>
+			<h4><i class='fas fa-wrench'></i> Adicionar serviço</h4>
 
 			<div id='servicos' class='input-group'>
 				<!--Funcionário-->
-				<div class='input-group'>
-					<label
-						for='funcionario'
-						class='input-group-text'
-					>Funcionário Responsável</label>
+				<div class='form-floating w-100'>
+
 					<input
 						type='text'
 						name='funcionario'
@@ -190,6 +201,7 @@
 						placeholder='Nome do funcionário'
 						class='form-control'
 					/>
+					<label for='funcionario'>Funcionário Responsável</label>
 				</div>
 
 				<!--Serviço realizado-->
@@ -230,7 +242,9 @@
 						id='addServico'
 						onclick='adicionarServico()'
 						class='btn btn-secondary mt-2'
-					>Adicionar serviço</button>
+					>
+						<i class='fas fa-plus-circle'></i>
+					</button>
 				</div>
 
 			</div>
@@ -247,47 +261,85 @@
 				</tbody>
 			</table>
 
-			<div class='d-flex justify-content-around'>
-				<button type='submit' class='btn btn-success'>Finalizar
-					orçamento</button>
-
-				<div class='form-check d-flex align-items-center'>
-					<input
-						class='form-check-input'
-						type='checkbox'
-						name='status'
-						id='status'
-						value='false'
-					/>
-					<label class='form-check-label' for='status'>
-						Fechar orçamento ao finalizar
-					</label>
-				</div>
+			<div
+				class='form-check form-switch d-flex align-items-center justify-content-end'
+			>
+				<input
+					class='form-check-input'
+					type='checkbox'
+					name='status'
+					id='status'
+					value='false'
+				/>
+				<label
+					class='form-check-label ms-2 user-select-none'
+					for='status'
+				>
+					Fechar orçamento ao finalizar
+				</label>
 			</div>
+
+			<button type='submit' class='btn btn-primary w-100'>
+				Finalizar
+			</button>
+
 		</form>
 
-		<div id='estoque' class='form-card'>
-			<h3>Tabela de produtos</h3>
-			<table class='table' id='tableStorage'>
-				<thead>
-					<th class='text-end'>Código</th>
-					<th>Descrição</th>
-					<th class='text-end'>Quantidade</th>
-					<th class='text-end'>Valor Unit.</th>
-				</thead>
+		<div class='modal' id='addPeca' tabindex='-1'>
+			<div class='modal-dialog modal-dialog-centered'>
+				<div class='modal-content'>
+					<div class='modal-header'>
+						<h2 class='modal-title'>Tabela de peças</h2>
+						<button
+							type='button'
+							class='btn-close'
+							data-bs-dismiss='modal'
+							aria-label='Close'
+						></button>
+						<br />
 
-				<tbody>
-					{{#each produtos}}
-						<tr>
-							<td class='text-end'>{{codigo}}</td>
-							<td>{{descricao}}</td>
-							<td class='text-end'>{{quantidade}}</td>
-							<td class='text-end'>R$ {{valorUnit}}</td>
-							<td><input type='radio' name='a' /></td>
-						</tr>
-					{{/each}}
-				</tbody>
-			</table>
+					</div>
+					<div class='modal-body'>
+						<div class='input-group mb-3'>
+							<span class='input-group-text' id='basic-addon1'>
+								<i class='fas fa-search'></i>
+							</span>
+							<input
+								id='tableSearchInput'
+								type='text'
+								class='form-control'
+								placeholder='Descrição da peça (em manutenção)'
+								disabled
+							/>
+						</div>
+
+						<div id='estoque'>
+							<table class='table' id='tableStorage'>
+								<thead>
+									<th class='text-end'>Código</th>
+									<th>Descrição</th>
+									<th class='text-end'>Quantidade</th>
+									<th class='text-end'>Valor Unit.</th>
+								</thead>
+
+								<tbody>
+									{{#each produtos}}
+										<tr>
+											<td class='text-end'>{{codigo}}</td>
+											<td>{{descricao}}</td>
+											<td
+												class='text-end'
+											>{{quantidade}}</td>
+											<td class='text-end'>R$
+												{{valorUnit}}</td>
+										</tr>
+									{{/each}}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 

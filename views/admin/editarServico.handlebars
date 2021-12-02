@@ -1,51 +1,54 @@
 <!--mudar aqui (bread crumbs, principalmente)-->
 <div class='container mt-4'>
 
-	<h2>Editar Serviço</h2>
+	<h2 class='d-flex justify-content-center'>Editar Serviço</h2>
 
-	<form
-		action='/admin/prodServ/estoque/editarServicoP'
-		method='post'
-		class='form-card Wrem-30'
-	>
-		<div class='input-group'>
-			<label for='categoria' class='input-group-text'>Categoria: </label>
-			<select name='categoria' class='form-select' required>
-				{{#each categorias}}
-					<option value='{{_id}}'>{{nome}}</option>
-				{{/each}}
-			</select>
-		</div>
-		<!--ID-->
-		<input type='hidden' name='id' value='{{servico._id}}' />
-		<!--Descrição-->
-		<div class='form-floating'>
-			<input
-				type='text'
-				name='descricao'
-				id='descricao'
-				class='form-control'
-				placeholder='Descrição'
-				value='{{servico.descricao}}'
-				required
-			/>
-			<label for='descricao'>Descrição</label>
-		</div>
-		<!--Valor-->
-		<div class='form-floating'>
-			<input
-				type='number'
-				name='valor'
-				id='valor'
-				class='form-control'
-				placeholder='Valor do serviço'
-				min='0'
-				value='{{servico.valor}}'
-				required
-			/>
-			<label for='valor'>Valor</label>
-		</div>
+	<div class='d-flex justify-content-center'>
 
-		<button type='submit' class='btn btn-success'>Confirmar edição</button>
-	</form>
+		<form
+			action='/admin/prodServ/estoque/editarServicoP'
+			method='post'
+			class='form-card rounded shadow'
+		>
+			<div class='input-group'>
+				<label for='categoria' class='input-group-text'>Categoria:
+				</label>
+				<select name='categoria' class='form-select' required>
+					{{#each categorias}}
+						<option value='{{_id}}'>{{nome}}</option>
+					{{/each}}
+				</select>
+			</div>
+			<!--ID-->
+			<input type='hidden' name='id' value='{{servico._id}}' />
+			<!--Descrição-->
+			<div class='form-floating'>
+				<input
+					type='text'
+					name='descricao'
+					id='descricao'
+					class='form-control'
+					placeholder='Descrição'
+					value='{{servico.descricao}}'
+					required
+				/>
+				<label for='descricao'>Descrição</label>
+			</div>
+			<!--Valor-->
+			<div class='form-floating'>
+				<input
+					name='valor'
+					id='valor'
+					class='form-control'
+					placeholder='Valor do serviço'
+					min='0'
+					value='{{servico.valor}}'
+					required
+				/>
+				<label for='valor'>Valor</label>
+			</div>
+
+			<button type='submit' class='btn btn-primary w-100'>Editar</button>
+		</form>
+	</div>
 </div>

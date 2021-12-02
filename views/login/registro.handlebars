@@ -1,72 +1,84 @@
 <div class='login-register-form'>
 
-	<a
-		class='fas fa-long-arrow-alt-left d-flex justify-content-start'
-		style='color: black;'
-		href='/usuario/login'
-	>
-		Voltar
-	</a>
+	<header class='d-flex align-items-center'>
+		<a
+			class='d-flex justify-content-start me-2'
+			style='color: black;'
+			href='/usuario/login'
+			id='back'
+		>
+			<button class='btn btn-secondary'>
+				<i class='fas fa-long-arrow-alt-left'></i>
+				Voltar
+			</button>
+		</a>
 
-	<img
-		src='/img/datamotors-logo-red-dark.svg'
-		alt='logo'
-		width='100%'
-		class='my-2'
-	/>
+	</header>
 
-	<form action='/usuario/registro' method='post'>
-
-		<div class='form-floating'>
-			<input
-				id='name'
-				class='form-control mt-2'
-				type='text'
-				name='nome'
-				placeholder='Nome Completo'
-				autocomplete='off'
-				required
+	<div class='card mt-2 bg-body rounded shadow'>
+		<div class='card-body'>
+			<img
+				src='/img/datamotors-icon-red.svg'
+				alt='logo'
+				class='login-brand'
 			/>
-			<label for='name'>Nome completo</label>
-		</div>
 
-		<div class='form-floating'>
-			<input
-				id='email'
-				class='form-control mt-2'
-				type='email'
-				name='email'
-				placeholder='E-mail'
-				autocomplete='off'
-				required
-			/>
-			<label for='email'>E-mail</label>
-		</div>
+			<form action='/usuario/registro' method='post'>
 
-		<div class='form-floating'>
-			<input
-				id='pwd1'
-				class='form-control mt-2'
-				type='password'
-				name='senha'
-				placeholder='Senha (minímo de 4 caracteres)'
-				required
-			/>
-			<label for='pwd1'>Senha</label>
-		</div>
+				<div class='form-floating'>
+					<input
+						id='name'
+						class='form-control mt-2'
+						type='text'
+						name='nome'
+						placeholder='Nome Completo'
+						autocomplete='off'
+						required
+					/>
+					<label for='name'>Nome completo</label>
+				</div>
 
-		<div class='form-floating'>
-			<input
-				id='pwd2'
-				class='form-control mt-2'
-				type='password'
-				name='senha2'
-				placeholder='Confirmar senha'
-				required
-			/>
-			<label for='pwd2'>Confirmar senha</label>
-		</div>
+				<div class='form-floating'>
+					<input
+						id='email'
+						class='form-control mt-2'
+						type='email'
+						name='email'
+						placeholder='E-mail'
+						autocomplete='off'
+						required
+					/>
+					<label for='email'>E-mail</label>
+				</div>
 
-		<button class='btn btn-primary mt-4 w-100' type='submit'>Criar conta</button>
-	</form>
+				<div class='form-floating'>
+					<input
+						id='pwd1'
+						class='form-control mt-2'
+						type='password'
+						name='senha'
+						placeholder='Senha (minímo de 4 caracteres)'
+						required
+					/>
+					<label for='pwd1'>Senha</label>
+				</div>
+
+				<div class='form-floating'>
+					<input
+						id='pwd2'
+						class='form-control mt-2'
+						type='password'
+						name='senha2'
+						placeholder='Confirmar senha'
+						required
+					/>
+					<label for='pwd2'>Confirmar senha</label>
+				</div>
+
+				<button class='btn btn-primary mt-2 w-100' type='submit'>
+					Cadastrar
+				</button>
+			</form>
+		</div>
+	</div>
 </div>

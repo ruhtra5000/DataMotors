@@ -1,86 +1,92 @@
 <div class='container mt-4'>
 
-	<h2>Registrar aquisição</h2>
+	<h2 class='d-flex justify-content-center'>Registrar aquisição</h2>
 
-	<form
-		action='/admin/prodServ/aquisicaoP'
-		method='post'
-		class='form-card Wrem-30'
-	>
-		<input type='hidden' name='id' id='id' value='{{id}}' />
+	<main class='d-flex justify-content-center'>
+		<form
+			action='/admin/prodServ/aquisicaoP'
+			method='post'
+			class='form-card rounded shadow'
+		>
+			<input type='hidden' name='id' id='id' value='{{id}}' />
 
-		<div class='form-floating'>
-			<input
-				type='number'
-				name='quantidade'
-				placeholder='Quantidade comprada'
-				min='1'
-				id='quantidade'
-				class='form-control'
-				required
-			/>
-			<label for='quantidade' class='floatingInput'>Quantidade comprada</label>
-		</div>
+			<div class='form-floating'>
+				<input
+					type='number'
+					name='quantidade'
+					placeholder='Quantidade comprada'
+					min='1'
+					id='quantidade'
+					class='form-control'
+					required
+				/>
+				<label for='quantidade' class='floatingInput'>Quantidade
+					comprada</label>
+			</div>
 
-		<div class='form-floating'>
-			<input
-				type='number'
-				name='valor'
-				placeholder='Valor total'
-				min='1'
-				id='valor'
-				class='form-control'
-				required
-			/>
-			<label for='valor' class='floatingInput'>Valor total</label>
-		</div>
+			<div class='form-floating'>
+				<input
+					type='number'
+					name='valor'
+					placeholder='Valor total'
+					min='1'
+					id='valor'
+					class='form-control'
+					required
+				/>
+				<label for='valor' class='floatingInput'>Valor total</label>
+			</div>
 
-		<div class='form-floating'>
-			<input
-				type='number'
-				name='margemLucro'
-				placeholder='Margem de lucro (Porcentagem)'
-				min='1'
-				id='margemLucro'
-				class='form-control'
-				required
-			/>
-			<label for='margemLucro' class='floatingInput'>Margem de lucro
-				(Porcentagem)</label>
-		</div>
+			<div class='form-floating'>
+				<input
+					type='number'
+					name='margemLucro'
+					placeholder='Margem de lucro (Porcentagem)'
+					min='1'
+					id='margemLucro'
+					class='form-control'
+					required
+				/>
+				<label for='margemLucro' class='floatingInput'>Margem de lucro
+					(Porcentagem)</label>
+			</div>
 
-		<div class='input-group'>
-			<span class='input-group-text'>
-				Data de aquisição
-			</span>
-			<input
-				type='number'
-				name='dia'
-				placeholder='dd'
-				min='1'
-				max='31'
-				class='form-control'
-				required
-			/>
-			<input
-				type='number'
-				name='mes'
-				placeholder='mm'
-				min='1'
-				max='12'
-				class='form-control'
-				required
-			/>
-			<input
-				type='number'
-				name='ano'
-				placeholder='yyyy'
-				min='2010'
-				max='2021'
-				class='form-control'
-				required
-			/>
-		</div>
-		<button type='submit' class='btn btn-success'>Registrar</button>
-	</form>
+			<div class='input-group'>
+				<span class='input-group-text'>
+					Data de aquisição
+				</span>
+				<input
+					type='number'
+					name='dia'
+					placeholder='dd'
+					min='1'
+					max='31'
+					class='form-control'
+					required
+				/>
+				<input
+					type='number'
+					name='mes'
+					placeholder='mm'
+					min='1'
+					max='12'
+					class='form-control'
+					required
+				/>
+				<input
+					type='number'
+					name='ano'
+					placeholder='yyyy'
+					min='2010'
+					max='2021'
+					class='form-control'
+					required
+				/>
+			</div>
+			<button
+				type='submit'
+				class='btn btn-primary w-100'
+			>Registrar</button>
+		</form>
+	</main>
 </div>
