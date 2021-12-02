@@ -17,10 +17,6 @@ const { converterData } = require('../helpers/converterData');
 const { adminCheck } = require('../helpers/adminCheck');
 const { calculoValorUnitario } = require('../helpers/calculoValorUnitario');
 
-router.get('/', adminCheck, (req, res) => {
-	res.render('admin/index');
-});
-
 //ROTAS RELACIONADAS AOS FUNCIONARIOS
 
 router.get('/funcionarios', adminCheck, (req, res) => {
@@ -79,10 +75,6 @@ router.post('/funcionarios/deletar', adminCheck, (req, res) => {
 });
 
 //PRODUTOS E SERVIÇOS
-
-router.get('/prodServ', adminCheck, (req, res) => {
-	res.render('admin/prodServ');
-});
 
 //Nova Categoria
 router.get('/prodServ/novaCategoria', adminCheck, (req, res) => {

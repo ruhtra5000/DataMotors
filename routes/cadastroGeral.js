@@ -10,8 +10,12 @@ const Funcionario = mongoose.model('funcionarios');
 const { converterData } = require('../helpers/converterData');
 const { TestaCPF } = require('../helpers/testarCPF');
 
-router.get('/', (req, res) => {
-	res.render('cadastroGeral/index');
+router.get('/cliente', (req, res) => {
+	res.render('cadastroGeral/clienteCad');
+});
+
+router.get('/func', (req, res) => {
+	res.render('cadastroGeral/funcCad');
 });
 
 router.post('/cliente', (req, res) => {
