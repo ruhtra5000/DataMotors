@@ -1,33 +1,42 @@
 <div class='container mt-4'>
 
-	<header>
-		<h2 style='display: inline;'>Estoque</h2>
+	<header class='row row-cols-1'>
+		<h2 class='d-flex justify-content-center'>Estoque</h2>
 
-		<a href='/admin/prodServ/estoque/produtos'>
-			<button class='btn btn-primary mb-3 ms-1 me-2'><img
-					src='/img/handyman_white.svg'
-					alt='Ícone de produtos'
-				/>
-				Produtos
-			</button>
-		</a>
-		<a href='/admin/prodServ/estoque/servicos'>
-			<button class='btn btn-primary mb-3'>
-				<img
-					src='/img/car_white.png'
-					alt='Ícone de serviço'
-					height='24px'
-					width='24px'
-				/>
-				Serviços
-			</button>
-		</a>
+		<footer class='d-flex justify-content-center'>
+			<div class='btn-group mb-3 ms-3'>
+				<a href='/admin/prodServ/estoque/produtos' class='btn-group'>
+					<button class='btn btn-primary'>
+						<i class='fas fa-dolly-flatbed'></i>
+						Produtos
+					</button>
+				</a>
+				<a href='/admin/prodServ/novoProduto' class='btn-group'>
+					<button class='btn btn-dark'>
+						<i class='fas fa-plus-circle'></i>
+					</button>
+				</a>
+			</div>
 
+			<div class='btn-group mb-3 ms-3'>
+				<a href='/admin/prodServ/estoque/servicos' class='btn-group'>
+					<button class='btn btn-primary'>
+						<i class='fas fa-wrench'></i>
+						Serviços
+					</button>
+				</a>
+				<a href='/admin/prodServ/novoServico' class='btn-group'>
+					<button class='btn btn-dark'>
+						<i class='fas fa-plus-circle'></i>
+					</button>
+				</a>
+			</div>
+		</footer>
 	</header>
 
 	<main class='card'>
 
-		<div class='card-body'>
+		<div class='card-body table-responsive rounded shadow'>
 			<table class='table table-striped table-hover'>
 
 				<!--Produtos-->
@@ -198,6 +207,7 @@
 							</tr>
 
 						{{/each}}
+
 					{{/if}}
 				</div>
 

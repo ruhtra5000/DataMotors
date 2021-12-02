@@ -1,13 +1,14 @@
 <div class='container mt-5'>
-    
-    <h1 class="d-flex justify-content-center">Cadastro de Cliente</h1>
-    
-    <main class='d-flex justify-content-center flex-wrap'>
-        <form 
-            action='/cadastroGeral/cliente' 
-            method='post' 
-            class='form-card'
-        >
+
+	<h1 class='d-flex justify-content-center'>Cadastro de Cliente</h1>
+
+	<main class='d-flex justify-content-center flex-wrap'>
+		<form
+			action='/cadastroGeral/cliente'
+			method='post'
+			class='form-card rounded shadow'
+		>
+
 			<div class='form-floating'>
 				<input
 					class='form-control'
@@ -100,14 +101,15 @@
 				<label for='telefone'>Telefone (opcional)</label>
 			</div>
 
-			<button class='btn btn-success col-12' type='submit'>
+			<button class='btn btn-primary w-100' type='submit'>
+
 				Cadastrar
 			</button>
 		</form>
+	</main>
 
-    </main>
+</div>
 
-</div>   
 
 {{!-- prettier-ignore --}}
 <script>

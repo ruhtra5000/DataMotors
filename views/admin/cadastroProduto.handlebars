@@ -1,136 +1,150 @@
 <div class='container mt-4'>
 
-	<h2>Cadastrar Produto</h2>
+	<h2 class='d-flex justify-content-center'>Cadastrar Produto</h2>
 
-	<form
-		action='/admin/prodServ/novoProduto'
-		method='post'
-		class='form-card Wrem-20'
-	>
+	<main class='d-flex justify-content-center'>
 
-		<div class='form-check'>
-			<input
-				class='form-check-input'
-				type='radio'
-				name='tipo'
-				id='ct1'
-				value='categNormal'
-				checked
-			/>
-			<label for='ct1'>
-				Utilizar categoria existente
-			</label>
-		</div>
+		<form
+			action='/admin/prodServ/novoProduto'
+			method='post'
+			class='form-card rounded shadow'
+		>
 
-		<div class='form-check'>
-			<input
-				class='form-check-input'
-				type='radio'
-				name='tipo'
-				id='ct2'
-				value='categNova'
-			/>
-			<label for='ct2'>
-				Criar nova categoria
-			</label>
-		</div>
+			<div class='d-flex justify-content-around'>
+				<div class='form-check'>
+					<input
+						class='form-check-input'
+						type='radio'
+						name='tipo'
+						id='ct1'
+						value='categNormal'
+						checked
+					/>
+					<label for='ct1'>
+						Utilizar categoria existente
+					</label>
+				</div>
 
-		<div class='form-floating' style='display: none;' id='divNcat'>
-			<input
-				class='form-control'
-				type='text'
-				name='novaCategoria'
-				id='novaCategoria'
-				placeholder='Nova Categoria'
-				oninput='this.value = this.value.toUpperCase()'
-				style='display: none;'
-			/>
-			<label for='novaCategoria' id='labelNcat' style='display: none;'>
-				Nova categoria
-			</label>
-		</div>
+				<div class='form-check'>
+					<input
+						class='form-check-input'
+						type='radio'
+						name='tipo'
+						id='ct2'
+						value='categNova'
+					/>
+					<label for='ct2'>
+						Criar nova categoria
+					</label>
+				</div>
+			</div>
 
-		<!--Categoria-->
-		<div class='input-group' id='selectCategoria'>
-			<label for='categoria' class='input-group-text'>Categoria</label>
-			<select
-				id='categoria'
-				name='categoria'
-				class='form-select'
-				aria-readonly='true'
-			>
-				{{#each categorias}}
-					<option value='{{_id}}'>{{nome}}</option>
-				{{/each}}
-			</select>
-		</div>
+			<div class='form-floating' style='display: none;' id='divNcat'>
+				<input
+					class='form-control'
+					type='text'
+					name='novaCategoria'
+					id='novaCategoria'
+					placeholder='Nova Categoria'
+					oninput='this.value = this.value.toUpperCase()'
+					style='display: none;'
+				/>
+				<label
+					for='novaCategoria'
+					id='labelNcat'
+					style='display: none;'
+				>
+					Nova categoria
+				</label>
+			</div>
 
-		<!--Descrição-->
-		<div class='form-floating'>
-			<input
-				type='text'
-				name='descricao'
-				id='descricao'
-				placeholder='Descrição'
-				class='form-control'
-				required
-			/>
-			<label for='descricao'>Descrição</label>
-		</div>
-		<!--Marca-->
-		<div class='form-floating'>
-			<input
-				type='text'
-				name='marca'
-				id='marca'
-				placeholder='Marca'
-				class='form-control'
-				required
-			/>
-			<label for='marca'>Marca</label>
-		</div>
-		<!--Modelo-->
-		<div class='form-floating'>
-			<input
-				type='text'
-				name='modelo'
-				id='modelo'
-				placeholder='Modelo'
-				class='form-control'
-				required
-			/>
-			<label for='modelo'>Modelo</label>
-		</div>
-		<!--Quantidade-->
-		<div class='form-floating'>
-			<input
-				type='number'
-				name='quantidade'
-				id='quantidade'
-				placeholder='Quantidade em estoque'
-				class='form-control'
-				min='0'
-				required
-			/>
-			<label for='quantidade'>Quantidade</label>
-		</div>
-		<!--Valor Unitário-->
-		<div class='form-floating'>
-			<input
-				type='number'
-				name='valor'
-				id='valor'
-				placeholder='Preço Unitário'
-				class='form-control'
-				min='1'
-				required
-			/>
-			<label for='valor'>Preço Unitário</label>
-		</div>
+			<!--Categoria-->
+			<div class='input-group' id='selectCategoria'>
+				<label
+					for='categoria'
+					class='input-group-text'
+				>Categoria</label>
+				<select
+					id='categoria'
+					name='categoria'
+					class='form-select'
+					aria-readonly='true'
+				>
+					{{#each categorias}}
+						<option value='{{_id}}'>{{nome}}</option>
+					{{/each}}
+				</select>
+			</div>
 
-		<button type='submit' class='btn btn-success'>Cadastrar</button>
-	</form>
+			<!--Descrição-->
+			<div class='form-floating'>
+				<input
+					type='text'
+					name='descricao'
+					id='descricao'
+					placeholder='Descrição'
+					class='form-control'
+					required
+				/>
+				<label for='descricao'>Descrição</label>
+			</div>
+			<!--Marca-->
+			<div class='form-floating'>
+				<input
+					type='text'
+					name='marca'
+					id='marca'
+					placeholder='Marca'
+					class='form-control'
+					required
+				/>
+				<label for='marca'>Marca</label>
+			</div>
+			<!--Modelo-->
+			<div class='form-floating'>
+				<input
+					type='text'
+					name='modelo'
+					id='modelo'
+					placeholder='Modelo'
+					class='form-control'
+					required
+				/>
+				<label for='modelo'>Modelo</label>
+			</div>
+			<!--Quantidade-->
+			<div class='form-floating'>
+				<input
+					type='number'
+					name='quantidade'
+					id='quantidade'
+					placeholder='Quantidade em estoque'
+					class='form-control'
+					min='0'
+					required
+				/>
+				<label for='quantidade'>Quantidade</label>
+			</div>
+			<!--Valor Unitário-->
+			<div class='form-floating'>
+				<input
+					type='number'
+					name='valor'
+					id='valor'
+					placeholder='Preço Unitário'
+					class='form-control'
+					min='1'
+					required
+				/>
+				<label for='valor'>Preço Unitário</label>
+			</div>
 
+			<button
+				type='submit'
+				class='btn btn-primary w-100'
+			>Cadastrar</button>
+		</form>
+	</main>
 	{{! prettier-ignore }}
 	<script>
 		var catb = document.querySelector('input#ct1');

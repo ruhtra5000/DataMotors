@@ -47,7 +47,10 @@ router.post('/registro', (req, res) => {
 			}
 		})
 		.catch((err) => {
-			req.flash('err', 'Ocorreu um erro interno. Tente novamente.');
+			req.flash(
+				'err',
+				'Ocorreu um erro interno. Tente novamente. ' + err
+			);
 			res.redirect('/usuario/registro');
 		});
 	if (

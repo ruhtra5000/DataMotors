@@ -1,43 +1,51 @@
 <div class='login-register-form'>
-	<img
-		src='/img/Datamotors-logo-red-dark.svg'
-		alt='logo'
-		width='300px'
-		class='my-2 login-brand'
-	/>
 
-	<form action='/usuario/login' method='post'>
-
-		{{! Usuário }}
-		<div class='form-floating mb-3'>
-			<input
-				class='form-control mt-2'
-				type='text'
-				id='username'
-				name='username'
-				placeholder='email'
+	<div class='card bg-body rounded shadow'>
+		<div class='card-body'>
+			<img
+				src='/img/Datamotors-icon-red.svg'
+				alt='logo'
+				class='login-brand'
 			/>
-			<label for='username'>E-mail</label>
+			{{! <h2>Entrar</h2> }}
+			<form action='/usuario/login' method='post'>
+
+				{{! Usuário }}
+				<div class='form-floating mb-3'>
+					<input
+						class='form-control mt-2'
+						type='text'
+						id='username'
+						name='username'
+						placeholder='email'
+					/>
+					<label for='username'>E-mail</label>
+				</div>
+
+				{{! Senha }}
+				<div class='form-floating mb-3'>
+					<input
+						class='form-control mt-2'
+						type='password'
+						id='password'
+						name='password'
+						placeholder='password'
+					/>
+					<label for='username'>Senha</label>
+				</div>
+
+				<button
+					class='btn btn-primary'
+					type='submit'
+					style='width: 100%;'
+				>
+					Entrar
+				</button>
+			</form>
+			<span class='form-text'>Ainda não é cadastrado? Cadastre-se
+				<a href='/usuario/registro'>aqui</a>.
+			</span>
 		</div>
+	</div>
 
-		{{! Senha }}
-		<div class='form-floating mb-3'>
-			<input
-				class='form-control mt-2'
-				type='password'
-				id='password'
-				name='password'
-				placeholder='password'
-			/>
-			<label for='username'>Senha</label>
-		</div>
-
-		<button class='btn btn-primary' type='submit' style='width: 100%;'>
-			Entrar
-		</button>
-	</form>
-
-	<span class='form-text'>Ainda não é cadastrado? Cadastre-se
-		<a href='/usuario/registro'>aqui</a>.
-	</span>
 </div>

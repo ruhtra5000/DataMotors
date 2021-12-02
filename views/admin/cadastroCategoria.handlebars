@@ -1,26 +1,32 @@
 <div class='container mt-4'>
 
-	<h2>Cadastrar nova categoria</h2>
+	<h2 class='d-flex justify-content-center'>Cadastrar categoria</h2>
 
-	<form
-		action='/admin/prodServ/novaCategoria'
-		method='post'
-		class='form-card Wrem-30'
-	>
-		<div class='form-floating inline'>
-			<input
-				type='text'
-				name='nome'
-				placeholder='Nome da categoria'
-				id='categoria'
-				class='form-control'
-				oninput='this.value = this.value.toUpperCase()'
-				autocomplete='off'
-				required
-			/>
-			<label for='categoria' class='floatingInput'>Nome da categoria</label>
-		</div>
+	<div class='d-flex justify-content-center'>
 
-		<button type='submit' class='btn btn-success'>Criar</button>
-	</form>
+		<form
+			action='/admin/prodServ/novaCategoria'
+			method='post'
+			class='form-card rounded shadow'
+		>
+			<div class='form-floating inline'>
+				<input
+					type='text'
+					name='nome'
+					placeholder='Nome da categoria'
+					id='categoria'
+					class='form-control'
+					oninput='this.value = this.value.toUpperCase()'
+					autocomplete='off'
+					required
+				/>
+				<label for='categoria' class='floatingInput'>Nome da categoria</label>
+			</div>
+
+			<button
+				type='submit'
+				class='btn btn-primary w-100'
+			>Cadastrar</button>
+		</form>
+	</div>
 </div>
