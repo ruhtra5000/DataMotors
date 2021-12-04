@@ -9,24 +9,29 @@ const Funcionario = mongoose.model('funcionarios');
 
 const { converterData } = require('../helpers/converterData');
 const { TestaCPF } = require('../helpers/testarCPF');
+const { TestaCNPJ } = require('../helpers/testarCPNJ');
+const testarCPNJ = require('../helpers/testarCPNJ');
 
 router.get('/cliente', (req, res) => {
 	res.render('cadastroGeral/clienteCad');
 });
 
 router.get('/func', (req, res) => {
-	res.render('cadastroGeral/funcCad')
-})
+	res.render('cadastroGeral/funcCad');
+});
 
 router.post('/cliente', (req, res) => {
 	Cliente.findOne({ cpf: req.body.cpf })
 		.then((cliente) => {
 			if (cliente) {
 				req.flash('err', 'Este cliente já foi cadastrado.');
-				res.redirect('/cadastroGeral');
-			} else if (TestaCPF(req.body.cpf) == false) {
-				req.flash('err', 'CPF inválido.');
-				res.redirect('/cadastroGeral');
+				res.redirect('/cadastroGeral/cliente');
+			} else if (
+				TestaCPF(req.body.cpf) == false &&
+				TestaCNPJ(req.body.cpf) == false
+			) {
+				req.flash('err', 'CPF/CNPF inválido.');
+				res.redirect('/cadastroGeral/cliente');
 			} else {
 				const newCliente = {
 					nome: req.body.nome,
@@ -47,7 +52,7 @@ router.post('/cliente', (req, res) => {
 					.save()
 					.then(() => {
 						req.flash('suc', 'Cliente cadastrado!');
-						res.redirect('/cadastroGeral');
+						res.redirect('/cadastroGeral/cliente');
 					})
 					.catch((err) => {
 						req.flash(
@@ -55,13 +60,13 @@ router.post('/cliente', (req, res) => {
 							'Houve um erro ao finalizar o cadastro. Tente novamente.'
 						);
 						console.log(err);
-						res.redirect('/cadastroGeral');
+						res.redirect('/cadastroGeral/cliente');
 					});
 			}
 		})
 		.catch((err) => {
 			req.flash('err', 'Houve um erro interno. Tente novamente.');
-			res.redirect('/cadastroGeral');
+			res.redirect('/cadastroGeral/cliente');
 		});
 });
 
@@ -69,13 +74,13 @@ router.post('/funcionario', (req, res) => {
 	Funcionario.findOne({ cpf: req.body.cpf }).then((funcionario) => {
 		if (funcionario) {
 			req.flash('err', 'Este funcionário já está cadastrado.');
-			res.redirect('/cadastroGeral');
+			res.redirect('/cadastroGeral/func');
 		}
 
 		//Verifica CPF
 		if (TestaCPF(req.body.cpf) == false) {
 			req.flash('err', 'CPF inválido.');
-			res.redirect('/cadastroGeral');
+			res.redirect('/cadastroGeral/func');
 		} else {
 			const newFunc = {
 				nome: req.body.nome,
@@ -95,7 +100,7 @@ router.post('/funcionario', (req, res) => {
 				.save()
 				.then(() => {
 					req.flash('suc', 'Funcionário cadastrado!');
-					res.redirect('/cadastroGeral');
+					res.redirect('/cadastroGeral/func');
 				})
 				.catch((err) => {
 					console.log(err);
@@ -103,7 +108,7 @@ router.post('/funcionario', (req, res) => {
 						'err',
 						'Houve um erro ao finalizar o cadastro. Tente novamente.'
 					);
-					res.redirect('/cadastroGeral');
+					res.redirect('/cadastroGeral/func');
 				});
 		}
 	});

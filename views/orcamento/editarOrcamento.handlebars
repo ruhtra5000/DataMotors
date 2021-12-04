@@ -1,6 +1,12 @@
-<div class='container mt-4'>
+<div class='container mt-2'>
 
 	<h1 class='d-flex justify-content-center'>Editar orçamento</h1>
+	<a href='/orcamento'>
+		<span class='d-flex justify-content-center align-items-center'>
+			<i class='fas fa-long-arrow-alt-left me-1' aria-hidden='true'></i>
+			Voltar
+		</span>
+	</a>
 
 	<div class='d-flex justify-content-center flex-wrap'>
 		<form
@@ -300,20 +306,7 @@
 
 					</div>
 					<div class='modal-body'>
-						<div class='input-group mb-3'>
-							<span class='input-group-text' id='basic-addon1'>
-								<i class='fas fa-search'></i>
-							</span>
-							<input
-								id='tableSearchInput'
-								type='text'
-								class='form-control'
-								placeholder='Descrição da peça (em manutenção)'
-								disabled
-							/>
-						</div>
-
-						<div id='estoque'>
+						<div id='estoque' class='scrollable'>
 							<table class='table' id='tableStorage'>
 								<thead>
 									<th class='text-end'>Código</th>

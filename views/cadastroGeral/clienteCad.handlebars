@@ -1,6 +1,37 @@
-<div class='container mt-5'>
+<div class='container mt-2'>
 
-	<h1 class='d-flex justify-content-center'>Cadastro de Cliente</h1>
+	<header>
+		<h1 class='d-flex justify-content-center'>Cadastrar Cliente</h1>
+
+		<div class='d-flex justify-content-center align-items-center'>
+			<input
+				type='radio'
+				class='btn-check'
+				name='options-outlined'
+				id='cpfCheck'
+				autocomplete='off'
+				onclick='toCPF()'
+				checked
+			/>
+			<label class='btn btn-outline-primary me-5' for='cpfCheck'>
+				<i class='fas fa-user'></i>
+				CPF
+			</label>
+
+			<input
+				type='radio'
+				class='btn-check'
+				name='options-outlined'
+				id='cnpjCheck'
+				autocomplete='off'
+				onclick='toCNPJ()'
+			/>
+			<label class='btn btn-outline-primary' for='cnpjCheck'>
+				<i class='fas fa-building'></i>
+				CNPJ
+			</label>
+		</div>
+	</header>
 
 	<main class='d-flex justify-content-center flex-wrap'>
 		<form
@@ -21,13 +52,13 @@
 				<label for='nome'>Nome</label>
 			</div>
 
-			<div class='form-floating'>
+			<div class='form-floating' id='cpfDiv'>
 				<input
 					class='form-control'
 					type='text'
 					name='cpf'
 					minlength='11'
-					maxlength='14'
+					maxlength='11'
 					id='cpfCliente'
 					placeholder='CPF'
 					required
@@ -35,7 +66,19 @@
 				<label for='cpfCliente'>CPF</label>
 			</div>
 
-			<div class='input-group'>
+			<div class='form-floating' hidden id='cnpjDiv'>
+				<input
+					class='form-control'
+					type='text'
+					minlength='14'
+					maxlength='14'
+					id='cnpjCliente'
+					placeholder='CNPJ'
+				/>
+				<label for='cnpjCliente'>CNPJ</label>
+			</div>
+
+			<div class='input-group' id='datas'>
 				<span class='input-group-text'>
 					Data de nascimento
 				</span>
@@ -46,6 +89,7 @@
 					placeholder='dd'
 					min='1'
 					max='31'
+					id='inputDD'
 					required
 				/>
 				<input
@@ -55,6 +99,7 @@
 					placeholder='mm'
 					min='1'
 					max='12'
+					id='inputMM'
 					required
 				/>
 				<input
@@ -64,6 +109,7 @@
 					placeholder='yyyy'
 					min='1930'
 					max='2021'
+					id='inputYYYY'
 					required
 				/></div>
 
@@ -102,7 +148,6 @@
 			</div>
 
 			<button class='btn btn-primary w-100' type='submit'>
-
 				Cadastrar
 			</button>
 		</form>
@@ -110,9 +155,60 @@
 
 </div>
 
-
 {{!-- prettier-ignore --}}
 <script>
 	$(document).ready(() => {$('#cpfCliente').mask('000.000.000-00')})
+	$(document).ready(() => {$('#cnpjCliente').mask('00.000.000/0000-00')})
 	$(document).ready(() => {$('#telefone').mask('(00) 0000-0000')})
+
+	function toCNPJ(){
+		var divCPF = document.getElementById('cpfDiv')
+		var divCNPJ = document.getElementById('cnpjDiv')
+
+		var inputCPF = document.getElementById('cpfCliente')
+		var inputCNPJ = document.getElementById('cnpjCliente')
+
+		var divDatas = document.getElementById("datas")
+		var inputDD = document.getElementById("inputDD")
+		var inputMM = document.getElementById("inputMM")
+		var inputYYYY = document.getElementById("inputYYYY")
+		
+		inputCPF.removeAttribute("name")
+		inputCPF.removeAttribute('required')
+		inputCNPJ.setAttribute("name", "cpf")
+		inputCNPJ.setAttribute('required', true)
+		
+		divCPF.setAttribute('hidden', true)
+		divCNPJ.removeAttribute('hidden')
+
+		divDatas.setAttribute('hidden', true)
+		inputDD.removeAttribute('required')
+		inputMM.removeAttribute('required')
+		inputYYYY.removeAttribute('required')
+	}
+	function toCPF(){
+		var divCPF = document.getElementById('cpfDiv')
+		var divCNPJ = document.getElementById('cnpjDiv')
+		
+		var inputCPF = document.getElementById('cpfCliente')
+		var inputCNPJ = document.getElementById('cnpjCliente')
+		
+		var divDatas = document.getElementById("datas")
+		var inputDD = document.getElementById("inputDD")
+		var inputMM = document.getElementById("inputMM")
+		var inputYYYY = document.getElementById("inputYYYY")
+
+		inputCNPJ.removeAttribute("name")
+		inputCNPJ.removeAttribute('required')
+		inputCPF.setAttribute("name", "cpf")
+		inputCPF.setAttribute('required', true)
+		
+		divCNPJ.setAttribute('hidden', true)
+		divCPF.removeAttribute('hidden')
+
+		divDatas.removeAttribute('hidden')
+		inputDD.setAttribute('required', true)
+		inputMM.setAttribute('required', true)
+		inputYYYY.setAttribute('required', true)
+	}
 </script>
