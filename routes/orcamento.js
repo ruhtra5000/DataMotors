@@ -133,6 +133,7 @@ router.post('/novo', (req, res) => {
 				.save()
 				.then(() => {
 					if (req.body.arrayProdutos != '') {
+						var i = 0
 						for (produto of produtos) {
 							Produto.updateOne(
 								{ codigo: produto.codigo },
@@ -143,18 +144,15 @@ router.post('/novo', (req, res) => {
 								}
 							)
 								.then(() => {
-									req.flash(
-										'suc',
-										'Orçamento salvo com sucesso!'
-									);
-									res.redirect('/orcamento');
+									i++
+									if(i == produtos.length){
+										req.flash('suc', 'Orçamento salvo com sucesso!')
+										res.redirect('/orcamento');
+									}
 								})
 								.catch((err) => {
-									req.flash(
-										'err',
-										'Houve um erro interno. Tente novamente.'
-									);
-									res.redirect('/orcamento');
+									req.flash('err', 'Houve um erro interno. Tente novamente.')
+									res.redirect('/orcamento')
 								});
 						}
 					} else {
@@ -357,6 +355,7 @@ router.post('/editarP', (req, res) => {
 					)
 						.then(() => {
 							if (req.body.arrayProdutos != '') {
+								var i = 0
 								for (produto of produtos) {
 									Produto.updateOne(
 										{ codigo: produto.codigo },
@@ -367,23 +366,21 @@ router.post('/editarP', (req, res) => {
 											},
 										}
 									)
-										.then(() => {
-											req.flash(
-												'suc',
-												'Orçamento editado com sucesso!'
-											);
-											res.redirect('/orcamento');
+										.then(() => { 
+											i++
+											if(i == produtos.length) {
+												req.flash('suc', 'Orçamento salvo com sucesso!')
+												res.redirect('/orcamento');
+											}
 										})
 										.catch((err) => {
-											req.flash(
-												'err',
-												'Houve um erro interno. Tente novamente.' +
-													err
-											);
-											res.redirect('/orcamento');
+											req.flash('err', 'Houve um erro interno. Tente novamente.')
+											res.redirect('/orcamento')
+											
 										});
 								}
-							} else {
+							}
+							 else {
 								req.flash(
 									'suc',
 									'Orçamento editado com sucesso!'
