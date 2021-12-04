@@ -8,3 +8,8 @@ input::-webkit-inner-spin-button {
 input[type='number'] {
 	-moz-appearance: textfield;
 }
+
+.scrollable {
+	max-height: 65vh;
+	overflow: auto;
+}

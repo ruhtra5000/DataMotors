@@ -1,4 +1,4 @@
-<div class='container mt-4'>
+<div class='container mt-2'>
 	<header class='row row-cols-1'>
 		<h1 class='d-flex justify-content-center'>Orçamentos</h1>
 
@@ -15,10 +15,10 @@
 		</footer>
 	</header>
 
-	<div class='card rounded shadow'>
+	<div class='card rounded shadow scrollable'>
 		<div class='card-body'>
 			<!--Listagem de orçamentos-->
-			<table class='table table-hover' style='vertical-align: middle;'>
+			<table class='table table-hover table-striped align-middle'>
 				<thead>
 					<tr>
 						<th scope='col'>Nº</th>
@@ -30,11 +30,10 @@
 				<tbody>
 					{{#each orcamentos}}
 						<tr>
-							<td>{{numero}}</td>
-							<td style='width: 900px;'>{{descricao}}</td>
-							<td>R$ {{valorTotal}}</td>
-
-							<td style='width: 20px;'>
+							<td class='col'>{{numero}}</td>
+							<td class='col-9'>{{descricao}}</td>
+							<td class='col'>R$ {{valorTotal}}</td>
+							<td class='col'>
 								<form action='/orcamento/editar' method='post'>
 									<input
 										type='hidden'

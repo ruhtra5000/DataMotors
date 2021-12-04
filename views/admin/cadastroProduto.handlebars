@@ -1,6 +1,12 @@
-<div class='container mt-4'>
+<div class='container mt-2'>
 
 	<h2 class='d-flex justify-content-center'>Cadastrar Produto</h2>
+	<a href='/admin/prodServ/estoque/produtos'>
+		<span class='d-flex justify-content-center align-items-center'>
+			<i class='fas fa-long-arrow-alt-left me-1' aria-hidden='true'></i>
+			Voltar
+		</span>
+	</a>
 
 	<main class='d-flex justify-content-center'>
 
@@ -133,16 +139,16 @@
 					id='valor'
 					placeholder='Preço Unitário'
 					class='form-control'
+					step='any'
 					min='1'
 					required
 				/>
 				<label for='valor'>Preço Unitário</label>
 			</div>
 
-			<button
-				type='submit'
-				class='btn btn-primary w-100'
-			>Cadastrar</button>
+			<button type='submit' class='btn btn-primary w-100'>
+				Cadastrar
+			</button>
 		</form>
 	</main>
 	{{! prettier-ignore }}
