@@ -309,7 +309,7 @@ router.post('/prodServ/novoServico', adminCheck, (req, res) => {
 
 //Gerenciamento de estoque
 router.get('/prodServ/estoque', adminCheck, (req, res) => {
-	res.render('admin/estoque');
+	res.render('admin/estoqueIndex');
 });
 
 router.get('/prodServ/estoque/:tipo', adminCheck, (req, res) => {
@@ -485,7 +485,7 @@ router.post('/prodServ/estoque/editarServicoP', adminCheck, (req, res) => {
 		});
 });
 
-router.post('/prodServ/estoque/deletarSevico', adminCheck, (req, res) => {
+router.post('/prodServ/estoque/deletarServico', adminCheck, (req, res) => {
 	Servico.deleteOne({ _id: req.body.id })
 		.then(() => {
 			req.flash('suc', 'Serviço deletado!');
