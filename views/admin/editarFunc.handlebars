@@ -17,6 +17,13 @@
 			method='post'
 			class='form-card rounded shadow'
 		>
+			<div class='d-flex justify-content-center'>
+				<img
+					class='rounded-circle shadow-sm w-50'
+					src='https://robohash.org/{{funcionario.cpf}}'
+					alt='example_image'
+				/>
+			</div>
 			<input type='hidden' name='id' value='{{funcionario._id}}' />
 
 			<div class='form-floating'>
@@ -95,7 +102,7 @@
 				<input
 					type='tel'
 					name='telefone'
-					id='telefone'
+					id='telefoneFuncionario'
 					class='form-control'
 					placeholder='Telefone'
 					value='{{funcionario.contato.telefone}}'
@@ -110,4 +117,5 @@
 
 <script>
 	$(document).ready(() => { $('#cpf').mask('000.000.000-00') })
+	$(document).ready(() => {$('#telefoneFuncionario').mask('(00)0000-0000')})
 </script>

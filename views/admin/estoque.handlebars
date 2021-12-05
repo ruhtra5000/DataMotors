@@ -235,7 +235,7 @@
 										type='submit'
 										class='btn btn-light border-danger'
 									>
-										<i class='fas fa-trash'></i>
+										<i class='far fa-trash-alt'></i>
 										Deletar
 									</button>
 								</form>
@@ -268,12 +268,12 @@
 			if(window.location.pathname == '/admin/prodServ/estoque/produtos'){
 				document.getElementById('delete-modal-title').innerHTML = 'Deletar produto'
 				document.getElementById('modalForm').setAttribute('action','/admin/prodServ/estoque/deletarProduto')
-				document.getElementById('modal-body-text').innerHTML = "Deseja deletar o produto '"+descricao+"'?"
+				document.getElementById('modal-body-text').innerHTML = `Deseja deletar o produto <b>`+descricao+`</b>?`
 			}
 			else if(window.location.pathname == '/admin/prodServ/estoque/servicos'){
 				document.getElementById('delete-modal-title').innerHTML = 'Deletar serviço'
 				document.getElementById('modalForm').setAttribute('action','/admin/prodServ/estoque/deletarServico')
-				document.getElementById('modal-body-text').innerHTML = "Deseja deletar o servico '"+descricao+"'?"
+				document.getElementById('modal-body-text').innerHTML = `Deseja deletar o serviço <b>`+descricao+`</b>?`
 			}
 			document.getElementById('inputModalDelete').setAttribute('value', id)
 		}		

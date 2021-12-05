@@ -26,49 +26,16 @@
 						</div>
 						<span>{{cpf}}</span>
 
-						<div class='modal' id='info{{_id}}' tabindex='-1'>
-							<div class='modal-dialog modal-dialog-centered'>
-								<div class='modal-content'>
-									<div class='modal-header'>
-										<h5 class='modal-title'>Mais informações</h5>
-										<button
-											type='button'
-											class='btn-close'
-											data-bs-dismiss='modal'
-											aria-label='Close'
-										></button>
-									</div>
-									<div class='modal-body text-start'>
-										<p>
-											<b>Email: </b>
-											{{#if contato.email}}
-												{{contato.email}}
-											{{else}}
-												Não informado
-											{{/if}}
-										</p>
-										<p>
-											<b>
-												Telefone:
-											</b>
-											{{#if contato.email}}
-												{{contato.telefone}}
-											{{else}}
-												Não informado
-											{{/if}}
-										</p>
-									</div>
-								</div>
-							</div>
-						</div>
 					</section>
 
 					<aside class='d-flex justify-content-center mt-3'>
 
 						<button
+							type='button'
 							class='btn btn-primary empl-btn'
 							data-bs-toggle='modal'
-							data-bs-target='#info{{_id}}'
+							data-bs-target='#modalInfo'
+							onclick="modalInfo('{{contato.email}}', '{{contato.telefone}}')"
 						>
 							<img src='/img/info.svg' alt='info' />
 						</button>
@@ -87,27 +54,115 @@
 							</button>
 						</form>
 
-						<form
-							action='/admin/funcionarios/deletar'
-							method='post'
-							onSubmit="return confirm('Deseja deletar?');"
+						<button
+							type='button'
+							class='btn btn-danger empl-btn'
+							data-bs-toggle='modal'
+							data-bs-target='#modalDelete'
+							onclick="modalDelete('{{_id}}','{{nome}}')"
 						>
-							<input type='hidden' name='id' value='{{_id}}' />
-							<button
-								type='submit'
-								class='btn btn-danger empl-btn'
-							>
-								<img
-									src='/img/delete.svg'
-									alt='delete'
-									title='Deletar'
-								/>
-							</button>
-						</form>
+							<img
+								src='/img/delete.svg'
+								alt='delete'
+								title='Deletar'
+							/>
+						</button>
 					</aside>
 				</div>
 			</div>
 		{{/each}}
+
+		<div class='modal' id='modalInfo' tabindex='-1'>
+			<div class='modal-dialog modal-dialog-centered'>
+				<div class='modal-content'>
+					<div class='modal-header'>
+						<h5 class='modal-title'>Mais informações</h5>
+						<button
+							type='button'
+							class='btn-close'
+							data-bs-dismiss='modal'
+							aria-label='Close'
+						></button>
+					</div>
+					<div class='modal-body text-start'>
+						<p>
+							<b>Email: </b>
+							<span id='modalInfoMail'></span>
+						</p>
+						<p>
+							<b>
+								Telefone:
+							</b>
+							<span id='modalInfoTel'></span>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class='modal' id='modalDelete' tabindex='-1'>
+			<div class='modal-dialog modal-sm modal-dialog-centered'>
+				<div class='modal-content'>
+					<div class='modal-header'>
+						<h5 class='modal-title'>
+							Deletar funcionário?
+						</h5>
+					</div>
+					<div class='modal-body'>
+						<p id='modal-body-text'>
+
+						</p>
+					</div>
+					<div class='modal-footer'>
+						<button
+							type='button'
+							class='btn btn-danger'
+							data-bs-dismiss='modal'
+						>
+							Cancelar
+						</button>
+						<form id='modalForm' method='post'>
+							<input id='inputDelete' name='id' type='hidden' />
+							<button
+								type='submit'
+								class='btn btn-light border-danger'
+							>
+								<i class='far fa-trash-alt'></i>
+								Deletar
+							</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
 	</main>
 
 </div>
+
+{{!-- prettier-ignore --}}
+<script>
+	function modalInfo(email, telefone){ 
+		var mail = document.getElementById('modalInfoMail')
+		var tel = document.getElementById('modalInfoTel')
+
+		if(email != ''){
+			mail.innerHTML = email
+		}else{
+			mail.innerHTML = 'Não informado'
+		}
+
+		if(telefone != ''){
+			tel.innerHTML = telefone
+		}else{
+			tel.innerHTML = `Não informado`
+		}
+
+	}
+
+	function modalDelete(id, nome){
+		document.getElementById('inputDelete').setAttribute('value', id)
+		document.getElementById('modalForm').setAttribute('action','/admin/funcionarios/deletar')
+		document.getElementById('modal-body-text').innerHTML = `Deseja deletar o funcionário <b>`+nome+`</b>?`
+	}
+</script>

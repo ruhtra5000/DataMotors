@@ -24,14 +24,15 @@
 						<th scope='col'>Nº</th>
 						<th scope='col'>Descrição</th>
 						<th scope='col'>Valor Total</th>
-						<th></th>
+						<th scope='col'>Ações</th>
 					</tr>
 				</thead>
+
 				<tbody>
 					{{#each orcamentos}}
 						<tr>
-							<td class='col'>{{numero}}</td>
-							<td class='col-9'>{{descricao}}</td>
+							<th class='col'>{{numero}}</th>
+							<td class='col'>{{descricao}}</td>
 							<td class='col'>R$ {{valorTotal}}</td>
 							<td class='col'>
 								<form action='/orcamento/editar' method='post'>
@@ -50,9 +51,6 @@
 								</form>
 							</td>
 						</tr>
-					{{/each}}
-					{{#each funcionarios}}
-						<td>{{nome}}</td>
 					{{/each}}
 				</tbody>
 			</table>
