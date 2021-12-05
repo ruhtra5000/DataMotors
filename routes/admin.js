@@ -497,4 +497,9 @@ router.post('/prodServ/estoque/deletarServico', adminCheck, (req, res) => {
 		});
 });
 
+///Relatórios e previsões
+router.get('/dashboard/', adminCheck, (req, res) => {
+	res.render('admin/dashboard');
+});
+
 module.exports = router;

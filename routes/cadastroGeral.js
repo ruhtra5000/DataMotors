@@ -10,7 +10,6 @@ const Funcionario = mongoose.model('funcionarios');
 const { converterData } = require('../helpers/converterData');
 const { TestaCPF } = require('../helpers/testarCPF');
 const { TestaCNPJ } = require('../helpers/testarCPNJ');
-const testarCPNJ = require('../helpers/testarCPNJ');
 
 router.get('/cliente', (req, res) => {
 	res.render('cadastroGeral/clienteCad');
@@ -30,7 +29,7 @@ router.post('/cliente', (req, res) => {
 				TestaCPF(req.body.cpf) == false &&
 				TestaCNPJ(req.body.cpf) == false
 			) {
-				req.flash('err', 'CPF/CNPF inválido.');
+				req.flash('err', 'CPF/CNPJ inválido.');
 				res.redirect('/cadastroGeral/cliente');
 			} else {
 				const newCliente = {
