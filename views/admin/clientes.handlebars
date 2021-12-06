@@ -1,0 +1,18 @@
+<h1>Clientes</h1>
+
+<a href="/cadastroGeral/cliente"><button>Adicionar</button></a>
+
+<hr>
+{{#each clientes}}
+    <p>Nome: {{nome}}</p>
+    <p>CPF/CNPJ: {{cpf}}</p>
+    <form action="/admin/clientes/editar" method="post"> 
+        <input type="hidden" name="id" value="{{_id}}">
+        <button type="submit">Editar</button>
+    </form>
+    <form action="/admin/clientes/deletar" method="post">
+        <input type="hidden" name="id" value="{{_id}}">
+        <button type="submit">Deletar</button>
+    </form>
+    <hr>
+{{/each}}

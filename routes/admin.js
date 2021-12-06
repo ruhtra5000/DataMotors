@@ -12,13 +12,16 @@ require('../models/Servico');
 const Servico = mongoose.model('servicos');
 require('../models/Aquisicao');
 const Aquisicao = mongoose.model('aquisicoes');
+require('../models/Cliente')
+const Cliente = mongoose.model('clientes')
 
 const { converterData } = require('../helpers/converterData');
 const { adminCheck } = require('../helpers/adminCheck');
 const { calculoValorUnitario } = require('../helpers/calculoValorUnitario');
 
-//ROTAS RELACIONADAS AOS FUNCIONARIOS
+//ROTAS DE FUNCIONÁRIOS
 
+//Listar funcionários
 router.get('/funcionarios', adminCheck, (req, res) => {
 	Funcionario.find()
 		.lean()
@@ -27,6 +30,7 @@ router.get('/funcionarios', adminCheck, (req, res) => {
 		});
 });
 
+//Editar funcionários
 router.post('/funcionarios/editar', adminCheck, (req, res) => {
 	Funcionario.findOne({ _id: req.body.id })
 		.lean()
@@ -40,7 +44,7 @@ router.post('/funcionarios/editarP', adminCheck, (req, res) => {
 	Funcionario.updateOne(
 		{ _id: req.body.id },
 		{
-			nome: req.body.nome,
+			nome: req.body.nome.trim(),
 			cpf: req.body.cpf,
 			dataNasc: converterData(req.body.dia, req.body.mes, req.body.ano),
 			contato: {
@@ -62,6 +66,7 @@ router.post('/funcionarios/editarP', adminCheck, (req, res) => {
 		});
 });
 
+//Deletar funcionários
 router.post('/funcionarios/deletar', adminCheck, (req, res) => {
 	Funcionario.deleteOne({ _id: req.body.id })
 		.then(() => {
@@ -73,6 +78,62 @@ router.post('/funcionarios/deletar', adminCheck, (req, res) => {
 			res.redirect('/admin/funcionarios');
 		});
 });
+
+//ROTAS DE CLIENTES
+
+//Listar clientes
+router.get('/clientes', adminCheck, (req, res) => {
+	Cliente.find().lean().sort({nome: 1}).then((clientes) => {
+		res.render('admin/clientes', {clientes: clientes})
+	})
+})
+
+//Editar clientes
+router.post('/clientes/editar', adminCheck, (req, res) => {
+	Cliente.findOne({_id: req.body.id}).lean().then((cliente) => {
+		var cpf
+		if(cliente.cpf.length == 14){
+			var cpf = true
+		} 
+		res.render('admin/editarCliente', {cliente: cliente, cpf: cpf})
+	})
+})
+
+router.post('/clientes/editarP', adminCheck, (req, res) => {
+	Cliente.updateOne(
+		{_id: req.body.id}, 
+		{	
+			nome: req.body.nome.trim(),
+			cpf: req.body.cpf,
+			endereco: req.body.endereco,
+			dataNasc: converterData(
+				req.body.dia,
+				req.body.mes,
+				req.body.ano
+			),
+			contato: {
+				email: req.body.email,
+				telefone: req.body.telefone 
+			}
+	}).then(() => {
+		req.flash('suc', 'Dados editados com sucesso!')
+		res.redirect('/admin/clientes')
+	}).catch((err) => {
+		req.flash('err', 'Houve um erro interno. Tente novamente.' + err)
+		res.redirect('/admin/clientes')
+	})
+})
+
+//Deletar clientes
+router.post('/clientes/deletar', adminCheck, (req, res) => {
+	Cliente.deleteOne({_id: req.body.id}).then(() => {
+		req.flash('suc', 'Cliente deletado!')
+		res.redirect('/admin/clientes')
+	}).catch((err) => {
+		req.flash('err', 'Houve um erro interno. Tente novamente.')
+		res.redirect('/admin/clientes')
+	})
+})
 
 //PRODUTOS E SERVIÇOS
 
@@ -115,100 +176,75 @@ router.get('/prodServ/novoProduto', adminCheck, (req, res) => {
 });
 
 router.post('/prodServ/novoProduto', adminCheck, (req, res) => {
-	//Checa se é para criar uma nova categoria
-	if (req.body.tipo == 'categNova') {
-		//Checando se a categoria já existe
-		Categoria.findOne({ nome: req.body.novaCategoria }).then(
-			(categoria) => {
-				if (categoria) {
-					req.flash('err', 'A categoria já existe!');
-					res.redirect('/admin/prodServ/novoProduto');
-				} else {
-					//Criando a categoria
-					novaCategoria = {
-						nome: req.body.novaCategoria,
-					};
-
-					new Categoria(novaCategoria)
-						.save()
-						.then(() => {
-							Categoria.findOne({ nome: req.body.novaCategoria })
-								.lean()
-								.then((categoriaCriada) => {
-									//Settando o produto que será criado
-									var novoProduto = {
-										categoria: categoriaCriada._id,
-										descricao: req.body.descricao,
-										marca: req.body.marca,
-										modelo: req.body.modelo,
-										quantidade: req.body.quantidade,
-										valorUnit: req.body.valor,
-									};
-									new Produto(novoProduto)
-										.save()
-										.then(() => {
-											req.flash(
-												'suc',
-												'Produto cadastrado!'
-											);
-											res.redirect(
-												'/admin/prodServ/novoProduto'
-											);
-										})
-										.catch((err) => {
-											console.log(err);
-											req.flash(
-												'err',
-												'Houve um erro interno. Tente novamente.'
-											);
-											res.redirect(
-												'/admin/prodServ/novoProduto'
-											);
-										});
-								})
-								.catch((err) => {
-									console.log(err);
-									req.flash(
-										'err',
-										'Houve um erro interno. Tente novamente.'
-									);
-									res.redirect('/admin/prodServ/novoProduto');
-								});
-						})
-						.catch((err) => {
-							console.log(err);
-							req.flash(
-								'err',
-								'Houve um erro interno. Tente novamente.'
-							);
-							res.redirect('/admin/prodServ/novoProduto');
-						});
+	try {
+		//Checa se é para criar uma nova categoria
+		if (req.body.tipo == 'categNova') {
+			//Checando se a categoria já existe
+			Categoria.findOne({ nome: req.body.novaCategoria }).then(
+				(categoria) => {
+					if (categoria) {
+						req.flash('err', 'A categoria já existe!');
+						res.redirect('/admin/prodServ/novoProduto');
+					} else {
+						//Criando a categoria
+						novaCategoria = {
+							nome: req.body.novaCategoria,
+						};
+	
+						new Categoria(novaCategoria)
+							.save()
+							.then(() => {
+								Categoria.findOne({ nome: req.body.novaCategoria })
+									.lean()
+									.then((categoriaCriada) => {
+										//Settando o produto que será criado
+										var novoProduto = {
+											categoria: categoriaCriada._id,
+											descricao: req.body.descricao,
+											marca: req.body.marca,
+											modelo: req.body.modelo,
+											quantidade: req.body.quantidade,
+											valorUnit: req.body.valor,
+										};
+										new Produto(novoProduto)
+											.save()
+											.then(() => {
+												req.flash(
+													'suc',
+													'Produto cadastrado!'
+												);
+												res.redirect(
+													'/admin/prodServ/novoProduto'
+												);
+											})
+									})
+							})
+					}
 				}
-			}
-		);
+			);
+		}
+	
+		//Checa se é para criar um produto normalmente
+		else if (req.body.tipo == 'categNormal') {
+			var novoProduto = {
+				categoria: req.body.categoria,
+				descricao: req.body.descricao,
+				marca: req.body.marca,
+				modelo: req.body.modelo,
+				quantidade: req.body.quantidade,
+				valorUnit: req.body.valor,
+			};
+			new Produto(novoProduto)
+				.save()
+				.then(() => {
+					req.flash('suc', 'Produto cadastrado!');
+					res.redirect('/admin/prodServ/novoProduto');
+				})
+		}
 	}
-
-	//Checa se é para criar um produto normalmente
-	else if (req.body.tipo == 'categNormal') {
-		var novoProduto = {
-			categoria: req.body.categoria,
-			descricao: req.body.descricao,
-			marca: req.body.marca,
-			modelo: req.body.modelo,
-			quantidade: req.body.quantidade,
-			valorUnit: req.body.valor,
-		};
-		new Produto(novoProduto)
-			.save()
-			.then(() => {
-				req.flash('suc', 'Produto cadastrado!');
-				res.redirect('/admin/prodServ/novoProduto');
-			})
-			.catch((err) => {
-				console.log(err);
-				req.flash('err', 'Houve um erro interno. Tente novamente.');
-				res.redirect('/admin/prodServ/novoProduto');
-			});
+	catch(err) {
+		req.flash('err', 'Houve um erro interno. Tente novamente.');
+		res.redirect('/admin/prodServ/novoProduto');
 	}
 });
 
@@ -222,88 +258,67 @@ router.get('/prodServ/novoServico', adminCheck, (req, res) => {
 });
 
 router.post('/prodServ/novoServico', adminCheck, (req, res) => {
-	//Checa se é para criar uma nova categoria
-	if (req.body.tipo == 'categNova') {
-		//Checando se a categoria já existe
-		Categoria.findOne({ nome: req.body.novaCategoria }).then(
-			(categoria) => {
-				if (categoria) {
-					req.flash('err', 'A categoria já existe!');
-					res.redirect('/admin/prodServ/novoServico');
-				} else {
-					//Criando a categoria
-					novaCategoria = {
-						nome: req.body.novaCategoria,
-					};
-
-					new Categoria(novaCategoria)
-						.save()
-						.then(() => {
-							Categoria.findOne({ nome: req.body.novaCategoria })
-								.lean()
-								.then((categoriaCriada) => {
-									//Settando o serviço que será criado
-									var novoServico = {
-										categoria: categoriaCriada._id,
-										descricao: req.body.descricao,
-										valor: req.body.valor,
-									};
-
-									new Servico(novoServico)
-										.save()
-										.then(() => {
-											req.flash('suc', 'Serviço criado!');
-											res.redirect(
-												'/admin/prodServ/novoServico'
-											);
-										})
-										.catch((err) => {
-											req.flash(
-												'err',
-												'Houve um erro interno. Tente novamente.'
-											);
-											res.redirect(
-												'/admin/prodServ/novoServico'
-											);
-										});
-								})
-								.catch((err) => {
-									console.log(err);
-									req.flash(
-										'err',
-										'Houve um erro interno. Tente novamente.'
-									);
-									res.redirect('/admin/prodServ/novoServico');
-								});
-						})
-						.catch((err) => {
-							console.log(err);
-							req.flash(
-								'err',
-								'Houve um erro interno. Tente novamente.'
-							);
-							res.redirect('/admin/prodServ/novoServico');
-						});
+	try {
+		//Checa se é para criar uma nova categoria
+		if (req.body.tipo == 'categNova') {
+			//Checando se a categoria já existe
+			Categoria.findOne({ nome: req.body.novaCategoria }).then(
+				(categoria) => {
+					if (categoria) {
+						req.flash('err', 'A categoria já existe!');
+						res.redirect('/admin/prodServ/novoServico');
+					} else {
+						//Criando a categoria
+						novaCategoria = {
+							nome: req.body.novaCategoria,
+						};
+	
+						new Categoria(novaCategoria)
+							.save()
+							.then(() => {
+								Categoria.findOne({ nome: req.body.novaCategoria })
+									.lean()
+									.then((categoriaCriada) => {
+										//Settando o serviço que será criado
+										var novoServico = {
+											categoria: categoriaCriada._id,
+											descricao: req.body.descricao,
+											valor: req.body.valor,
+										};
+	
+										new Servico(novoServico)
+											.save()
+											.then(() => {
+												req.flash('suc', 'Serviço criado!');
+												res.redirect(
+													'/admin/prodServ/novoServico'
+												);
+											})
+											
+									})
+							})
+					}
 				}
-			}
-		);
-	} else if (req.body.tipo == 'categNormal') {
-		var novoServico = {
-			categoria: req.body.categoria,
-			descricao: req.body.descricao,
-			valor: req.body.valor,
-		};
+			);
+		} else if (req.body.tipo == 'categNormal') {
+			var novoServico = {
+				categoria: req.body.categoria,
+				descricao: req.body.descricao,
+				valor: req.body.valor,
+			};
+	
+			new Servico(novoServico)
+				.save()
+				.then(() => {
+					req.flash('suc', 'Serviço criado!');
+					res.redirect('/admin/prodServ/novoServico');
+				})
+		}
 
-		new Servico(novoServico)
-			.save()
-			.then(() => {
-				req.flash('suc', 'Serviço criado!');
-				res.redirect('/admin/prodServ/novoServico');
-			})
-			.catch((err) => {
-				req.flash('err', 'Houve um erro interno. Tente novamente.');
-				res.redirect('/admin/prodServ/novoServico');
-			});
+	}
+	catch(err) {
+		req.flash('err', 'Houve um erro interno. Tente novamente.');
+		res.redirect('/admin/prodServ/novoServico');
 	}
 });
 
@@ -498,7 +513,7 @@ router.post('/prodServ/estoque/deletarServico', adminCheck, (req, res) => {
 });
 
 ///Relatórios e previsões
-router.get('/dashboard/', adminCheck, (req, res) => {
+router.get('/dashboard', adminCheck, (req, res) => {
 	res.render('admin/dashboard');
 });
 

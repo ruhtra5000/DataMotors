@@ -11,12 +11,9 @@ const { converterData } = require('../helpers/converterData');
 const { TestaCPF } = require('../helpers/testarCPF');
 const { TestaCNPJ } = require('../helpers/testarCPNJ');
 
+//Cadastro de clientes
 router.get('/cliente', (req, res) => {
 	res.render('cadastroGeral/clienteCad');
-});
-
-router.get('/func', (req, res) => {
-	res.render('cadastroGeral/funcCad');
 });
 
 router.post('/cliente', (req, res) => {
@@ -33,7 +30,7 @@ router.post('/cliente', (req, res) => {
 				res.redirect('/cadastroGeral/cliente');
 			} else {
 				const newCliente = {
-					nome: req.body.nome,
+					nome: req.body.nome.trim(),
 					cpf: req.body.cpf,
 					endereco: req.body.endereco,
 					dataNasc: converterData(
@@ -69,6 +66,11 @@ router.post('/cliente', (req, res) => {
 		});
 });
 
+//Cadastro de funcionários
+router.get('/func', (req, res) => {
+	res.render('cadastroGeral/funcCad');
+});
+
 router.post('/funcionario', (req, res) => {
 	Funcionario.findOne({ cpf: req.body.cpf }).then((funcionario) => {
 		if (funcionario) {
@@ -82,7 +84,7 @@ router.post('/funcionario', (req, res) => {
 			res.redirect('/cadastroGeral/func');
 		} else {
 			const newFunc = {
-				nome: req.body.nome,
+				nome: req.body.nome.trim(),
 				cpf: req.body.cpf,
 				dataNasc: converterData(
 					req.body.dia,
