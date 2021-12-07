@@ -1,8 +1,8 @@
-<div class='container mt-2'>
-	<header class='row row-cols-1'>
-		<h1 class='d-flex justify-content-center'>Orçamentos</h1>
+<div class='container'>
+	<header class='text-center'>
+		<h1>Orçamentos</h1>
 
-		<footer class='d-flex justify-content-center'>
+		<footer>
 			<a href='/orcamento/novo'>
 				<button class='btn btn-primary mb-2'>
 					<i
@@ -15,31 +15,68 @@
 		</footer>
 	</header>
 
-	<div class='card rounded shadow scrollable'>
+	<div class='card shadow scrollable'>
 		<div class='card-body'>
 			<!--Listagem de orçamentos-->
 			<table class='table table-hover table-striped align-middle'>
 				<thead>
 					<tr>
-						<th scope='col'>Nº</th>
-						<th scope='col'>Responsável</th>
-						<th scope='col'>Cliente</th>
-						<th scope='col'>Descrição</th>
-						<th scope='col'>Valor Total</th>
-						<th scope='col'>Ações</th>
+						<th>Nº</th>
+						<th>Entrada</th>
+						<th>Responsável</th>
+						<th>Cliente</th>
+						<th>Descrição</th>
+						<th>Total</th>
+						<th></th>
+						<th>Ações</th>
+						<th></th>
 					</tr>
 				</thead>
 
 				<tbody>
 					{{#each orcamentos}}
 						<tr>
-							<th class='col'>{{numero}}</th>
-							<th class='col'>{{responsavel}}</th>
-							<th class='col'>{{cliente}}</th>
-							<td class='col'>{{descricao}}</td>
-							<td class='col'>R$ {{valorTotal}}</td>
+							<th class='col-1'>{{numero}}</th>
+							<td class='col-1'>
+								{{getDia data.dataEntrada}}/{{getMes
+									data.dataEntrada
+								}}/{{getAno data.dataEntrada}}
+							</td>
+							<td class='col-1'>{{responsavel}}</td>
+							<td class='col-2'>{{cliente}}</td>
+							<td class='col-5'>{{descricao}}</td>
+							<td class='col-2'>R$ {{valorTotal}}</td>
+
 							<td class='col'>
-								<form action='/orcamento/editar' method='post'>
+								<form
+									method='post'
+									action='/orcamento/gerarpdf'
+									class='mb-0'
+								>
+									<input
+										type='hidden'
+										name='idPdf'
+										value='{{_id}}'
+									/>
+									<button
+										type='submit'
+										class='btn btn-light border border-danger'
+										style='width:50px; height: 38px'
+										title='Gerar PDF'
+									>
+										<i
+											class='fas fa-file-pdf fs-4 text-danger'
+										></i>
+									</button>
+								</form>
+							</td>
+
+							<td class='col'>
+								<form
+									action='/orcamento/editar'
+									method='post'
+									class='mb-0'
+								>
 									<input
 										type='hidden'
 										name='id'
@@ -52,7 +89,17 @@
 									>
 										<img src='/img/edit.svg' alt='editar' />
 									</button>
+
 								</form>
+							</td>
+
+							<td class='col'>
+								<button
+									class='btn btn-danger'
+									title='Deletar orçamento'
+								>
+									<img src='/img/delete.svg' alt='delete' />
+								</button>
 							</td>
 						</tr>
 					{{/each}}

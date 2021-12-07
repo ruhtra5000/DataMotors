@@ -23,4 +23,10 @@
 	width: 20vh;
 	text-align: center;
 	animation: all ease 0.3s;
+	transition: 0.2s;
+}
+
+.homepage-card-link:hover {
+	box-shadow: #2c2c2c50 2px 2px 30px;
+	transition: 0.2s;
 }

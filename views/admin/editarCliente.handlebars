@@ -1,12 +1,21 @@
-<h1>Editar cliente</h1>
+<div class='container'>
+	<header class='text-center'>
+		<h1>Editar cliente</h1>
+		<div>
+			<a href='/admin/clientes'>
+				<i class='fas fa-long-arrow-alt-left me-1'></i>
+				Voltar
+			</a>
+		</div>
+	</header>
 
-    <main class='d-flex justify-content-center flex-wrap'>
+	<main class='d-flex justify-content-center flex-wrap'>
 		<form
 			action='/admin/clientes/editarP'
 			method='post'
 			class='form-card rounded shadow'
 		>
-            <input type="hidden" name="id" value="{{cliente._id}}">
+			<input type='hidden' name='id' value='{{cliente._id}}' />
 
 			<div class='form-floating'>
 				<input
@@ -15,119 +24,119 @@
 					name='nome'
 					id='nome'
 					placeholder='Nome completo'
-                    value="{{cliente.nome}}"
+					value='{{cliente.nome}}'
 					required
 				/>
 				<label for='nome'>Nome</label>
 			</div>
-            
-            {{#if cpf}}
-                <div class='form-floating' id='cpfDiv'>
-                    <input
-                        class='form-control'
-                        type='text'
-                        name='cpf'
-                        minlength='11'
-                        maxlength='11'
-                        id='cpfCliente'
-                        placeholder='CPF'
-                        value="{{cliente.cpf}}"
-                        required
-                    />
-                    <label for='cpfCliente'>CPF</label>
-                </div>
 
-                <div class='input-group' id='datas'>
-                    <span class='input-group-text'>
-                        Data de nascimento
-                    </span>
-                    <input
-                        class='form-control'
-                        type='number'
-                        name='dia'
-                        placeholder='dd'
-                        min='1'
-                        max='31'
-                        id='inputDD'
-                        value="{{getDia cliente.dataNasc}}"
-                        required
-                    />
-                    <input
-                        class='form-control'
-                        type='number'
-                        name='mes'
-                        placeholder='mm'
-                        min='1'
-                        max='12'
-                        id='inputMM'
-                        value="{{getMes cliente.dataNasc}}"
-                        required
-                    />
-                    <input
-                        class='form-control'
-                        type='number'
-                        name='ano'
-                        placeholder='yyyy'
-                        min='1930'
-                        max='2021'
-                        id='inputYYYY'
-                        value="{{getAno cliente.dataNasc}}"
-                        required
-                    />
-                </div>
+			{{#if cpf}}
+				<div class='form-floating' id='cpfDiv'>
+					<input
+						class='form-control'
+						type='text'
+						name='cpf'
+						minlength='11'
+						maxlength='11'
+						id='cpfCliente'
+						placeholder='CPF'
+						value='{{cliente.cpf}}'
+						required
+					/>
+					<label for='cpfCliente'>CPF</label>
+				</div>
 
-                {{else}}
+				<div class='input-group' id='datas'>
+					<span class='input-group-text'>
+						Data de nascimento
+					</span>
+					<input
+						class='form-control'
+						type='number'
+						name='dia'
+						placeholder='dd'
+						min='1'
+						max='31'
+						id='inputDD'
+						value='{{getDia cliente.dataNasc}}'
+						required
+					/>
+					<input
+						class='form-control'
+						type='number'
+						name='mes'
+						placeholder='mm'
+						min='1'
+						max='12'
+						id='inputMM'
+						value='{{getMes cliente.dataNasc}}'
+						required
+					/>
+					<input
+						class='form-control'
+						type='number'
+						name='ano'
+						placeholder='yyyy'
+						min='1930'
+						max='2021'
+						id='inputYYYY'
+						value='{{getAno cliente.dataNasc}}'
+						required
+					/>
+				</div>
 
-                <div class='form-floating' id='cnpjDiv'>
-                    <input
-                        class='form-control'
-                        type='text'
-                        minlength='14'
-                        maxlength='14'
-                        name="cpf"
-                        id='cnpjCliente'
-                        placeholder='CNPJ'
-                        value="{{cliente.cpf}}"
-                    />
-                    <label for='cnpjCliente'>CNPJ</label>
-                </div>
+			{{else}}
 
-                <div class='input-group' id='datas' hidden>
-                    <span class='input-group-text'>
-                        Data de nascimento
-                    </span>
-                    <input
-                        class='form-control'
-                        type='number'
-                        name='dia'
-                        placeholder='dd'
-                        min='1'
-                        max='31'
-                        id='inputDD'
-                        hidden
-                    />
-                    <input
-                        class='form-control'
-                        type='number'
-                        name='mes'
-                        placeholder='mm'
-                        min='1'
-                        max='12'
-                        id='inputMM'
-                        hidden
-                    />
-                    <input
-                        class='form-control'
-                        type='number'
-                        name='ano'
-                        placeholder='yyyy'
-                        min='1930'
-                        max='2021'
-                        id='inputYYYY'
-                        hidden
-                    />
-                </div>
-            {{/if}}
+				<div class='form-floating' id='cnpjDiv'>
+					<input
+						class='form-control'
+						type='text'
+						minlength='14'
+						maxlength='14'
+						name='cpf'
+						id='cnpjCliente'
+						placeholder='CNPJ'
+						value='{{cliente.cpf}}'
+					/>
+					<label for='cnpjCliente'>CNPJ</label>
+				</div>
+
+				<div class='input-group' id='datas' hidden>
+					<span class='input-group-text'>
+						Data de nascimento
+					</span>
+					<input
+						class='form-control'
+						type='number'
+						name='dia'
+						placeholder='dd'
+						min='1'
+						max='31'
+						id='inputDD'
+						hidden
+					/>
+					<input
+						class='form-control'
+						type='number'
+						name='mes'
+						placeholder='mm'
+						min='1'
+						max='12'
+						id='inputMM'
+						hidden
+					/>
+					<input
+						class='form-control'
+						type='number'
+						name='ano'
+						placeholder='yyyy'
+						min='1930'
+						max='2021'
+						id='inputYYYY'
+						hidden
+					/>
+				</div>
+			{{/if}}
 
 			<div class='form-floating'>
 				<input
@@ -136,7 +145,7 @@
 					name='endereco'
 					id='endereco'
 					placeholder='Endereço'
-                    value="{{cliente.endereco}}"
+					value='{{cliente.endereco}}'
 					required
 				/>
 				<label for='endereco'>Endereço</label>
@@ -149,7 +158,7 @@
 					name='email'
 					id='email'
 					placeholder='E-mail (opcional)'
-                    value="{{cliente.contato.email}}"
+					value='{{cliente.contato.email}}'
 				/>
 				<label for='email'>E-mail (opcional)</label>
 			</div>
@@ -161,16 +170,17 @@
 					name='telefone'
 					id='telefoneCliente'
 					placeholder='Telefone (opcional)'
-                    value="{{cliente.contato.telefone}}"
+					value='{{cliente.contato.telefone}}'
 				/>
 				<label for='telefone'>Telefone (opcional)</label>
 			</div>
 
 			<button class='btn btn-primary w-100' type='submit'>
-				Editar 
+				Editar
 			</button>
 		</form>
 	</main>
+</div>
 
 {{!-- prettier-ignore --}}
 <script>

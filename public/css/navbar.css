@@ -1,6 +1,7 @@
 .nav-brand {
 	width: 15rem;
 	margin: auto 10px;
+	transition: 0.5s;
 }
 
 .nav-link {

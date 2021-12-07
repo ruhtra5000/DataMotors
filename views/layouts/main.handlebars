@@ -51,6 +51,12 @@
 		{{>navbar}}
 		{{>mensagem}}
 		{{{body}}}
+		{{>loading}}
 	</body>
 
+<script>
+	$(window).on("load", () => {
+		$('.loading-wrapper').fadeOut("slow")
+	})
+</script>
 </html>

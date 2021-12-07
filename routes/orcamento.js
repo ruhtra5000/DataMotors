@@ -17,24 +17,31 @@ const { converterData } = require('../helpers/converterData');
 
 router.get('/', async (req, res) => {
 	try {
-		var orcamentos = await Orcamento.find({ statusAberto: true }).lean()
-			for(i = 0; i < orcamentos.length; i++){
-				var nome1 = await Usuario.findOne({_id: orcamentos[i].responsavel}).lean().select('nome')
-				orcamentos[i].responsavel = nome1.nome
-	
-				var nome2 = await Cliente.findOne({_id: orcamentos[i].cliente}).lean().select('nome')
-				orcamentos[i].cliente = nome2.nome
-							
-				if(i == orcamentos.length -1){
-					res.render('orcamento/index', {
-						orcamentos: orcamentos,
-					});
-				}	
+		var orcamentos = await Orcamento.find({ statusAberto: true })
+			.lean()
+			.sort({ data: -1 });
+		for (i = 0; i < orcamentos.length; i++) {
+			var nome1 = await Usuario.findOne({
+				_id: orcamentos[i].responsavel,
+			})
+				.lean()
+				.select('nome');
+			orcamentos[i].responsavel = nome1.nome;
+
+			var nome2 = await Cliente.findOne({ _id: orcamentos[i].cliente })
+				.lean()
+				.select('nome');
+			orcamentos[i].cliente = nome2.nome;
+
+			if (i == orcamentos.length - 1) {
+				res.render('orcamento/index', {
+					orcamentos: orcamentos,
+				});
 			}
-	}
-	catch(err){
-		req.flash('err', 'Houve um erro interno. Tente novamente.' + err)
-		res.redirect('/')
+		}
+	} catch (err) {
+		req.flash('err', 'Houve um erro interno. Tente novamente.' + err);
+		res.redirect('/');
 	}
 });
 
@@ -59,106 +66,104 @@ router.get('/novo', (req, res) => {
 										res.render('orcamento/cadOrcamento', {
 											userNome: req.user.nome,
 											clientes: JSON.stringify(clientes),
-											funcionarios: JSON.stringify(funcionarios),
+											funcionarios:
+												JSON.stringify(funcionarios),
 											produtos: produtos,
-											produtos2: JSON.stringify(produtos2),
+											produtos2:
+												JSON.stringify(produtos2),
 										});
-									})
-							})
-					})
-			})
-		
-	}
-	catch(err) {
-		req.flash('err', 'Houve um erro interno. Tente novamente.')
-		res.redirect('/')
+									});
+							});
+					});
+			});
+	} catch (err) {
+		req.flash('err', 'Houve um erro interno. Tente novamente.');
+		res.redirect('/');
 	}
 });
 
 router.post('/novo', (req, res) => {
 	try {
-		Cliente.findOne({ nome: req.body.cliente })
-			.then((cliente) => {
-				var valorTotal = 0;
-	
-				//Somar valor dos serviços
-				if (req.body.arrayServicos != '') {
-					var servicos = JSON.parse(req.body.arrayServicos);
-					for (servico of servicos) {
-						valorTotal += Number(servico.preco);
-					}
+		Cliente.findOne({ nome: req.body.cliente }).then((cliente) => {
+			var valorTotal = 0;
+
+			//Somar valor dos serviços
+			if (req.body.arrayServicos != '') {
+				var servicos = JSON.parse(req.body.arrayServicos);
+				for (servico of servicos) {
+					valorTotal += Number(servico.preco);
 				}
-	
-				//Somar valor dos produtos
+			}
+
+			//Somar valor dos produtos
+			if (req.body.arrayProdutos != '') {
+				var produtos = JSON.parse(req.body.arrayProdutos);
+				for (produto of produtos) {
+					valorTotal +=
+						Number(produto.valorUnit) * Number(produto.quantidade);
+				}
+			}
+
+			//Definir se o orçamento ficará aberto ou fechado
+			var status = true;
+			if (req.body.status == 'false') {
+				status = false;
+			}
+
+			//Criação do novo orçamento
+			var newOrcamento = {
+				responsavel: req.user._id,
+				descricao: req.body.descricao,
+				cliente: cliente._id,
+				data: {
+					dataEntrada: converterData(
+						req.body.diaEntrada,
+						req.body.mesEntrada,
+						req.body.anoEntrada
+					),
+					dataSaida: converterData(
+						req.body.diaSaida,
+						req.body.mesSaida,
+						req.body.anoSaida
+					),
+				},
+				produtos: produtos,
+				servicos: servicos,
+				valorTotal: valorTotal,
+				statusAberto: status,
+			};
+
+			new Orcamento(newOrcamento).save().then(() => {
 				if (req.body.arrayProdutos != '') {
-					var produtos = JSON.parse(req.body.arrayProdutos);
+					var i = 0;
 					for (produto of produtos) {
-						valorTotal +=
-							Number(produto.valorUnit) * Number(produto.quantidade);
-					}
-				}
-	
-				//Definir se o orçamento ficará aberto ou fechado
-				var status = true;
-				if (req.body.status == 'false') {
-					status = false;
-				}
-	
-				//Criação do novo orçamento
-				var newOrcamento = {
-					responsavel: req.user._id,
-					descricao: req.body.descricao,
-					cliente: cliente._id,
-					data: {
-						dataEntrada: converterData(
-							req.body.diaEntrada,
-							req.body.mesEntrada,
-							req.body.anoEntrada
-						),
-						dataSaida: converterData(
-							req.body.diaSaida,
-							req.body.mesSaida,
-							req.body.anoSaida
-						),
-					},
-					produtos: produtos,
-					servicos: servicos,
-					valorTotal: valorTotal,
-					statusAberto: status,
-				};
-	
-				new Orcamento(newOrcamento)
-					.save()
-					.then(() => {
-						if (req.body.arrayProdutos != '') {
-							var i = 0
-							for (produto of produtos) {
-								Produto.updateOne(
-									{ codigo: produto.codigo },
-									{
-										$inc: {
-											quantidade: produto.quantidade * -1,
-										},
-									}
-								)
-									.then(() => {
-										i++
-										if(i == produtos.length){
-											req.flash('suc', 'Orçamento salvo com sucesso!')
-											res.redirect('/orcamento');
-										}
-									})
+						Produto.updateOne(
+							{ codigo: produto.codigo },
+							{
+								$inc: {
+									quantidade: produto.quantidade * -1,
+								},
 							}
-						} else {
-							req.flash('suc', 'Orçamento salvo com sucesso!');
-							res.redirect('/orcamento');
-						}
-					})
-			})
-	}
-	catch(err) {
-		req.flash('err', 'Houve um erro interno. Tente novamente.')
-		res.redirect('/orcamento')
+						).then(() => {
+							i++;
+							if (i == produtos.length) {
+								req.flash(
+									'suc',
+									'Orçamento salvo com sucesso!'
+								);
+								res.redirect('/orcamento');
+							}
+						});
+					}
+				} else {
+					req.flash('suc', 'Orçamento salvo com sucesso!');
+					res.redirect('/orcamento');
+				}
+			});
+		});
+	} catch (err) {
+		req.flash('err', 'Houve um erro interno. Tente novamente.');
+		res.redirect('/orcamento');
 	}
 });
 
@@ -233,14 +238,13 @@ router.post('/editar', (req, res) => {
 																	'/orcamento'
 																);
 															});
-													})
-											})
-									})
-							})
-					})
-			})
-	}
-	catch(err) {
+													});
+											});
+									});
+							});
+					});
+			});
+	} catch (err) {
 		req.flash('err', 'Houve um erro interno. Tente novamente.');
 		res.redirect('/orcamento');
 	}
@@ -251,101 +255,200 @@ router.post('/editarP', (req, res) => {
 		Orcamento.findOne({ _id: req.body.id })
 			.lean()
 			.then((orcamento) => {
-				Cliente.findOne({ nome: req.body.cliente })
-					.then((cliente) => {
-						var valorTotal = orcamento.valorTotal;
-						var servicosSalvos = orcamento.servicos;
-						var produtosSalvos = orcamento.produtos;
-	
-						//Somar valor dos serviços e adicionar novos serviços
-						if (req.body.arrayServicos != '') {
-							var servicos = JSON.parse(req.body.arrayServicos);
-							for (servico of servicos) {
-								valorTotal += Number(servico.preco);
-								servicosSalvos.push(servico);
-							}
+				Cliente.findOne({ nome: req.body.cliente }).then((cliente) => {
+					var valorTotal = orcamento.valorTotal;
+					var servicosSalvos = orcamento.servicos;
+					var produtosSalvos = orcamento.produtos;
+
+					//Somar valor dos serviços e adicionar novos serviços
+					if (req.body.arrayServicos != '') {
+						var servicos = JSON.parse(req.body.arrayServicos);
+						for (servico of servicos) {
+							valorTotal += Number(servico.preco);
+							servicosSalvos.push(servico);
 						}
-	
-						//Somar valor dos produtos e adicionar novos produtos
-						if (req.body.arrayProdutos != '') {
-							var produtos = JSON.parse(req.body.arrayProdutos);
-							for (produto of produtos) {
-								valorTotal +=
-									Number(produto.valorUnit) *
-									Number(produto.quantidade);
-								produtosSalvos.push(produto);
-							}
+					}
+
+					//Somar valor dos produtos e adicionar novos produtos
+					if (req.body.arrayProdutos != '') {
+						var produtos = JSON.parse(req.body.arrayProdutos);
+						for (produto of produtos) {
+							valorTotal +=
+								Number(produto.valorUnit) *
+								Number(produto.quantidade);
+							produtosSalvos.push(produto);
 						}
-	
-						//Definir se o orçamento ficará aberto ou fechado
-						var status = true;
-						if (req.body.status == 'false') {
-							status = false;
-						}
-	
-						Orcamento.updateOne(
-							{ _id: req.body.id },
-							{
-								$set: {
-									descricao: req.body.descricao,
-									cliente: cliente._id,
-									data: {
-										dataEntrada: converterData(
-											req.body.diaEntrada,
-											req.body.mesEntrada,
-											req.body.anoEntrada
-										),
-										dataSaida: converterData(
-											req.body.diaSaida,
-											req.body.mesSaida,
-											req.body.anoSaida
-										),
-									},
-									produtos: produtosSalvos,
-									servicos: servicosSalvos,
-									valorTotal: valorTotal,
-									statusAberto: status,
+					}
+
+					//Definir se o orçamento ficará aberto ou fechado
+					var status = true;
+					if (req.body.status == 'false') {
+						status = false;
+					}
+
+					Orcamento.updateOne(
+						{ _id: req.body.id },
+						{
+							$set: {
+								descricao: req.body.descricao,
+								cliente: cliente._id,
+								data: {
+									dataEntrada: converterData(
+										req.body.diaEntrada,
+										req.body.mesEntrada,
+										req.body.anoEntrada
+									),
+									dataSaida: converterData(
+										req.body.diaSaida,
+										req.body.mesSaida,
+										req.body.anoSaida
+									),
 								},
+								produtos: produtosSalvos,
+								servicos: servicosSalvos,
+								valorTotal: valorTotal,
+								statusAberto: status,
+							},
+						}
+					)
+						.then(() => {
+							if (req.body.arrayProdutos != '') {
+								var i = 0;
+								for (produto of produtos) {
+									Produto.updateOne(
+										{ codigo: produto.codigo },
+										{
+											$inc: {
+												quantidade:
+													produto.quantidade * -1,
+											},
+										}
+									).then(() => {
+										i++;
+										if (i == produtos.length) {
+											req.flash(
+												'suc',
+												'Orçamento salvo com sucesso!'
+											);
+											res.redirect('/orcamento');
+										}
+									});
+								}
+							} else {
+								req.flash(
+									'suc',
+									'Orçamento editado com sucesso!'
+								);
+								res.redirect('/orcamento');
 							}
-						)
-							.then(() => {
-								if (req.body.arrayProdutos != '') {
-									var i = 0
-									for (produto of produtos) {
-										Produto.updateOne(
-											{ codigo: produto.codigo },
-											{
-												$inc: {
-													quantidade:
-														produto.quantidade * -1,
-												},
-											}
-										)
-											.then(() => { 
-												i++
-												if(i == produtos.length) {
-													req.flash('suc', 'Orçamento salvo com sucesso!')
-													res.redirect('/orcamento');
-												}
-											})
-									}
-								}
-								 else {
-									req.flash(
-										'suc',
-										'Orçamento editado com sucesso!'
-									);
-									res.redirect('/orcamento');
-								}
-							})
-							.catch((err) => {
-					})
-	
-				})
-			})		
-	}
-	catch(err) {
+						})
+						.catch((err) => {});
+				});
+			});
+	} catch (err) {
 		req.flash('err', 'Houve um erro interno. Tente novamente.' + err);
+		res.redirect('/orcamento');
+	}
+});
+
+//Deletar orçamento
+router.post('/deletar', (req, res) => {
+	Orcamento.deleteOne({ _id: req.body.id })
+		.then(() => {
+			req.flash('suc', 'Orçamento deletado!');
+			res.redirect('/orcamentos');
+		})
+		.catch((err) => {
+			req.flash('err', 'Houve um erro interno. Tente novamente.');
+			res.redirect('/orcamentos');
+		});
+});
+
+//PDF orçamento
+router.post('/gerarpdf', (req, res) => {
+	try {
+		//Realiza a busca do orçamento
+		Orcamento.findOne({ _id: req.body.idPdf })
+			.select(
+				'produtos servicos descricao data cliente responsavel valorTotal numero'
+			)
+			.lean()
+			.then((orcamento) => {
+				//Realiza a busca de funcionários
+				Funcionario.find()
+					.select('nome')
+					.then((funcionarios) => {
+						//Realiza a busca de produtos
+						Produto.find()
+							.select('codigo descricao quantidade valorUnit')
+							.lean()
+							.then((produtos) => {
+								Produto.find()
+									.select(
+										'codigo descricao marca modelo valorUnit quantidade'
+									)
+									.then((produtos2) => {
+										//Realiza a busca do cliente
+										Cliente.find()
+											.select('nome')
+											.then((clientes) => {
+												Cliente.findOne({
+													_id: orcamento.cliente,
+												})
+													.select('nome endereco')
+													.lean()
+													.then((cliente) => {
+														//Realiza a busca do responsável pelo orçamento
+														Usuario.findOne({
+															_id: orcamento.responsavel,
+														})
+															.select('nome')
+															.lean()
+															.then((usuario) => {
+																res.render(
+																	'orcamento/pdfOrcamento',
+																	{
+																		orcamento:
+																			orcamento,
+																		clientes:
+																			JSON.stringify(
+																				clientes
+																			),
+																		cliente:
+																			cliente,
+																		usuario:
+																			usuario,
+																		funcionarios:
+																			JSON.stringify(
+																				funcionarios
+																			),
+																		produtos:
+																			produtos,
+																		produtos2:
+																			JSON.stringify(
+																				produtos2
+																			),
+																		navbar: 'none',
+																	}
+																);
+															})
+															.catch((err) => {
+																req.flash(
+																	'err',
+																	'Houve um erro interno. Tente novamente.'
+																);
+																res.redirect(
+																	'/orcamento'
+																);
+															});
+													});
+											});
+									});
+							});
+					});
+			});
+	} catch (err) {
+		req.flash('err', 'Houve um erro interno. Tente novamente.');
 		res.redirect('/orcamento');
 	}
 });
