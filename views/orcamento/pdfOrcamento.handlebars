@@ -41,7 +41,7 @@
 						}}/{{getAno orcamento.data.dataEntrada}}</td>
 				</tr>
 				<tr>
-					<th>Endereco: </th>
+					<th>Endereço: </th>
 					<td>{{cliente.endereco}}</td>
 					<th>Data de saída: </th>
 					<td>{{getDia orcamento.data.dataSaida}}/{{getMes
@@ -70,7 +70,7 @@
 						<tr>
 							<td>{{this.descricao}}</td>
 							<td class='text-end'>{{this.valorUnit}}</td>
-							<td class='text-end'>{{this.quantidate}}</td>
+							<td class='text-end'>{{this.quantidade}}</td>
 							<td class='text-end'>R$
 								{{calculoVT
 									this.valorUnit
@@ -84,7 +84,7 @@
 						<th></th>
 						<th></th>
 						<th class='text-end'>Total geral</th>
-						<th class='text-end'>R$ {{orcamento.valorTotal}}</th>
+						<th class='text-end'>R$ {{totais.totalProd}}</th>
 					</tr>
 				</tfoot>
 			{{else}}
@@ -118,8 +118,7 @@
 						<tr>
 							<th></th>
 							<th class='text-end'>Total geral</th>
-							<th class='text-end'>R$
-								{{orcamento.valorTotal}}</th>
+							<th class='text-end'>R$ {{totais.totalServ}}</th>
 						</tr>
 					</tfoot>
 				{{else}}

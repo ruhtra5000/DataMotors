@@ -82,14 +82,14 @@ router.post('/funcionarios/deletar', adminCheck, (req, res) => {
 //ROTAS DE CLIENTES
 
 //Listar clientes
-router.get('/clientes', adminCheck, (req, res) => {
+router.get('/clientes', (req, res) => {
 	Cliente.find().lean().sort({nome: 1}).then((clientes) => {
 		res.render('admin/clientes', {clientes: clientes})
 	})
 })
 
 //Editar clientes
-router.post('/clientes/editar', adminCheck, (req, res) => {
+router.post('/clientes/editar', (req, res) => {
 	Cliente.findOne({_id: req.body.id}).lean().then((cliente) => {
 		var cpf
 		if(cliente.cpf.length == 14){
@@ -99,7 +99,7 @@ router.post('/clientes/editar', adminCheck, (req, res) => {
 	})
 })
 
-router.post('/clientes/editarP', adminCheck, (req, res) => {
+router.post('/clientes/editarP', (req, res) => {
 	Cliente.updateOne(
 		{_id: req.body.id}, 
 		{	
@@ -125,7 +125,7 @@ router.post('/clientes/editarP', adminCheck, (req, res) => {
 })
 
 //Deletar clientes
-router.post('/clientes/deletar', adminCheck, (req, res) => {
+router.post('/clientes/deletar', (req, res) => {
 	Cliente.deleteOne({_id: req.body.id}).then(() => {
 		req.flash('suc', 'Cliente deletado!')
 		res.redirect('/admin/clientes')
@@ -138,11 +138,11 @@ router.post('/clientes/deletar', adminCheck, (req, res) => {
 //PRODUTOS E SERVIÇOS
 
 //Nova Categoria
-router.get('/prodServ/novaCategoria', adminCheck, (req, res) => {
+router.get('/prodServ/novaCategoria', (req, res) => {
 	res.render('admin/cadastroCategoria');
 });
 
-router.post('/prodServ/novaCategoria', adminCheck, (req, res) => {
+router.post('/prodServ/novaCategoria', (req, res) => {
 	Categoria.findOne({ nome: req.body.nome }).then((categoria) => {
 		if (categoria) {
 			req.flash('err', 'A categoria já existe!');
@@ -167,7 +167,7 @@ router.post('/prodServ/novaCategoria', adminCheck, (req, res) => {
 });
 
 //Novo Produto
-router.get('/prodServ/novoProduto', adminCheck, (req, res) => {
+router.get('/prodServ/novoProduto', (req, res) => {
 	Categoria.find()
 		.lean()
 		.then((categorias) => {
@@ -175,7 +175,7 @@ router.get('/prodServ/novoProduto', adminCheck, (req, res) => {
 		});
 });
 
-router.post('/prodServ/novoProduto', adminCheck, (req, res) => {
+router.post('/prodServ/novoProduto', (req, res) => {
 	try {
 		//Checa se é para criar uma nova categoria
 		if (req.body.tipo == 'categNova') {
@@ -249,7 +249,7 @@ router.post('/prodServ/novoProduto', adminCheck, (req, res) => {
 });
 
 //Novo Serviço
-router.get('/prodServ/novoServico', adminCheck, (req, res) => {
+router.get('/prodServ/novoServico', (req, res) => {
 	Categoria.find()
 		.lean()
 		.then((categorias) => {
@@ -257,7 +257,7 @@ router.get('/prodServ/novoServico', adminCheck, (req, res) => {
 		});
 });
 
-router.post('/prodServ/novoServico', adminCheck, (req, res) => {
+router.post('/prodServ/novoServico', (req, res) => {
 	try {
 		//Checa se é para criar uma nova categoria
 		if (req.body.tipo == 'categNova') {
@@ -323,11 +323,11 @@ router.post('/prodServ/novoServico', adminCheck, (req, res) => {
 });
 
 //Gerenciamento de estoque
-router.get('/prodServ/estoque', adminCheck, (req, res) => {
+router.get('/prodServ/estoque', (req, res) => {
 	res.render('admin/estoqueIndex');
 });
 
-router.get('/prodServ/estoque/:tipo', adminCheck, (req, res) => {
+router.get('/prodServ/estoque/:tipo', (req, res) => {
 	if (req.params.tipo == 'produtos') {
 		Produto.find()
 			.populate('categoria')
@@ -354,11 +354,11 @@ router.get('/prodServ/estoque/:tipo', adminCheck, (req, res) => {
 });
 
 //Registro de aquisição
-router.post('/prodServ/aquisicao', adminCheck, (req, res) => {
+router.post('/prodServ/aquisicao', (req, res) => {
 	res.render('admin/cadastroAquisicao', { id: req.body.id });
 });
 
-router.post('/prodServ/aquisicaoP', adminCheck, (req, res) => {
+router.post('/prodServ/aquisicaoP', (req, res) => {
 	const novaAquisicao = {
 		valorCompra: req.body.valor,
 		quantidadeCompra: req.body.quantidade,
@@ -395,7 +395,7 @@ router.post('/prodServ/aquisicaoP', adminCheck, (req, res) => {
 });
 
 //Editar e deletar produtos
-router.post('/prodServ/estoque/editarProduto', adminCheck, (req, res) => {
+router.post('/prodServ/estoque/editarProduto', (req, res) => {
 	Produto.findOne({ _id: req.body.id })
 		.lean()
 		.then((produto) => {
@@ -418,7 +418,7 @@ router.post('/prodServ/estoque/editarProduto', adminCheck, (req, res) => {
 		});
 });
 
-router.post('/prodServ/estoque/editarProdutoP', adminCheck, (req, res) => {
+router.post('/prodServ/estoque/editarProdutoP', (req, res) => {
 	Produto.updateOne(
 		{ _id: req.body.id },
 		{
@@ -442,7 +442,7 @@ router.post('/prodServ/estoque/editarProdutoP', adminCheck, (req, res) => {
 		});
 });
 
-router.post('/prodServ/estoque/deletarProduto', adminCheck, (req, res) => {
+router.post('/prodServ/estoque/deletarProduto', (req, res) => {
 	Produto.deleteOne({ _id: req.body.id })
 		.then(() => {
 			req.flash('suc', 'Produto deletado!');
@@ -455,7 +455,7 @@ router.post('/prodServ/estoque/deletarProduto', adminCheck, (req, res) => {
 });
 
 //Editar e deletar serviços
-router.post('/prodServ/estoque/editarServico', adminCheck, (req, res) => {
+router.post('/prodServ/estoque/editarServico', (req, res) => {
 	Servico.findOne({ _id: req.body.id })
 		.lean()
 		.then((servico) => {
@@ -478,7 +478,7 @@ router.post('/prodServ/estoque/editarServico', adminCheck, (req, res) => {
 		});
 });
 
-router.post('/prodServ/estoque/editarServicoP', adminCheck, (req, res) => {
+router.post('/prodServ/estoque/editarServicoP', (req, res) => {
 	Servico.updateOne(
 		{ _id: req.body.id },
 		{
@@ -500,7 +500,7 @@ router.post('/prodServ/estoque/editarServicoP', adminCheck, (req, res) => {
 		});
 });
 
-router.post('/prodServ/estoque/deletarServico', adminCheck, (req, res) => {
+router.post('/prodServ/estoque/deletarServico', (req, res) => {
 	Servico.deleteOne({ _id: req.body.id })
 		.then(() => {
 			req.flash('suc', 'Serviço deletado!');

@@ -365,88 +365,67 @@ router.post('/deletar', (req, res) => {
 });
 
 //PDF orçamento
-router.post('/gerarpdf', (req, res) => {
+router.post('/gerarpdf', async (req, res) => {
 	try {
+		totais = {
+			totalProd: 0,
+			totalServ: 0
+		}
+
 		//Realiza a busca do orçamento
-		Orcamento.findOne({ _id: req.body.idPdf })
-			.select(
-				'produtos servicos descricao data cliente responsavel valorTotal numero'
-			)
+		var orcamento = await Orcamento.findOne({ _id: req.body.idPdf }).lean()
+		
+		for(i = 0; i < orcamento.produtos.length; i++){
+			//Adicionando dados aos produtos
+			var newProduto = await Produto.findOne({codigo: orcamento.produtos[i].codigo})
 			.lean()
-			.then((orcamento) => {
-				//Realiza a busca de funcionários
-				Funcionario.find()
-					.select('nome')
-					.then((funcionarios) => {
-						//Realiza a busca de produtos
-						Produto.find()
-							.select('codigo descricao quantidade valorUnit')
-							.lean()
-							.then((produtos) => {
-								Produto.find()
-									.select(
-										'codigo descricao marca modelo valorUnit quantidade'
-									)
-									.then((produtos2) => {
-										//Realiza a busca do cliente
-										Cliente.find()
-											.select('nome')
-											.then((clientes) => {
-												Cliente.findOne({
-													_id: orcamento.cliente,
-												})
-													.select('nome endereco')
-													.lean()
-													.then((cliente) => {
-														//Realiza a busca do responsável pelo orçamento
-														Usuario.findOne({
-															_id: orcamento.responsavel,
-														})
-															.select('nome')
-															.lean()
-															.then((usuario) => {
-																res.render(
-																	'orcamento/pdfOrcamento',
-																	{
-																		orcamento:
-																			orcamento,
-																		clientes:
-																			JSON.stringify(
-																				clientes
-																			),
-																		cliente:
-																			cliente,
-																		usuario:
-																			usuario,
-																		funcionarios:
-																			JSON.stringify(
-																				funcionarios
-																			),
-																		produtos:
-																			produtos,
-																		produtos2:
-																			JSON.stringify(
-																				produtos2
-																			),
-																		navbar: 'none',
-																	}
-																);
-															})
-															.catch((err) => {
-																req.flash(
-																	'err',
-																	'Houve um erro interno. Tente novamente.'
-																);
-																res.redirect(
-																	'/orcamento'
-																);
-															});
-													});
-											});
-									});
-							});
-					});
+			.select('descricao marca modelo')
+
+			orcamento.produtos[i]['descricao'] = newProduto.descricao
+			orcamento.produtos[i]['marca'] = newProduto.marca
+			orcamento.produtos[i]['modelo'] = newProduto.modelo
+
+			//Definindo valor total dos produtos
+			totais.totalProd += (orcamento.produtos[i].quantidade * orcamento.produtos[i].valorUnit)
+		}
+
+		//Definindo valor total dos serviços
+		totais.totalServ = (orcamento.valorTotal - totais.totalProd)
+				
+		//Realiza a busca do cliente
+		Cliente.findOne({
+			_id: orcamento.cliente,
+		})
+		.select('nome endereco')
+		.lean()
+		.then((cliente) => {
+			//Realiza a busca do responsável pelo orçamento
+			Usuario.findOne({
+				_id: orcamento.responsavel,
+			})
+			.select('nome')
+			.lean()
+			.then((usuario) => {
+				res.render(
+					'orcamento/pdfOrcamento', {
+						orcamento: orcamento,
+						cliente: cliente,
+						usuario: usuario,
+						totais: totais,
+						navbar: 'none',
+					}
+				);
+			})
+			.catch((err) => {
+				req.flash(
+					'err',
+					'Houve um erro interno. Tente novamente.'
+				);
+				res.redirect(
+					'/orcamento'
+				);
 			});
+		});
 	} catch (err) {
 		req.flash('err', 'Houve um erro interno. Tente novamente.');
 		res.redirect('/orcamento');
