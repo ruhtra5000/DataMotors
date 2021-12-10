@@ -14,10 +14,15 @@ require('../models/Aquisicao');
 const Aquisicao = mongoose.model('aquisicoes');
 require('../models/Cliente')
 const Cliente = mongoose.model('clientes')
+require('../models/Orcamento')
+const Orcamento = mongoose.model('orcamentos')
 
 const { converterData } = require('../helpers/converterData');
 const { adminCheck } = require('../helpers/adminCheck');
 const { calculoValorUnitario } = require('../helpers/calculoValorUnitario');
+const { gerarData } = require('../helpers/gerarData');
+const { gerarIdade } = require('../helpers/gerarIdade')
+
 
 //ROTAS DE FUNCIONÁRIOS
 
@@ -512,9 +517,186 @@ router.post('/prodServ/estoque/deletarServico', (req, res) => {
 		});
 });
 
-///Relatórios e previsões
-router.get('/dashboard', adminCheck, (req, res) => {
-	res.render('admin/dashboard');
+///Relatórios
+router.get('/dashboard', adminCheck, async (req, res) => {
+	//Gerar as vendas de todos os meses do ano
+	var orcaments = await Orcamento.aggregate([
+		{$match: 
+			{
+				statusAberto: false
+			}
+		},
+		{$group: 
+			{_id: 
+				{data: "$data.dataSaida", 
+				total: "$valorTotal"}
+			}
+		} 
+	])
+	
+	var orcamentosAnoParcial = []
+	for(i = 0; i < orcaments.length; i++) {
+		if(orcaments[i]._id.data.getFullYear() == new Date().getFullYear()) {
+			orcamentosAnoParcial.push(orcaments[i])
+		}
+	}
+
+	var orcamentosAno = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	for(orc of orcamentosAnoParcial) {
+		orcamentosAno[orc._id.data.getMonth()] += orc._id.total
+	}
+
+	//Buscar orçamentos para produtos mais vendidos, produtividade e clientes mais presentes
+	var orcamentos = await Orcamento.aggregate([
+		{$match: 
+			{'data.dataSaida': {$gte: gerarData()}, 
+			statusAberto: false}
+		},
+		{$group: 
+			{_id: 
+				{produtos: '$produtos',
+				servicos: '$servicos',
+				cliente: '$cliente'}
+			}
+		}
+	])
+
+	//Determinar os produtos mais vendidos
+	var prodParcial = []
+
+	for(orc of orcamentos) {
+		if (orc._id.produtos != []) {
+			for(prod of orc._id.produtos){
+				var contador = 0
+				while(contador < prod.quantidade){
+					prodParcial.push(prod.codigo)
+					contador++
+				}
+			}
+		}
+	}
+	prodParcial.sort((a, b) => a - b)
+
+	var produtos = []
+	total = 1
+	for(u = 0; u < prodParcial.length; u++){
+		if (u < prodParcial.length - 1 && prodParcial[u] == prodParcial[u + 1]) {
+			total++;
+		} else {
+			produtos.push({ codigo: prodParcial[u], quant: total });
+			total = 1;
+		}
+	}
+
+	produtos.sort((a, b) => {
+		if(a.quant > b.quant){
+			return -1
+		}
+	})
+
+	produtos = produtos.splice(0, 5)
+	
+	var prodFinal = []
+	for(e = 0; e < produtos.length; e++){
+		var produt = await Produto.findOne({codigo: produtos[e].codigo})
+		.select('descricao valorUnit')
+		.lean()
+		
+		produt['codigo'] = produtos[e].codigo
+		produt['quant'] = produtos[e].quant
+		produt['valorTotal'] = (produtos[e].quant * produt.valorUnit)
+		prodFinal.push(produt)
+	}
+
+	//Determinar funcionários mais produtivos
+	var funcParcial = []
+	
+	for(orc of orcamentos) {
+		if (orc._id.servicos != []){
+			for(servico of orc._id.servicos) {
+				funcParcial.push(servico.nomeFunc)
+			}
+		}
+	}
+
+	funcParcial.sort((a, b) => {
+		if(a < b) { return -1 }
+		if(a > b) { return 1 }
+	})
+
+	var funcionarios = []
+	total = 1
+	for(g = 0; g < funcParcial.length; g++){
+		if (g < funcParcial.length - 1 && funcParcial[g] == funcParcial[g + 1]) {
+			total++;
+		} else {
+			funcionarios.push({ nome: funcParcial[g], servicos: total });
+			total = 1;
+		}
+	}
+
+	funcionarios.sort((a, b) => {
+		if(a.servicos < b.servicos) { return 1 }
+		if(a.servicos > b.servicos) { return -1 }
+	})
+
+	funcionarios = funcionarios.splice(0, 5)
+
+	//Determinar clientes mais presentes
+	cliParcial = []
+	for(orc of orcamentos) {
+		cliParcial.push(orc._id.cliente)
+	}
+
+	cliParcial.sort((a, b) => {
+		if(a < b) { return -1 }
+		if(a > b) { return 1 }
+	})
+
+	var clientes = []
+	total = 1
+	for(q = 0; q < cliParcial.length; q++){
+		if (q < cliParcial.length - 1 && cliParcial[q].equals(cliParcial[q + 1])) {
+			total++;
+		} else {
+			clientes.push({ id: cliParcial[q], compras: total });
+			total = 1;
+		}
+	}
+	
+	clientes.sort((a, b) => {
+		if(a.compras < b.compras) { return 1 }
+		if(a.compras > b.compras) { return -1 }
+	})
+	
+	clientes = clientes.splice(0, 5)
+	
+	var cliFinal = []
+	for(p = 0; p < clientes.length; p++){
+		var client = await Cliente.findOne({_id: clientes[p].id})
+		.select('nome')
+		.lean()
+
+		client ['compras'] = clientes[p].compras
+		cliFinal.push(client)
+	}
+
+	//Média da idade dos clientes
+	var Clientes = await Cliente.find().select('dataNasc').lean()
+	var idade = 0
+	for(l = 0; l < Clientes.length; l++){
+		idade += gerarIdade(Clientes[l].dataNasc.getFullYear())
+	}
+	idade = (idade/Clientes.length).toFixed(0)
+	
+	//Renderizar página
+	res.render('admin/dashboard'), {
+		orcamentosAno: orcamentosAno, //não funciona
+		prodFinal: prodFinal,
+		funcionarios: funcionarios,
+		cliFinal: cliFinal,
+		idadeMedia: idade
+	};
 });
 
 module.exports = router;
