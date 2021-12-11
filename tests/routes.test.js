@@ -34,8 +34,8 @@ test ('Get /usuario/login', (t) => {
 
 test ('Get /admin/prodServ/estoque', (t) => {
     supertest(app).get('/admin/prodServ/estoque')
-    .expect('Content-Type', 'text/plain; charset=utf-8')
-    .expect(302)
+    .expect('Content-Type', 'text/html; charset=utf-8')
+    .expect(200)
     .end((err, res) => {
         t.error(err, 'Sem erros')
         t.end()
@@ -54,8 +54,8 @@ test ('Get /orcamento', (t) => {
 
 test ('Get /admin/prodServ/novoProduto', (t) => {
     supertest(app).get('/admin/prodServ/novoProduto')
-    .expect('Content-Type', 'text/plain; charset=utf-8')
-    .expect(302)
+    .expect('Content-Type', 'text/html; charset=utf-8')
+    .expect(200)
     .end((err, res) => {
         t.error(err, 'Sem erros')
         t.end()
@@ -64,8 +64,8 @@ test ('Get /admin/prodServ/novoProduto', (t) => {
 
 test ('Get /admin/prodServ/novoServico', (t) => {
     supertest(app).get('/admin/prodServ/novoServico')
-    .expect('Content-Type', 'text/plain; charset=utf-8')
-    .expect(302)
+    .expect('Content-Type', 'text/html; charset=utf-8')
+    .expect(200)
     .end((err, res) => {
         t.error(err, 'Sem erros')
         t.end()
@@ -74,8 +74,8 @@ test ('Get /admin/prodServ/novoServico', (t) => {
 
 test ('Get /admin/prodServ/novaCategoria', (t) => {
     supertest(app).get('/admin/prodServ/novaCategoria')
-    .expect('Content-Type', 'text/plain; charset=utf-8')
-    .expect(302)
+    .expect('Content-Type', 'text/html; charset=utf-8')
+    .expect(200)
     .end((err, res) => {
         t.error(err, 'Sem erros')
         t.end()

@@ -10,6 +10,8 @@ require('../models/Funcionario');
 const Funcionario = mongoose.model('funcionarios');
 require('../models/Produto');
 const Produto = mongoose.model('produtos');
+require('../models/Servico')
+const Servico = mongoose.model('servicos')
 require('../models/Usuario');
 const Usuario = mongoose.model('usuarios');
 
@@ -63,15 +65,23 @@ router.get('/novo', (req, res) => {
 								Produto.find()
 									.select('codigo valorUnit quantidade')
 									.then((produtos2) => {
-										res.render('orcamento/cadOrcamento', {
-											userNome: req.user.nome,
-											clientes: JSON.stringify(clientes),
-											funcionarios:
-												JSON.stringify(funcionarios),
-											produtos: produtos,
-											produtos2:
-												JSON.stringify(produtos2),
-										});
+										//Buscar serviços
+										Servico.find()
+										.populate('categoria')
+										.lean()
+										.then((servicos) => {
+											res.render('orcamento/cadOrcamento', {
+												userNome: req.user.nome,
+												clientes: JSON.stringify(clientes),
+												funcionarios:
+													JSON.stringify(funcionarios),
+												produtos: produtos,
+												produtos2:
+													JSON.stringify(produtos2),
+												servicos: servicos
+											});
+
+										})
 									});
 							});
 					});
@@ -110,6 +120,18 @@ router.post('/novo', (req, res) => {
 				status = false;
 			}
 
+			//Data Saída 
+			var dataSaida 
+			if(req.body.diaSaida == null || req.body.mesSaida == null || req.body.anoSaida == null) {
+				dataSaida = converterData(1, 1, 2000)
+			} else {
+				dataSaida = converterData(
+					req.body.diaSaida,
+					req.body.mesSaida,
+					req.body.anoSaida
+				)
+			}
+
 			//Criação do novo orçamento
 			var newOrcamento = {
 				responsavel: req.user._id,
@@ -121,11 +143,7 @@ router.post('/novo', (req, res) => {
 						req.body.mesEntrada,
 						req.body.anoEntrada
 					),
-					dataSaida: converterData(
-						req.body.diaSaida,
-						req.body.mesSaida,
-						req.body.anoSaida
-					),
+					dataSaida: dataSaida
 				},
 				produtos: produtos,
 				servicos: servicos,
@@ -203,31 +221,38 @@ router.post('/editar', (req, res) => {
 															.select('nome')
 															.lean()
 															.then((usuario) => {
-																res.render(
-																	'orcamento/editarOrcamento',
-																	{
-																		orcamento:
-																			orcamento,
-																		clientes:
-																			JSON.stringify(
-																				clientes
-																			),
-																		cliente:
-																			cliente,
-																		usuario:
-																			usuario,
-																		funcionarios:
-																			JSON.stringify(
-																				funcionarios
-																			),
-																		produtos:
-																			produtos,
-																		produtos2:
-																			JSON.stringify(
-																				produtos2
-																			),
-																	}
-																);
+																//Buscar serviços
+																Servico.find()
+																.populate('categoria')
+																.lean()
+																.then((servicos) => {
+																	res.render(
+																		'orcamento/editarOrcamento',
+																		{
+																			orcamento:
+																				orcamento,
+																			clientes:
+																				JSON.stringify(
+																					clientes
+																				),
+																			cliente:
+																				cliente,
+																			usuario:
+																				usuario,
+																			funcionarios:
+																				JSON.stringify(
+																					funcionarios
+																				),
+																			produtos:
+																				produtos,
+																			produtos2:
+																				JSON.stringify(
+																					produtos2
+																				),
+																			servicos: servicos
+																		}
+																	);
+																})
 															})
 															.catch((err) => {
 																req.flash(
