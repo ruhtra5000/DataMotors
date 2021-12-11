@@ -1,21 +1,19 @@
-<div class='container mt-2'>
+<div class='container mt-2 flex-wrap'>
 
-	<h1 class='d-flex justify-content-center'>Gerar orçamento</h1>
-	<a href='/orcamento'>
-		<span class='d-flex justify-content-center align-items-center'>
-			<i class='fas fa-long-arrow-alt-left me-1' aria-hidden='true'></i>
-			Voltar
-		</span>
-	</a>
+	<header class='text-center'>
+		<h1>Gerar orçamento</h1>
+		<a href='/orcamento'>
+			<span>
+				<i class='fas fa-long-arrow-alt-left me-1'></i>
+				Voltar
+			</span>
+		</a>
+	</header>
 
-	<div class='d-flex justify-content-center flex-wrap'>
-		<form
-			action='/orcamento/novo'
-			autocomplete='off'
-			method='post'
-			class='form-card rounded shadow'
-		>
+	<form action='/orcamento/novo' autocomplete='off' method='post'>
 
+		<!--Cabeçalho-->
+		<header class='card form-card mx-auto shadow'>
 			<!--Responsável-->
 			<div class='form-floating'>
 				<input
@@ -119,8 +117,10 @@
 				></textarea>
 				<label for='descricao'>Problema relatado</label>
 			</div>
+		</header>
 
-			<!--Peças-->
+		<!--Peças-->
+		<div class='card form-card mx-auto shadow'>
 			<header class='d-flex justify-content-between'>
 				<h4><i class='fas fa-dolly-flatbed'></i> Adicionar produto </h4>
 				<button
@@ -169,9 +169,21 @@
 			</div>
 
 			<!--Tabela-->
-			<table id='produtosTabela' class='table'></table>
+			<table class='table table-striped'>
+				<thead>
+					<th>Código</th>
+					<th>Valor Unit.</th>
+					<th>Quantidade</th>
+					<th>Total</th>
+				</thead>
+				<tbody id='produtosTabela'>
 
-			<!--Serviços-->
+				</tbody>
+			</table>
+		</div>
+
+		<!--Serviços-->
+		<div class='card form-card mx-auto shadow'>
 			<h4><i class='fas fa-wrench'></i> Adicionar serviço</h4>
 
 			<!--Funcionário-->
@@ -185,8 +197,6 @@
 				/>
 				<label for='funcionario'>Funcionário Responsável</label>
 			</div>
-
-			<!--Serviço realizado-->
 			<div class='input-group'>
 				<label for='servico' class='input-group-text mt-2'>
 					Serviço
@@ -222,9 +232,20 @@
 			</div>
 
 			<!--Tabela Serviços-->
-			<table id='servicosTabela' class='table'></table>
+			<table class='table'>
+				<thead>
+					<th>Funcionário</th>
+					<th>Serviço</th>
+					<th>Total</th>
+				</thead>
+				<tbody id='servicosTabela'>
 
-			<!--Finalizar Orçamento-->
+				</tbody>
+			</table>
+		</div>
+
+		<!--Finalizar Orçamento-->
+		<div class='form-card mx-auto'>
 			<div
 				class='form-check form-switch d-flex align-items-center justify-content-end'
 			>
@@ -236,64 +257,60 @@
 					value='false'
 				/>
 				<label
-					class='form-check-label ms-2 user-select-none'
+					class='form-check-label ms-2 me-2 user-select-none'
 					for='status'
 				>
 					Fechar orçamento ao finalizar
 				</label>
+				<button type='submit' class='btn btn-primary'>
+					Finalizar orçamento
+				</button>
 			</div>
+		</div>
 
-			<button type='submit' class='btn btn-primary w-100'>
-				Finalizar orçamento
-			</button>
+	</form>
 
-		</form>
+	<div class='modal' id='addPeca' tabindex='-1'>
+		<div class='modal-dialog modal-dialog-centered'>
+			<div class='modal-content'>
+				<div class='modal-header'>
+					<h2 class='modal-title'>Tabela de peças</h2>
+					<button
+						type='button'
+						class='btn-close'
+						data-bs-dismiss='modal'
+						aria-label='Close'
+					></button>
+				</div>
+				<div class='modal-body'>
+					<div id='estoque' class='scrollable'>
+						<table class='table' id='tableStorage'>
+							<thead>
+								<th class='text-end'>Código</th>
+								<th>Descrição</th>
+								<th class='text-end'>Quantidade</th>
+								<th class='text-end'>Valor Unit.</th>
+							</thead>
 
-		<div class='modal' id='addPeca' tabindex='-1'>
-			<div class='modal-dialog modal-dialog-centered'>
-				<div class='modal-content'>
-					<div class='modal-header'>
-						<h2 class='modal-title'>Tabela de peças</h2>
-						<button
-							type='button'
-							class='btn-close'
-							data-bs-dismiss='modal'
-							aria-label='Close'
-						></button>
-						<br />
-
-					</div>
-					<div class='modal-body'>
-						<div id='estoque' class='scrollable'>
-							<table class='table' id='tableStorage'>
-								<thead>
-									<th class='text-end'>Código</th>
-									<th>Descrição</th>
-									<th class='text-end'>Quantidade</th>
-									<th class='text-end'>Valor Unit.</th>
-								</thead>
-
-								<tbody>
-									{{#each produtos}}
-										<tr>
-											<td class='text-end'>{{codigo}}</td>
-											<td>{{descricao}}</td>
-											<td
-												class='text-end'
-											>{{quantidade}}</td>
-											<td class='text-end'>R$
-												{{valorUnit}}</td>
-										</tr>
-									{{/each}}
-								</tbody>
-							</table>
-						</div>
+							<tbody>
+								{{#each produtos}}
+									<tr>
+										<td class='text-end'>{{codigo}}</td>
+										<td>{{descricao}}</td>
+										<td class='text-end'>{{quantidade}}</td>
+										<td class='text-end'>{{currency
+												valorUnit
+											}}</td>
+									</tr>
+								{{/each}}
+							</tbody>
+						</table>
 					</div>
 				</div>
 			</div>
 		</div>
-
 	</div>
+
 	{{! prettier-ignore }}
 	<script>
 
@@ -327,10 +344,10 @@
                             let c3 = linha.insertCell(2)
                             let c4 = linha.insertCell(3)
 
-                            c1.innerHTML = 'Código: ' + codigo.value
-                            c2.innerHTML = 'Valor unitário: ' + valorUnit
-                            c3.innerHTML = 'Quantidade: ' + quant.value
-                            c4.innerHTML = 'Total: R$' + (Number(valorUnit) * Number(quant.value))
+                            c1.innerHTML = codigo.value
+                            c2.innerHTML =  "R$ " + valorUnit.toFixed(2)
+                            c3.innerHTML =  quant.value
+                            c4.innerHTML = "R$ " + (Number(valorUnit) * Number(quant.value)).toFixed(2)
 
                             codigo.value = ''
                             quant.value = ''
@@ -358,9 +375,9 @@
 				let c2 = linha.insertCell(1)
 				let c3 = linha.insertCell(2)
 
-				c1.innerHTML = 'Funcionário: ' + nomeFunc.value
-				c2.innerHTML = 'Descrição: ' + descricao.value
-				c3.innerHTML = 'Valor: R$' + preco.value
+				c1.innerHTML =  nomeFunc.value
+				c2.innerHTML =  descricao.value
+				c3.innerHTML = "R$ " + Number(preco.value).toFixed(2)
 				
 				nomeFunc.value = ''
 				descricao.value = ''

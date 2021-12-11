@@ -53,7 +53,12 @@
 	</header>
 
 	<main>
-		<h2 class='mt-5'>Produtos</h2>
+		<h2 class='mt-5'>Problema relatado</h2>
+		<textarea
+			class='form-control'
+			disabled
+		>{{orcamento.descricao}}</textarea>
+		<h2 class='mt-2'>Produtos</h2>
 		<table id='produtos' class='table table-sm table-bordered mt-2'>
 
 			<thead class='table-dark'>
@@ -69,12 +74,13 @@
 					{{#each orcamento.produtos}}
 						<tr>
 							<td>{{this.descricao}}</td>
-							<td class='text-end'>{{this.valorUnit}}</td>
-							<td class='text-end'>{{this.quantidade}}</td>
-							<td class='text-end'>R$
-								{{calculoVT
+							<td class='text-end'>{{currency
 									this.valorUnit
-									this.quantidade
+								}}</td>
+							<td class='text-end'>{{this.quantidade}}</td>
+							<td class='text-end'>
+								{{currency
+									(calculoVT this.valorUnit this.quantidade)
 								}}</td>
 						</tr>
 					{{/each}}
@@ -84,7 +90,8 @@
 						<th></th>
 						<th></th>
 						<th class='text-end'>Total geral</th>
-						<th class='text-end'>R$ {{totais.totalProd}}</th>
+						<th class='text-end'>R$
+							{{currency totais.totalProd}}</th>
 					</tr>
 				</tfoot>
 			{{else}}
@@ -111,14 +118,16 @@
 						<tr>
 							<td>{{this.descricao}}</td>
 							<td>{{this.nomeFunc}}</td>
-							<td class='text-end'>R$ {{this.preco}}</td>
+							<td class='text-end'>{{currency this.preco}}</td>
 						</tr>
 					{{/each}}
 					<tfoot class='table-secondary'>
 						<tr>
 							<th></th>
 							<th class='text-end'>Total geral</th>
-							<th class='text-end'>R$ {{totais.totalServ}}</th>
+							<th class='text-end'>{{currency
+									totais.totalServ
+								}}</th>
 						</tr>
 					</tfoot>
 				{{else}}
@@ -143,7 +152,7 @@
 				<p>Assinatura do cliente</p>
 			</div>
 		</div>
-		<div>
+		<div class='no-print'>
 			<a class='btn btn-secondary' href='/orcamento'>
 				<i class='fas fa-long-arrow-alt-left me-1'></i>
 				Voltar

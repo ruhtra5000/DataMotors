@@ -1,294 +1,322 @@
 <div class='container mt-2'>
 
-	<h1 class='d-flex justify-content-center'>Editar orçamento</h1>
-	<a href='/orcamento'>
-		<span class='d-flex justify-content-center align-items-center'>
-			<i class='fas fa-long-arrow-alt-left me-1'></i>
-			Voltar
-		</span>
-	</a>
+	<header class='text-center'>
+		<h1>Editar orçamento</h1>
+		<a href='/orcamento'>
+			<span>
+				<i class='fas fa-long-arrow-alt-left me-1'></i>
+				Voltar
+			</span>
+		</a>
+	</header>
 
 	<div class='d-flex justify-content-center flex-wrap'>
-		<form
-			action='/orcamento/editarP'
-			autocomplete='off'
-			method='post'
-			class='form-card rounded shadow'
-		>
-			<!--ID-->
-			<input type='hidden' name='id' value='{{orcamento._id}}' />
+		<form action='/orcamento/editarP' autocomplete='off' method='post'>
+			<div class='card form-card mx-auto shadow'>
+				<!--ID-->
+				<input type='hidden' name='id' value='{{orcamento._id}}' />
 
-			<!--Responsável-->
-			<div class='form-floating'>
-				<input
-					class='form-control'
-					type='text'
-					name='responsavelAuxiliar'
-					value='{{usuario.nome}}'
-					class='form-control'
-					disabled
-				/>
-				<label for='responsavelAuxiliar'>Responsável:</label>
-			</div>
+				<!--Responsável-->
+				<div class='form-floating'>
+					<input
+						class='form-control'
+						type='text'
+						name='responsavelAuxiliar'
+						value='{{usuario.nome}}'
+						class='form-control'
+						disabled
+					/>
+					<label for='responsavelAuxiliar'>Responsável:</label>
+				</div>
 
-			<!--Nome Cliente-->
-			<div class='autocomplete form-floating'>
-				<input
-					type='text'
-					name='cliente'
-					id='cliente'
-					class='form-control'
-					value='{{cliente.nome}}'
-				/>
-				<label for='cliente'>Nome do Cliente:</label>
-			</div>
+				<!--Nome Cliente-->
+				<div class='autocomplete form-floating'>
+					<input
+						type='text'
+						name='cliente'
+						id='cliente'
+						class='form-control'
+						value='{{cliente.nome}}'
+					/>
+					<label for='cliente'>Nome do Cliente:</label>
+				</div>
 
-			<!--Datas-->
-			<div class='input-group'>
-				<span class='input-group-text'>
-					Data de entrada
-				</span>
-				<input
-					type='number'
-					name='diaEntrada'
-					placeholder='dd'
-					min='1'
-					max='31'
-					class='form-control'
-					value='{{getDia orcamento.data.dataEntrada}}'
-					required
-				/>
-				<input
-					type='number'
-					name='mesEntrada'
-					placeholder='mm'
-					min='1'
-					max='12'
-					class='form-control'
-					value='{{getMes orcamento.data.dataEntrada}}'
-					required
-				/>
-				<input
-					type='number'
-					name='anoEntrada'
-					placeholder='yyyy'
-					min='2010'
-					max='2021'
-					class='form-control'
-					value='{{getAno orcamento.data.dataEntrada}}'
-					required
-				/>
-			</div>
+				<!--Datas-->
+				<div class='input-group'>
+					<span class='input-group-text'>
+						Data de entrada
+					</span>
+					<input
+						type='number'
+						name='diaEntrada'
+						placeholder='dd'
+						min='1'
+						max='31'
+						class='form-control'
+						value='{{getDia orcamento.data.dataEntrada}}'
+						required
+					/>
+					<input
+						type='number'
+						name='mesEntrada'
+						placeholder='mm'
+						min='1'
+						max='12'
+						class='form-control'
+						value='{{getMes orcamento.data.dataEntrada}}'
+						required
+					/>
+					<input
+						type='number'
+						name='anoEntrada'
+						placeholder='yyyy'
+						min='2010'
+						max='2021'
+						class='form-control'
+						value='{{getAno orcamento.data.dataEntrada}}'
+						required
+					/>
+				</div>
 
-			<div class='input-group'>
-				<span class='input-group-text'>
-					Data de saída
-				</span>
-				<input
-					type='number'
-					name='diaSaida'
-					placeholder='dd'
-					min='1'
-					max='31'
-					class='form-control'
-					value='{{getDia orcamento.data.dataSaida}}'
-					required
-				/>
-				<input
-					type='number'
-					name='mesSaida'
-					placeholder='mm'
-					min='1'
-					max='12'
-					class='form-control'
-					value='{{getMes orcamento.data.dataSaida}}'
-					required
-				/>
-				<input
-					type='number'
-					name='anoSaida'
-					placeholder='yyyy'
-					min='2010'
-					max='2021'
-					class='form-control'
-					value='{{getAno orcamento.data.dataSaida}}'
-					required
-				/>
-			</div>
+				<div class='input-group'>
+					<span class='input-group-text'>
+						Data de saída
+					</span>
+					<input
+						type='number'
+						name='diaSaida'
+						placeholder='dd'
+						min='1'
+						max='31'
+						class='form-control'
+						value='{{getDia orcamento.data.dataSaida}}'
+						required
+					/>
+					<input
+						type='number'
+						name='mesSaida'
+						placeholder='mm'
+						min='1'
+						max='12'
+						class='form-control'
+						value='{{getMes orcamento.data.dataSaida}}'
+						required
+					/>
+					<input
+						type='number'
+						name='anoSaida'
+						placeholder='yyyy'
+						min='2010'
+						max='2021'
+						class='form-control'
+						value='{{getAno orcamento.data.dataSaida}}'
+						required
+					/>
+				</div>
 
-			<!--Descrição do orçamento-->
-			<div class='form-floating'>
-				<textarea
-					name='descricao'
-					cols='70'
-					rows='8'
-					class='form-control'
-				>{{orcamento.descricao}}</textarea>
-				<label for='descricao'>Descrição do problema/serviço realizado:</label>
+				<!--Descrição do orçamento-->
+				<div class='form-floating'>
+					<textarea
+						name='descricao'
+						cols='70'
+						rows='8'
+						class='form-control'
+					>{{orcamento.descricao}}</textarea>
+					<label for='descricao'>Descrição do problema/serviço
+						realizado:</label>
+				</div>
 			</div>
 
 			<!--Peças-->
-			<header class='d-flex justify-content-between'>
-				<h4><i class='fas fa-dolly-flatbed'></i> Adicionar peça</h4>
-				<button
-					type='button'
-					class='btn btn-warning'
-					style='width:30%'
-					data-bs-toggle='modal'
-					data-bs-target='#addPeca'
-				>
-					<i class='fas fa-box-open'></i>
-					Estoque
-				</button>
-			</header>
+			<div class='card form-card mx-auto shadow'>
+				<header class='d-flex justify-content-between'>
+					<h4><i class='fas fa-dolly-flatbed'></i> Adicionar peça</h4>
+					<button
+						type='button'
+						class='btn btn-warning'
+						style='width:30%'
+						data-bs-toggle='modal'
+						data-bs-target='#addPeca'
+					>
+						<i class='fas fa-box-open'></i>
+						Estoque
+					</button>
+				</header>
 
-			<div id='pecas' class='input-group'>
-				<label for='produtos' class='input-group-text'>Código</label>
-				<input
-					type='number'
-					name='produtos'
-					id='produtos'
-					placeholder='Nº'
-					min='1'
-					class='form-control'
-				/>
-
-				<label for='quant' class='input-group-text'>Quantidade</label>
-				<input
-					type='number'
-					name='quant'
-					id='quant'
-					placeholder=''
-					min='1'
-					class='form-control'
-				/>
-
-				<!--Array de produtos-->
-				<input type='hidden' name='arrayProdutos' id='arrayProdutos' />
-
-				<button
-					type='button'
-					id='addProduto'
-					onclick='adicionarProduto()'
-					class='btn btn-secondary'
-				>
-					<i class='fas fa-plus-circle'></i>
-				</button>
-
-			</div>
-			<!--Tabela-->
-			<table id='produtosTabela'>
-				<tbody>
-					{{#each orcamento.produtos}}
-						<tr>
-							<td>Código: {{this.codigo}}</td>
-							<td>Valor unitário: {{this.valorUnit}}</td>
-							<td>Quantidade: {{this.quantidade}}</td>
-							<td>Total: R${{calculoVT
-									this.valorUnit
-									this.quantidade
-								}}</td>
-						</tr>
-					{{/each}}
-				</tbody>
-			</table>
-
-			<!--Serviços-->
-			<h4><i class='fas fa-wrench'></i> Adicionar serviço</h4>
-
-			<div id='servicos' class='input-group'>
-				<!--Funcionário-->
-				<div class='form-floating w-100'>
-
-					<input
-						type='text'
-						name='funcionario'
-						id='funcionario'
-						placeholder='Nome do funcionário'
-						class='form-control'
-					/>
-					<label for='funcionario'>Funcionário Responsável</label>
-				</div>
-
-				<!--Serviço realizado-->
-				<div class='input-group'>
+				<div id='pecas' class='input-group'>
 					<label
-						for='servico'
-						class='input-group-text mt-2'
-					>Serviço</label>
-					<input
-						type='text'
-						name='servico'
-						id='servico'
-						placeholder='Descrição'
-						class='form-control mt-2'
-					/>
-
-					<!--Preço-->
-					<label
-						for='preco'
-						class='input-group-text mt-2'
-					>Preço</label>
+						for='produtos'
+						class='input-group-text'
+					>Código</label>
 					<input
 						type='number'
-						name='preco'
-						id='preco'
-						class='form-control mt-2'
+						name='produtos'
+						id='produtos'
+						placeholder='Nº'
+						min='1'
+						class='form-control'
 					/>
 
-					<!--Array de serviços-->
+					<label
+						for='quant'
+						class='input-group-text'
+					>Quantidade</label>
+					<input
+						type='number'
+						name='quant'
+						id='quant'
+						placeholder=''
+						min='1'
+						class='form-control'
+					/>
+
+					<!--Array de produtos-->
 					<input
 						type='hidden'
-						name='arrayServicos'
-						id='arrayServicos'
+						name='arrayProdutos'
+						id='arrayProdutos'
 					/>
 
 					<button
 						type='button'
-						id='addServico'
-						onclick='adicionarServico()'
-						class='btn btn-secondary mt-2'
+						id='addProduto'
+						onclick='adicionarProduto()'
+						class='btn btn-secondary'
 					>
 						<i class='fas fa-plus-circle'></i>
 					</button>
+
+				</div>
+				<!--Tabela-->
+				<table class='table table-striped'>
+					<thead>
+						<th>Código</th>
+						<th>Valor Unit.</th>
+						<th>Qtde</th>
+						<th>Total</th>
+					</thead>
+					<tbody id='produtosTabela'>
+						{{#each orcamento.produtos}}
+							<tr>
+								<td>{{this.codigo}}</td>
+								<td>{{currency this.valorUnit}}</td>
+								<td>{{this.quantidade}}</td>
+								<td>{{currency
+										(calculoVT
+											this.valorUnit this.quantidade
+										)
+									}}</td>
+							</tr>
+						{{/each}}
+					</tbody>
+				</table>
+			</div>
+
+			<!--Serviços-->
+			<div class='card form-card mx-auto shadow'>
+				<h4><i class='fas fa-wrench'></i> Adicionar serviço</h4>
+
+				<div id='servicos' class='input-group'>
+					<!--Funcionário-->
+					<div class='form-floating w-100'>
+
+						<input
+							type='text'
+							name='funcionario'
+							id='funcionario'
+							placeholder='Nome do funcionário'
+							class='form-control'
+						/>
+						<label for='funcionario'>Funcionário Responsável</label>
+					</div>
+
+					<!--Serviço realizado-->
+					<div class='input-group'>
+						<label
+							for='servico'
+							class='input-group-text mt-2'
+						>Serviço</label>
+						<input
+							type='text'
+							name='servico'
+							id='servico'
+							placeholder='Descrição'
+							class='form-control mt-2'
+						/>
+
+						<!--Preço-->
+						<label
+							for='preco'
+							class='input-group-text mt-2'
+						>Preço</label>
+						<input
+							type='number'
+							name='preco'
+							id='preco'
+							class='form-control mt-2'
+						/>
+
+						<!--Array de serviços-->
+						<input
+							type='hidden'
+							name='arrayServicos'
+							id='arrayServicos'
+						/>
+
+						<button
+							type='button'
+							id='addServico'
+							onclick='adicionarServico()'
+							class='btn btn-secondary mt-2'
+						>
+							<i class='fas fa-plus-circle'></i>
+						</button>
+					</div>
+
 				</div>
 
+				<!--Tabela Serviços-->
+				<table class='table table-striped'>
+					<thead>
+						<th>Funcionário</th>
+						<th>Serviço</th>
+						<th>Total</th>
+					</thead>
+					<tbody id='servicosTabela'>
+						{{#each orcamento.servicos}}
+							<tr>
+								<td>{{this.nomeFunc}}</td>
+								<td>{{this.descricao}}</td>
+								<td>{{currency this.preco}}</td>
+							</tr>
+						{{/each}}
+					</tbody>
+				</table>
 			</div>
-			<!--Tabela Serviços-->
-			<table id='servicosTabela'>
-				<tbody>
-					{{#each orcamento.servicos}}
-						<tr>
-							<td>Funcionário: {{this.nomeFunc}}</td>
-							<td>Descrição: {{this.descricao}}</td>
-							<td>Valor: R${{this.preco}}</td>
-						</tr>
-					{{/each}}
-				</tbody>
-			</table>
 
-			<div
-				class='form-check form-switch d-flex align-items-center justify-content-end'
-			>
-				<input
-					class='form-check-input'
-					type='checkbox'
-					name='status'
-					id='status'
-					value='false'
-				/>
-				<label
-					class='form-check-label ms-2 user-select-none'
-					for='status'
+			<!--Finalizar-->
+			<div class='form-card mx-auto'>
+				<div
+					class='form-check form-switch d-flex align-items-center justify-content-end'
 				>
-					Fechar orçamento ao finalizar
-				</label>
+					<input
+						class='form-check-input'
+						type='checkbox'
+						name='status'
+						id='status'
+						value='false'
+					/>
+					<label
+						class='form-check-label ms-2 user-select-none'
+						for='status'
+					>
+						Fechar orçamento ao finalizar
+					</label>
+					<button type='submit' class='btn btn-primary'>
+						Finalizar
+					</button>
+				</div>
 			</div>
-
-			<button type='submit' class='btn btn-primary w-100'>
-				Finalizar
-			</button>
-
 		</form>
 
 		<div class='modal' id='addPeca' tabindex='-1'>
@@ -368,10 +396,10 @@
                             let c3 = linha.insertCell(2)
                             let c4 = linha.insertCell(3)
 
-                            c1.innerHTML = 'Código: ' + codigo.value
-                            c2.innerHTML = 'Valor unitário: ' + valorUnit
-                            c3.innerHTML = 'Quantidade: ' + quant.value
-                            c4.innerHTML = 'Total: R$' + (Number(valorUnit) * Number(quant.value))
+                            c1.innerHTML = codigo.value
+                            c2.innerHTML = "R$ " + valorUnit
+                            c3.innerHTML = quant.value
+                            c4.innerHTML = "R$ " + (Number(valorUnit) * Number(quant.value))
 
                             codigo.value = ''
                             quant.value = ''
@@ -399,9 +427,9 @@
 				let c2 = linha.insertCell(1)
 				let c3 = linha.insertCell(2)
 
-				c1.innerHTML = 'Funcionário: ' + nomeFunc.value
-				c2.innerHTML = 'Descrição: ' + descricao.value
-				c3.innerHTML = 'Valor: R$' + preco.value
+				c1.innerHTML = nomeFunc.value
+				c2.innerHTML = descricao.value
+				c3.innerHTML = "R$ " +  preco.value
 				
 				nomeFunc.value = ''
 				descricao.value = ''

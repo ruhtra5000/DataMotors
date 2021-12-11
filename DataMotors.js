@@ -60,7 +60,15 @@ app.engine(
 				return data[0];
 			},
 			calculoVT: (v, q) => {
-				return Number(v) * Number(q);
+				return (Number(v) * Number(q)).toFixed(2);
+			},
+			currency: (num) => {
+				var formatter = new Intl.NumberFormat('pt-BR', {
+					style: 'currency',
+					currency: 'BRL',
+				});
+
+				return formatter.format(num);
 			},
 		},
 	})

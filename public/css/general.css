@@ -24,14 +24,15 @@ input[type='number'] {
 }
 
 @media print {
-	.btn {
-		display: none;
+	.no-print,
+	.no-print * {
+		display: none !important;
 	}
 }
 
 .loading-wrapper {
 	background-color: white;
-	position: absolute;
+	position: fixed;
 	width: 100%;
 	height: 100%;
 	top: 0;
@@ -41,7 +42,7 @@ input[type='number'] {
 }
 
 .loading {
-	position: absolute;
+	position: fixed;
 	top: 50%;
 	left: 50%;
 }

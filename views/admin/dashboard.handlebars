@@ -1,13 +1,268 @@
 <div class='container'>
-	<h1 class='text-center'>Dashboard</h1>
-	<p class="text-center">raba: ""</p>
-	<hr>
-	{{#each cliFinal}}
-		<p>Nome: {{this.nome}}</p>
-		<p>Compras: {{this.compras}}</p>
-	{{/each}}
-	<p>idadeMedia: {{idadeMedia}}</p>
+
+	<header class='text-center'>
+		<h1><i class='fas fa-chart-line'></i> Dashboard</h1>
+		<a href='/'>
+			<span>
+				<i class='fas fa-long-arrow-alt-left me-1'></i>
+				Voltar
+			</span>
+		</a>
+		<hr />
+	</header>
+
+	<main class='container mx-auto mb-5'>
+
+		<div class='d-flex flex-wrap'>
+			<div class='card mb-3 shadow mx-auto' style='width: 18rem;'>
+				<div class='card-body'>
+					<h3 class='card-title text-center'>
+						<i class='fas fa-users'></i>
+						<b class='text-primary'>{{qtdeClientes}}</b>
+						Clientes
+					</h3>
+					<h6 class='card-subtitle mb-2 text-muted text-center'>
+						Média de
+						<span>{{idadeMedia}}</span>
+						anos de idade
+					</h6>
+					<p class='card-text text-center'>
+						<b id='nomeCliente'></b>
+						já utilizou de seus serviços
+						<b id='comprasCliente'></b>
+						vezes!
+					</p>
+				</div>
+			</div>
+
+			<div class='card mb-3 shadow mx-auto' style='width: 18rem;'>
+				<div class='card-body'>
+					<h3 class='card-title text-center'>
+						<i class='fas fa-user-tie'></i>
+						<b class='text-primary'>{{qtdeFuncionarios}}</b>
+						Funcionários
+					</h3>
+					<p class='card-text text-center'>
+						<b id='nomeFuncionario'></b>
+						já prestou
+						<b id='servicosFuncionario'></b>
+						serviços!
+					</p>
+				</div>
+			</div>
+		</div>
+
+		<div class='card shadow mb-4'>
+			<div class='card-body'>
+				<canvas id='vendas' style='max-height: 500px;'></canvas>
+			</div>
+		</div>
+
+		<div class='card shadow mb-4'>
+			<div class='card-body'>
+				<canvas id='produtos' style='max-height: 500px;'></canvas>
+			</div>
+		</div>
+
+		<div class='card shadow mb-4'>
+			<div class='card-body'>
+				<canvas id='funcionarios' style='max-height: 500px;'></canvas>
+			</div>
+		</div>
+
+		<div class='card shadow mb-4'>
+			<div class='card-body'>
+				<canvas id='clientes' style='max-height: 500px;'></canvas>
+			</div>
+		</div>
+
+		<div class='card shadow mb-5'>
+			<div class='card-body'>
+				<div class='mb-3'>
+					<h4 class='text-muted text-center card-header'>Previsão de
+						vendas</h4>
+					<img
+						src='/img/prev-orcamentos.png'
+						alt='previsão orcamentos'
+						width='100%'
+					/>
+				</div>
+				<div class='mb-3'>
+					<h4 class='text-muted text-center card-header'>Previsão de
+						aquisições</h4>
+					<img
+						src='/img/prev-aquisicoes.png'
+						alt='previsão aquisicoes'
+						width='100%'
+					/>
+				</div>
+
+			</div>
+		</div>
+	</main>
 </div>
 
+{{!-- prettier-ignore --}}
 <script>
+	//Vendas ao mês
+	new Chart("vendas", {
+  		type: 'bar',
+
+		options: {
+			tooltips:{
+				displayColors: true,
+				backgroundColor: '#000'
+			},
+			scales: {
+      			myScale: {
+        			type: 'logarithmic',
+        			position: 'left',
+      			}
+    		},
+
+			responsive: true,
+			maintainAspectRadio: false,
+			plugins:{
+				title:{
+					display: true,
+					text: 'Vendas mensais',
+					font: {
+						size: 25
+					}
+				}
+			}
+		},
+
+		data: {
+	    	labels: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+	    	datasets: [{
+	    	    label: 'Total vendas',
+	    	    data: [{{orcamentosAno}}],
+				borderRadius: 5,
+	    	    backgroundColor: [
+	    	        'rgba(54, 162, 235, 0.6)',
+	    	    ],
+	    	    borderColor: [
+	    	        'rgba(54, 162, 235, 1)',
+	    	    ],
+	    	    borderWidth: 2
+	    	}]
+		}
+	})
+
+	//Produtos mais vendidos
+	var prods = {{{prodFinal}}}
+	new Chart("produtos", {
+		type: "pie",
+
+	  	options: {
+			responsive: true,
+			plugins:{
+				title:{
+					display: true,
+					text: 'Produtos mais vendidos',
+					font: {
+						size: 25
+					}
+				},
+				tooltip:{
+					title: {
+						text: 'ok'
+					}
+				}
+			},
+		},
+
+	  	data: {
+  			labels: [prods[0].descricao, prods[1].descricao, prods[2].descricao, prods[3].descricao, prods[4].descricao],
+  			datasets: [
+    			{
+    			  label: "Dataset #1",
+    			  backgroundColor: ["#53c97e","#cfb69b","#2d3673","#182cad","#9c0966"],
+    			  borderColor: "#fff",
+    			  borderWidth: 2,
+    			  hoverBackgroundColor: ["#74d397","#d2bba2","#4756b7","#364de4","#f1129f"],
+    			  hoverBorderColor: ["#33a55d","#99734a","#37438e","#192db4","#be0b7c"],
+    			  data: [prods[0].quant, prods[1].quant, prods[2].quant, prods[3].quant, prods[4].quant]
+    			}
+  			]
+		}
+	});
+
+	//Funcionários produtivos
+	var funcs = {{{funcionarios}}}
+	new Chart("funcionarios", {
+		type: 'bar',
+
+		options: {
+			responsive: true,
+			plugins: {
+				title: {
+					display: true,
+					text: 'Funcionários mais produtivos',
+					font: {
+						size: 25
+					}
+				}
+			}
+		},
+
+		data: {
+			labels: [funcs[0].nome, funcs[1].nome, funcs[2].nome, funcs[3].nome, funcs[4].nome],
+			datasets: [
+				{
+					label: "Funcionários",
+					data: [funcs[0].servicos, funcs[1].servicos, funcs[2].servicos, funcs[3].servicos, funcs[4].servicos],
+					backgroundColor: ["#74bcd4","#1a7b9c","#096f91","#2b5f70","#041a21"],
+    			  	hoverBackgroundColor: ["#8dc8dc","#24a6d2","#0d9fd0","#3d87a0","#0e5970"],
+    			  	hoverBorderColor: ["#aad6e5","#55bfe2","#32c2f2","#61abc3","#199ec7"],
+    			  	borderColor: "#fff",
+    			  	borderWidth: 2,
+					borderRadius: 10
+				}
+			]
+		}
+	})
+
+	//Clientes mais presentes
+	var clientes = {{{cliFinal}}}
+	new Chart("clientes", {
+		type: 'bar',
+
+		options: {
+			responsive: true,
+			plugins: {
+				title: {
+					display: true,
+					text: 'Clientes mais presentes',
+					font: {
+						size: 25
+					}
+				}
+			}
+		},
+
+		data: {
+			labels: [clientes[0].nome, clientes[1].nome, clientes[2].nome, clientes[3].nome, clientes[4].nome],
+			datasets: [
+				{
+					label: "Clientes",
+					data: [clientes[0].compras, clientes[1].compras, clientes[2].compras, clientes[3].compras, clientes[4].compras],
+					
+					backgroundColor: ["#3debb7","#4F9E86","#058760","#0D5E46","#0f5a30"],
+    			  	hoverBackgroundColor: ["#66EFC6","#6EB6A1","#08D094","#17A97D","#1CA457"],
+    			  	hoverBorderColor: ["#23E8AD","#4C9780","#06A173","#128563","#168144"],
+					borderWidth: 2,
+					borderRadius: 10
+				}
+			]
+		}
+	})
+
+	document.getElementById('nomeCliente').innerHTML = clientes[0].nome
+	document.getElementById('comprasCliente').innerHTML = clientes[0].compras
+
+	document.getElementById('nomeFuncionario').innerHTML = funcs[0].nome
+	document.getElementById('servicosFuncionario').innerHTML = funcs[0].servicos
+
 </script>
