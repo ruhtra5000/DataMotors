@@ -10,8 +10,8 @@ require('../models/Funcionario');
 const Funcionario = mongoose.model('funcionarios');
 require('../models/Produto');
 const Produto = mongoose.model('produtos');
-require('../models/Servico')
-const Servico = mongoose.model('servicos')
+require('../models/Servico');
+const Servico = mongoose.model('servicos');
 require('../models/Usuario');
 const Usuario = mongoose.model('usuarios');
 
@@ -21,7 +21,7 @@ router.get('/', async (req, res) => {
 	try {
 		var orcamentos = await Orcamento.find({ statusAberto: true })
 			.lean()
-			.sort({ data: -1 });
+			.sort({ numero: -1 });
 		for (i = 0; i < orcamentos.length; i++) {
 			var nome1 = await Usuario.findOne({
 				_id: orcamentos[i].responsavel,
@@ -67,21 +67,30 @@ router.get('/novo', (req, res) => {
 									.then((produtos2) => {
 										//Buscar serviços
 										Servico.find()
-										.populate('categoria')
-										.lean()
-										.then((servicos) => {
-											res.render('orcamento/cadOrcamento', {
-												userNome: req.user.nome,
-												clientes: JSON.stringify(clientes),
-												funcionarios:
-													JSON.stringify(funcionarios),
-												produtos: produtos,
-												produtos2:
-													JSON.stringify(produtos2),
-												servicos: servicos
+											.populate('categoria')
+											.lean()
+											.then((servicos) => {
+												res.render(
+													'orcamento/cadOrcamento',
+													{
+														userNome: req.user.nome,
+														clientes:
+															JSON.stringify(
+																clientes
+															),
+														funcionarios:
+															JSON.stringify(
+																funcionarios
+															),
+														produtos: produtos,
+														produtos2:
+															JSON.stringify(
+																produtos2
+															),
+														servicos: servicos,
+													}
+												);
 											});
-
-										})
 									});
 							});
 					});
@@ -120,16 +129,18 @@ router.post('/novo', (req, res) => {
 				status = false;
 			}
 
-			//Data Saída 
-			var dataSaida 
-			if(req.body.diaSaida == null || req.body.mesSaida == null || req.body.anoSaida == null) {
-				dataSaida = converterData(1, 1, 2000)
-			} else {
+			//Data Saída
+			var dataSaida = new Date();
+			if (
+				req.body.diaSaida != '' ||
+				req.body.mesSaida != '' ||
+				req.body.anoSaida != ''
+			) {
 				dataSaida = converterData(
 					req.body.diaSaida,
 					req.body.mesSaida,
 					req.body.anoSaida
-				)
+				);
 			}
 
 			//Criação do novo orçamento
@@ -143,7 +154,7 @@ router.post('/novo', (req, res) => {
 						req.body.mesEntrada,
 						req.body.anoEntrada
 					),
-					dataSaida: dataSaida
+					dataSaida: dataSaida,
 				},
 				produtos: produtos,
 				servicos: servicos,
@@ -223,36 +234,43 @@ router.post('/editar', (req, res) => {
 															.then((usuario) => {
 																//Buscar serviços
 																Servico.find()
-																.populate('categoria')
-																.lean()
-																.then((servicos) => {
-																	res.render(
-																		'orcamento/editarOrcamento',
-																		{
-																			orcamento:
-																				orcamento,
-																			clientes:
-																				JSON.stringify(
-																					clientes
-																				),
-																			cliente:
-																				cliente,
-																			usuario:
-																				usuario,
-																			funcionarios:
-																				JSON.stringify(
-																					funcionarios
-																				),
-																			produtos:
-																				produtos,
-																			produtos2:
-																				JSON.stringify(
-																					produtos2
-																				),
-																			servicos: servicos
+																	.populate(
+																		'categoria'
+																	)
+																	.lean()
+																	.then(
+																		(
+																			servicos
+																		) => {
+																			res.render(
+																				'orcamento/editarOrcamento',
+																				{
+																					orcamento:
+																						orcamento,
+																					clientes:
+																						JSON.stringify(
+																							clientes
+																						),
+																					cliente:
+																						cliente,
+																					usuario:
+																						usuario,
+																					funcionarios:
+																						JSON.stringify(
+																							funcionarios
+																						),
+																					produtos:
+																						produtos,
+																					produtos2:
+																						JSON.stringify(
+																							produtos2
+																						),
+																					servicos:
+																						servicos,
+																				}
+																			);
 																		}
 																	);
-																})
 															})
 															.catch((err) => {
 																req.flash(
@@ -311,6 +329,19 @@ router.post('/editarP', (req, res) => {
 						status = false;
 					}
 
+					var dataSaida = new Date();
+					if (
+						req.body.diaSaida != '' ||
+						req.body.mesSaida != '' ||
+						req.body.anoSaida != ''
+					) {
+						dataSaida = converterData(
+							req.body.diaSaida,
+							req.body.mesSaida,
+							req.body.anoSaida
+						);
+					}
+
 					Orcamento.updateOne(
 						{ _id: req.body.id },
 						{
@@ -323,11 +354,7 @@ router.post('/editarP', (req, res) => {
 										req.body.mesEntrada,
 										req.body.anoEntrada
 									),
-									dataSaida: converterData(
-										req.body.diaSaida,
-										req.body.mesSaida,
-										req.body.anoSaida
-									),
+									dataSaida: dataSaida,
 								},
 								produtos: produtosSalvos,
 								servicos: servicosSalvos,
@@ -381,11 +408,11 @@ router.post('/deletar', (req, res) => {
 	Orcamento.deleteOne({ _id: req.body.id })
 		.then(() => {
 			req.flash('suc', 'Orçamento deletado!');
-			res.redirect('/orcamentos');
+			res.redirect('/orcamento');
 		})
 		.catch((err) => {
 			req.flash('err', 'Houve um erro interno. Tente novamente.');
-			res.redirect('/orcamentos');
+			res.redirect('/orcamento');
 		});
 });
 
@@ -394,63 +421,63 @@ router.post('/gerarpdf', async (req, res) => {
 	try {
 		totais = {
 			totalProd: 0,
-			totalServ: 0
-		}
+			totalServ: 0,
+		};
 
 		//Realiza a busca do orçamento
-		var orcamento = await Orcamento.findOne({ _id: req.body.idPdf }).lean()
-		
-		for(i = 0; i < orcamento.produtos.length; i++){
-			//Adicionando dados aos produtos
-			var newProduto = await Produto.findOne({codigo: orcamento.produtos[i].codigo})
-			.lean()
-			.select('descricao marca modelo')
+		var orcamento = await Orcamento.findOne({ _id: req.body.idPdf }).lean();
 
-			orcamento.produtos[i]['descricao'] = newProduto.descricao
-			orcamento.produtos[i]['marca'] = newProduto.marca
-			orcamento.produtos[i]['modelo'] = newProduto.modelo
+		for (i = 0; i < orcamento.produtos.length; i++) {
+			//Adicionando dados aos produtos
+			var newProduto = await Produto.findOne({
+				codigo: orcamento.produtos[i].codigo,
+			})
+				.lean()
+				.select('descricao marca modelo');
+
+			orcamento.produtos[i]['descricao'] = newProduto.descricao;
+			orcamento.produtos[i]['marca'] = newProduto.marca;
+			orcamento.produtos[i]['modelo'] = newProduto.modelo;
 
 			//Definindo valor total dos produtos
-			totais.totalProd += (orcamento.produtos[i].quantidade * orcamento.produtos[i].valorUnit)
+			totais.totalProd +=
+				orcamento.produtos[i].quantidade *
+				orcamento.produtos[i].valorUnit;
 		}
 
 		//Definindo valor total dos serviços
-		totais.totalServ = (orcamento.valorTotal - totais.totalProd)
-				
+		totais.totalServ = orcamento.valorTotal - totais.totalProd;
+
 		//Realiza a busca do cliente
 		Cliente.findOne({
 			_id: orcamento.cliente,
 		})
-		.select('nome endereco')
-		.lean()
-		.then((cliente) => {
-			//Realiza a busca do responsável pelo orçamento
-			Usuario.findOne({
-				_id: orcamento.responsavel,
-			})
-			.select('nome')
+			.select('nome endereco')
 			.lean()
-			.then((usuario) => {
-				res.render(
-					'orcamento/pdfOrcamento', {
-						orcamento: orcamento,
-						cliente: cliente,
-						usuario: usuario,
-						totais: totais,
-						navbar: 'none',
-					}
-				);
-			})
-			.catch((err) => {
-				req.flash(
-					'err',
-					'Houve um erro interno. Tente novamente.'
-				);
-				res.redirect(
-					'/orcamento'
-				);
+			.then((cliente) => {
+				//Realiza a busca do responsável pelo orçamento
+				Usuario.findOne({
+					_id: orcamento.responsavel,
+				})
+					.select('nome')
+					.lean()
+					.then((usuario) => {
+						res.render('orcamento/pdfOrcamento', {
+							orcamento: orcamento,
+							cliente: cliente,
+							usuario: usuario,
+							totais: totais,
+							navbar: 'none',
+						});
+					})
+					.catch((err) => {
+						req.flash(
+							'err',
+							'Houve um erro interno. Tente novamente.'
+						);
+						res.redirect('/orcamento');
+					});
 			});
-		});
 	} catch (err) {
 		req.flash('err', 'Houve um erro interno. Tente novamente.');
 		res.redirect('/orcamento');

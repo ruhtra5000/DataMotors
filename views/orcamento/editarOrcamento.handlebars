@@ -10,9 +10,9 @@
 		</a>
 	</header>
 
-	<div class='d-flex justify-content-center flex-wrap'>
+	<main class='d-flex justify-content-center flex-wrap'>
 		<form action='/orcamento/editarP' autocomplete='off' method='post'>
-			<div class='card form-card mx-auto shadow'>
+			<div class='card form-card2 mx-auto shadow'>
 				<!--ID-->
 				<input type='hidden' name='id' value='{{orcamento._id}}' />
 
@@ -90,7 +90,6 @@
 						max='31'
 						class='form-control'
 						value='{{getDia orcamento.data.dataSaida}}'
-						required
 					/>
 					<input
 						type='number'
@@ -100,7 +99,6 @@
 						max='12'
 						class='form-control'
 						value='{{getMes orcamento.data.dataSaida}}'
-						required
 					/>
 					<input
 						type='number'
@@ -110,7 +108,6 @@
 						max='2021'
 						class='form-control'
 						value='{{getAno orcamento.data.dataSaida}}'
-						required
 					/>
 				</div>
 
@@ -128,12 +125,14 @@
 			</div>
 
 			<!--Peças-->
-			<div class='card form-card mx-auto shadow'>
+			<div class='card form-card2 mx-auto shadow'>
 				<header class='d-flex justify-content-between'>
-					<h4><i class='fas fa-dolly-flatbed'></i> Adicionar peça</h4>
+					<h4><i class='fas fa-dolly-flatbed'></i>
+						Adicionar produto
+					</h4>
 					<button
 						type='button'
-						class='btn btn-warning'
+						class='btn btn-info'
 						style='width:30%'
 						data-bs-toggle='modal'
 						data-bs-target='#addPeca'
@@ -213,8 +212,20 @@
 			</div>
 
 			<!--Serviços-->
-			<div class='card form-card mx-auto shadow'>
-				<h4><i class='fas fa-wrench'></i> Adicionar serviço</h4>
+			<div class='card form-card2 mx-auto shadow'>
+				<header class='d-flex justify-content-between'>
+					<h4><i class='fas fa-wrench'></i> Adicionar serviço</h4>
+					<button
+						type='button'
+						class='btn btn-info'
+						style='width:30%'
+						data-bs-toggle='modal'
+						data-bs-target='#addServ'
+					>
+						<i class='fas fa-box-open'></i>
+						Estoque
+					</button>
+				</header>
 
 				<div id='servicos' class='input-group'>
 					<!--Funcionário-->
@@ -295,7 +306,8 @@
 			</div>
 
 			<!--Finalizar-->
-			<div class='form-card mx-auto'>
+			<div class='form-card2 mx-auto d-flex justify-content-around'>
+
 				<div
 					class='form-check form-switch d-flex align-items-center justify-content-end'
 				>
@@ -307,57 +319,99 @@
 						value='false'
 					/>
 					<label
-						class='form-check-label ms-2 user-select-none'
+						class='form-check-label ms-2 me-2 user-select-none'
 						for='status'
 					>
 						Fechar orçamento ao finalizar
 					</label>
-					<button type='submit' class='btn btn-primary'>
-						Finalizar
-					</button>
+				</div>
+
+				<button type='submit' class='btn btn-primary'>
+					Finalizar
+				</button>
+
+			</div>
+
+		</form>
+	</main>
+
+	<div class='modal' id='addPeca' tabindex='-1'>
+		<div class='modal-dialog modal-dialog-centered'>
+			<div class='modal-content'>
+				<div class='modal-header'>
+					<h2 class='modal-title'>Tabela de peças</h2>
+					<button
+						type='button'
+						class='btn-close'
+						data-bs-dismiss='modal'
+						aria-label='Close'
+					></button>
+					<br />
+
+				</div>
+				<div class='modal-body'>
+					<div id='estoque' class='scrollable'>
+						<table class='table' id='tableStorage'>
+							<thead>
+								<th class='text-end'>Código</th>
+								<th>Descrição</th>
+								<th class='text-end'>Quantidade</th>
+								<th class='text-end'>Valor Unit.</th>
+							</thead>
+
+							<tbody>
+								{{#each produtos}}
+									<tr>
+										<td class='text-end'>{{codigo}}</td>
+										<td>{{descricao}}</td>
+										<td class='text-end'>{{quantidade}}</td>
+										<td class='text-end'>R$
+											{{valorUnit}}</td>
+									</tr>
+								{{/each}}
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
-		</form>
+		</div>
+	</div>
 
-		<div class='modal' id='addPeca' tabindex='-1'>
-			<div class='modal-dialog modal-dialog-centered'>
-				<div class='modal-content'>
-					<div class='modal-header'>
-						<h2 class='modal-title'>Tabela de peças</h2>
-						<button
-							type='button'
-							class='btn-close'
-							data-bs-dismiss='modal'
-							aria-label='Close'
-						></button>
-						<br />
+	<div class='modal' id='addServ' tabindex='-1'>
+		<div class='modal-dialog modal-dialog-centered'>
+			<div class='modal-content'>
+				<div class='modal-header'>
+					<h2 class='modal-title'>Tabela de serviços</h2>
+					<button
+						type='button'
+						class='btn-close'
+						data-bs-dismiss='modal'
+						aria-label='Close'
+					></button>
+				</div>
+				<div class='modal-body'>
+					<div class='scrollable'>
+						<table class='table table-striped' id='tableStorage'>
+							<thead>
+								<th>Categoria</th>
+								<th>Descrição</th>
+								<th>Valor Total</th>
+							</thead>
 
-					</div>
-					<div class='modal-body'>
-						<div id='estoque' class='scrollable'>
-							<table class='table' id='tableStorage'>
-								<thead>
-									<th class='text-end'>Código</th>
-									<th>Descrição</th>
-									<th class='text-end'>Quantidade</th>
-									<th class='text-end'>Valor Unit.</th>
-								</thead>
-
-								<tbody>
-									{{#each produtos}}
-										<tr>
-											<td class='text-end'>{{codigo}}</td>
-											<td>{{descricao}}</td>
-											<td
-												class='text-end'
-											>{{quantidade}}</td>
-											<td class='text-end'>R$
-												{{valorUnit}}</td>
-										</tr>
-									{{/each}}
-								</tbody>
-							</table>
-						</div>
+							<tbody>
+								{{#each servicos}}
+									<tr>
+										<td>
+											{{categoria.nome}}
+										</td>
+										<td>{{descricao}}</td>
+										<td>
+											{{currency valor}}
+										</td>
+									</tr>
+								{{/each}}
+							</tbody>
+						</table>
 					</div>
 				</div>
 			</div>

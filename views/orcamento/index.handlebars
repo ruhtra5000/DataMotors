@@ -97,8 +97,15 @@
 								<button
 									class='btn btn-danger'
 									title='Deletar orçamento'
+									data-bs-toggle='modal'
+									data-bs-target='#modalDelete'
+									onclick="modalDelete('{{_id}}', '{{numero}}')"
 								>
-									<img src='/img/delete.svg' alt='delete' />
+									<img
+										src='/img/delete.svg'
+										alt='delete'
+										title='Deletar'
+									/>
 								</button>
 							</td>
 						</tr>
@@ -108,3 +115,45 @@
 		</div>
 	</div>
 </div>
+
+<div class='modal' id='modalDelete' tabindex='-1'>
+	<div class='modal-dialog modal-sm modal-dialog-centered'>
+		<div class='modal-content'>
+			<div class='modal-header'>
+				<h5 class='modal-title'>
+					Deletar orçamento?
+				</h5>
+			</div>
+			<div class='modal-body'>
+				<p id='modal-body-text'>
+
+				</p>
+			</div>
+			<div class='modal-footer'>
+				<button
+					type='button'
+					class='btn btn-danger'
+					data-bs-dismiss='modal'
+				>
+					Cancelar
+				</button>
+				<form id='modalForm' method='post'>
+					<input id='inputDelete' name='id' type='hidden' />
+					<button type='submit' class='btn btn-light border-danger'>
+						<i class='far fa-trash-alt'></i>
+						Deletar
+					</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+{{!-- prettier-ignore --}}
+<script>
+	function modalDelete(id, nome){
+		document.getElementById('inputDelete').setAttribute('value', id)
+		document.getElementById('modalForm').setAttribute('action','/orcamento/deletar')
+		document.getElementById('modal-body-text').innerHTML = `Deseja deletar o orçamento <b>`+nome+`</b>?`
+	}
+</script>

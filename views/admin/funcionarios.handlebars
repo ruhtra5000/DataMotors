@@ -71,72 +71,71 @@
 				</div>
 			</div>
 		{{/each}}
-
-		<div class='modal' id='modalInfo' tabindex='-1'>
-			<div class='modal-dialog modal-dialog-centered'>
-				<div class='modal-content'>
-					<div class='modal-header'>
-						<h5 class='modal-title'>Mais informações</h5>
-						<button
-							type='button'
-							class='btn-close'
-							data-bs-dismiss='modal'
-							aria-label='Close'
-						></button>
-					</div>
-					<div class='modal-body text-start'>
-						<p>
-							<b>Email: </b>
-							<span id='modalInfoMail'></span>
-						</p>
-						<p>
-							<b>
-								Telefone:
-							</b>
-							<span id='modalInfoTel'></span>
-						</p>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class='modal' id='modalDelete' tabindex='-1'>
-			<div class='modal-dialog modal-sm modal-dialog-centered'>
-				<div class='modal-content'>
-					<div class='modal-header'>
-						<h5 class='modal-title'>
-							Deletar funcionário?
-						</h5>
-					</div>
-					<div class='modal-body'>
-						<p id='modal-body-text'>
-
-						</p>
-					</div>
-					<div class='modal-footer'>
-						<button
-							type='button'
-							class='btn btn-danger'
-							data-bs-dismiss='modal'
-						>
-							Cancelar
-						</button>
-						<form id='modalForm' method='post'>
-							<input id='inputDelete' name='id' type='hidden' />
-							<button
-								type='submit'
-								class='btn btn-light border-danger'
-							>
-								<i class='far fa-trash-alt'></i>
-								Deletar
-							</button>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-
 	</main>
+
+	<div class='modal' id='modalInfo' tabindex='-1'>
+		<div class='modal-dialog modal-dialog-centered'>
+			<div class='modal-content'>
+				<div class='modal-header'>
+					<h5 class='modal-title'>Mais informações</h5>
+					<button
+						type='button'
+						class='btn-close'
+						data-bs-dismiss='modal'
+						aria-label='Close'
+					></button>
+				</div>
+				<div class='modal-body text-start'>
+					<p>
+						<b>Email: </b>
+						<span id='modalInfoMail'></span>
+					</p>
+					<p>
+						<b>
+							Telefone:
+						</b>
+						<span id='modalInfoTel'></span>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class='modal' id='modalDelete' tabindex='-1'>
+		<div class='modal-dialog modal-sm modal-dialog-centered'>
+			<div class='modal-content'>
+				<div class='modal-header'>
+					<h5 class='modal-title'>
+						Deletar funcionário?
+					</h5>
+				</div>
+				<div class='modal-body'>
+					<p id='modal-body-text'>
+
+					</p>
+				</div>
+				<div class='modal-footer'>
+					<button
+						type='button'
+						class='btn btn-danger'
+						data-bs-dismiss='modal'
+					>
+						Cancelar
+					</button>
+					<form id='modalForm' method='post'>
+						<input id='inputDelete' name='id' type='hidden' />
+						<button
+							type='submit'
+							class='btn btn-light border-danger'
+						>
+							<i class='far fa-trash-alt'></i>
+							Deletar
+						</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 
 </div>
 

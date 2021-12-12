@@ -10,6 +10,7 @@ const Funcionario = mongoose.model('funcionarios');
 const { converterData } = require('../helpers/converterData');
 const { TestaCPF } = require('../helpers/testarCPF');
 const { TestaCNPJ } = require('../helpers/testarCPNJ');
+const { adminCheck } = require('../helpers/adminCheck');
 
 //Cadastro de clientes
 router.get('/cliente', (req, res) => {
@@ -67,11 +68,11 @@ router.post('/cliente', (req, res) => {
 });
 
 //Cadastro de funcionários
-router.get('/func', (req, res) => {
+router.get('/func', adminCheck, (req, res) => {
 	res.render('cadastroGeral/funcCad');
 });
 
-router.post('/funcionario', (req, res) => {
+router.post('/funcionario', adminCheck, (req, res) => {
 	Funcionario.findOne({ cpf: req.body.cpf }).then((funcionario) => {
 		if (funcionario) {
 			req.flash('err', 'Este funcionário já está cadastrado.');
